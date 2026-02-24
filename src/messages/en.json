@@ -1,0 +1,24 @@
+{
+  "common": {
+    "readMore": "Read more",
+    "backToHome": "Back to home"
+  },
+  "header": {
+    "language": "Language"
+  },
+  "cookieConsent": {
+    "title": "We use cookies",
+    "description": "We use cookies to improve your experience on our website. Some are essential, while others help us understand how you use our site.",
+    "acceptAll": "Accept All",
+    "rejectAll": "Reject All",
+    "customize": "Customize",
+    "save": "Save Preferences",
+    "necessary": "Necessary",
+    "necessaryDescription": "Required for the website to function properly",
+    "analytics": "Analytics",
+    "analyticsDescription": "Help us understand how visitors use our website",
+    "marketing": "Marketing",
+    "marketingDescription": "Used to deliver relevant advertisements",
+    "cookiePolicy": "Cookie Policy"
+  }
+}

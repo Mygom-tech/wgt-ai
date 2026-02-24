@@ -68,7 +68,10 @@ export interface Config {
   blocks: {};
   collections: {
     users: User;
-    media: Media;
+    images: Image;
+    videos: Video;
+    pages: Page;
+    'legal-pages': LegalPage;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -77,7 +80,10 @@ export interface Config {
   collectionsJoins: {};
   collectionsSelect: {
     users: UsersSelect<false> | UsersSelect<true>;
-    media: MediaSelect<false> | MediaSelect<true>;
+    images: ImagesSelect<false> | ImagesSelect<true>;
+    videos: VideosSelect<false> | VideosSelect<true>;
+    pages: PagesSelect<false> | PagesSelect<true>;
+    'legal-pages': LegalPagesSelect<false> | LegalPagesSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -86,10 +92,19 @@ export interface Config {
   db: {
     defaultIDType: string;
   };
-  fallbackLocale: null;
-  globals: {};
-  globalsSelect: {};
-  locale: null;
+  fallbackLocale:
+    | ('false' | 'none' | 'null')
+    | false
+    | null
+    | ('en' | 'lt' | 'lv' | 'cs' | 'ro' | 'bg' | 'md' | 'pl')
+    | ('en' | 'lt' | 'lv' | 'cs' | 'ro' | 'bg' | 'md' | 'pl')[];
+  globals: {
+    'site-settings': SiteSetting;
+  };
+  globalsSelect: {
+    'site-settings': SiteSettingsSelect<false> | SiteSettingsSelect<true>;
+  };
+  locale: 'en' | 'lt' | 'lv' | 'cs' | 'ro' | 'bg' | 'md' | 'pl';
   user: User;
   jobs: {
     tasks: unknown;
@@ -120,6 +135,14 @@ export interface UserAuthOperations {
  */
 export interface User {
   id: string;
+  /**
+   * Super Admins can edit all content in all languages. Country Admins can only edit content in their assigned languages.
+   */
+  role: 'super-admin' | 'country-admin';
+  /**
+   * Which countries/languages this admin can manage. Only applies to Country Admins.
+   */
+  assignedLocales?: ('en' | 'lt' | 'lv' | 'cs' | 'ro' | 'bg' | 'md' | 'pl')[] | null;
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -140,12 +163,22 @@ export interface User {
   collection: 'users';
 }
 /**
+ * Upload and manage images. Optimized sizes are generated automatically.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "media".
+ * via the `definition` "images".
  */
-export interface Media {
+export interface Image {
   id: string;
+  /**
+   * Describe the image for screen readers and search engines. Be specific — e.g., "Team meeting in the office" not just "photo".
+   */
   alt: string;
+  /**
+   * Optional visible caption shown below the image on the frontend.
+   */
+  caption?: string | null;
+  prefix?: string | null;
   updatedAt: string;
   createdAt: string;
   url?: string | null;
@@ -157,6 +190,152 @@ export interface Media {
   height?: number | null;
   focalX?: number | null;
   focalY?: number | null;
+  sizes?: {
+    thumbnail?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+    card?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+    hero?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+  };
+}
+/**
+ * Upload and manage video files.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "videos".
+ */
+export interface Video {
+  id: string;
+  /**
+   * Describe the video content for screen readers and search engines. E.g., "Product demo showing the dashboard features".
+   */
+  alt: string;
+  /**
+   * Optional visible caption or transcript summary for the video.
+   */
+  caption?: string | null;
+  /**
+   * Preview image shown before the video plays. Used as the video thumbnail in search results and social shares.
+   */
+  poster?: (string | null) | Image;
+  prefix?: string | null;
+  updatedAt: string;
+  createdAt: string;
+  url?: string | null;
+  thumbnailURL?: string | null;
+  filename?: string | null;
+  mimeType?: string | null;
+  filesize?: number | null;
+  width?: number | null;
+  height?: number | null;
+  focalX?: number | null;
+  focalY?: number | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "pages".
+ */
+export interface Page {
+  id: string;
+  title: string;
+  slug: string;
+  /**
+   * Short description used for SEO and previews
+   */
+  excerpt?: string | null;
+  content?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  featuredImage?: (string | null) | Image;
+  status?: ('draft' | 'published') | null;
+  publishedAt?: string | null;
+  meta?: {
+    title?: string | null;
+    description?: string | null;
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
+    image?: (string | null) | Image;
+    /**
+     * When checked, this page will NOT appear in Google or other search results. Use this for private pages, thank-you pages, or pages still being worked on.
+     */
+    noIndex?: boolean | null;
+    /**
+     * When checked, search engines will not follow any links on this page. This is rarely needed — only use it if you don't want Google to discover other pages through links on this one.
+     */
+    noFollow?: boolean | null;
+    /**
+     * Leave this empty in most cases. Only fill this in if this page's content also exists at a different URL and you want to tell Google "the other URL is the main one." For example, if you republished a blog post from another site.
+     */
+    canonicalURL?: string | null;
+    /**
+     * How should this page appear when shared on Facebook or LinkedIn? "Website" works for most pages. Choose "Article" for blog posts or "Product" for shop items.
+     */
+    ogType?: ('website' | 'article' | 'product') | null;
+  };
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Legal documents: Cookie Policy, Terms and Conditions, Privacy Policy.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "legal-pages".
+ */
+export interface LegalPage {
+  id: string;
+  title: string;
+  slug: string;
+  pageType: 'cookie-policy' | 'terms-and-conditions' | 'privacy-policy';
+  content?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  status?: ('draft' | 'published') | null;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -187,8 +366,20 @@ export interface PayloadLockedDocument {
         value: string | User;
       } | null)
     | ({
-        relationTo: 'media';
-        value: string | Media;
+        relationTo: 'images';
+        value: string | Image;
+      } | null)
+    | ({
+        relationTo: 'videos';
+        value: string | Video;
+      } | null)
+    | ({
+        relationTo: 'pages';
+        value: string | Page;
+      } | null)
+    | ({
+        relationTo: 'legal-pages';
+        value: string | LegalPage;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -237,6 +428,8 @@ export interface PayloadMigration {
  * via the `definition` "users_select".
  */
 export interface UsersSelect<T extends boolean = true> {
+  role?: T;
+  assignedLocales?: T;
   updatedAt?: T;
   createdAt?: T;
   email?: T;
@@ -256,10 +449,12 @@ export interface UsersSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "media_select".
+ * via the `definition` "images_select".
  */
-export interface MediaSelect<T extends boolean = true> {
+export interface ImagesSelect<T extends boolean = true> {
   alt?: T;
+  caption?: T;
+  prefix?: T;
   updatedAt?: T;
   createdAt?: T;
   url?: T;
@@ -271,6 +466,100 @@ export interface MediaSelect<T extends boolean = true> {
   height?: T;
   focalX?: T;
   focalY?: T;
+  sizes?:
+    | T
+    | {
+        thumbnail?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+        card?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+        hero?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+      };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "videos_select".
+ */
+export interface VideosSelect<T extends boolean = true> {
+  alt?: T;
+  caption?: T;
+  poster?: T;
+  prefix?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  url?: T;
+  thumbnailURL?: T;
+  filename?: T;
+  mimeType?: T;
+  filesize?: T;
+  width?: T;
+  height?: T;
+  focalX?: T;
+  focalY?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "pages_select".
+ */
+export interface PagesSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  excerpt?: T;
+  content?: T;
+  featuredImage?: T;
+  status?: T;
+  publishedAt?: T;
+  meta?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        image?: T;
+        noIndex?: T;
+        noFollow?: T;
+        canonicalURL?: T;
+        ogType?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "legal-pages_select".
+ */
+export interface LegalPagesSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  pageType?: T;
+  content?: T;
+  status?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -311,6 +600,98 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
   batch?: T;
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "site-settings".
+ */
+export interface SiteSetting {
+  id: string;
+  /**
+   * Your brand or company name. Appears in browser tabs, search results, and social shares.
+   */
+  siteName: string;
+  /**
+   * Your live website address (e.g., https://jarune.com). Used for links in search results and social media.
+   */
+  siteUrl: string;
+  /**
+   * Choose which languages are available on your website. English is always included.
+   */
+  enabledLocales?: ('en' | 'lt' | 'lv' | 'cs' | 'ro' | 'bg' | 'md' | 'pl')[] | null;
+  /**
+   * These are fallback values used when a page doesn't have its own SEO settings.
+   */
+  defaultMeta?: {
+    /**
+     * Shows in browser tabs and Google results when a page has no title set. Keep it under 60 characters.
+     */
+    title?: string | null;
+    /**
+     * The short summary shown under your site name in Google results. Aim for 150-160 characters. This is used when a page has no description of its own.
+     */
+    description?: string | null;
+    /**
+     * The image shown when your site is shared on Facebook, Twitter/X, or LinkedIn. Best size: 1200x630 pixels. Used when a page has no image set.
+     */
+    image?: (string | null) | Image;
+  };
+  /**
+   * Add your social media profiles. These will appear in the website footer.
+   */
+  socialLinks?:
+    | {
+        platform: 'facebook' | 'instagram' | 'x' | 'linkedin' | 'youtube' | 'tiktok' | 'pinterest' | 'github';
+        url: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Your GTM container ID (looks like GTM-XXXXXXX). Find it at tagmanager.google.com. Tracking is automatically disabled in development.
+   */
+  gtmId?: string | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "site-settings_select".
+ */
+export interface SiteSettingsSelect<T extends boolean = true> {
+  siteName?: T;
+  siteUrl?: T;
+  enabledLocales?: T;
+  defaultMeta?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        image?: T;
+      };
+  socialLinks?:
+    | T
+    | {
+        platform?: T;
+        url?: T;
+        id?: T;
+      };
+  gtmId?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "YouTubeBlock".
+ */
+export interface YouTubeBlock {
+  /**
+   * Paste a YouTube video link here (e.g., https://www.youtube.com/watch?v=dQw4w9WgXcQ)
+   */
+  url: string;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'youtube';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

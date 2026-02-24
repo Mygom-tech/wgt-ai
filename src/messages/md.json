@@ -1,0 +1,24 @@
+{
+  "common": {
+    "readMore": "Citeste mai mult",
+    "backToHome": "Inapoi acasa"
+  },
+  "header": {
+    "language": "Limba"
+  },
+  "cookieConsent": {
+    "title": "Folosim cookie-uri",
+    "description": "Folosim cookie-uri pentru a îmbunătăți experiența dumneavoastră pe site-ul nostru. Unele sunt esențiale, iar altele ne ajută să înțelegem cum utilizați site-ul.",
+    "acceptAll": "Acceptă toate",
+    "rejectAll": "Respinge toate",
+    "customize": "Personalizează",
+    "save": "Salvează preferințele",
+    "necessary": "Necesare",
+    "necessaryDescription": "Necesare pentru funcționarea corectă a site-ului",
+    "analytics": "Analitice",
+    "analyticsDescription": "Ne ajută să înțelegem cum folosesc vizitatorii site-ul",
+    "marketing": "Marketing",
+    "marketingDescription": "Utilizate pentru afișarea reclamelor relevante",
+    "cookiePolicy": "Politica de cookie-uri"
+  }
+}

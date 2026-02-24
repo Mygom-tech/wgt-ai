@@ -1,0 +1,24 @@
+{
+  "common": {
+    "readMore": "Lasit vairak",
+    "backToHome": "Atpakal uz sakumu"
+  },
+  "header": {
+    "language": "Valoda"
+  },
+  "cookieConsent": {
+    "title": "Mes izmantojam sikdatnes",
+    "description": "Mes izmantojam sikdatnes, lai uzlabotu jusu pieredzi musu vietne. Dažas ir obligatas, bet citas palīdz mums saprast, ka jūs izmantojat mūsu vietni.",
+    "acceptAll": "Pieņemt visas",
+    "rejectAll": "Noraidīt visas",
+    "customize": "Pielāgot",
+    "save": "Saglabāt iestatījumus",
+    "necessary": "Nepieciešamās",
+    "necessaryDescription": "Nepieciešamas vietnes pareizai darbībai",
+    "analytics": "Analītiskās",
+    "analyticsDescription": "Palīdz mums saprast, kā apmeklētāji izmanto vietni",
+    "marketing": "Mārketinga",
+    "marketingDescription": "Tiek izmantotas atbilstošu reklāmu rādīšanai",
+    "cookiePolicy": "Sīkdatņu politika"
+  }
+}

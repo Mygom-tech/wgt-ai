@@ -1,0 +1,24 @@
+{
+  "common": {
+    "readMore": "Skaityti daugiau",
+    "backToHome": "Grizi i pradzia"
+  },
+  "header": {
+    "language": "Kalba"
+  },
+  "cookieConsent": {
+    "title": "Naudojame slapukus",
+    "description": "Naudojame slapukus, kad pagerintume jusu patirtį musu svetaineje. Kai kurie yra butini, o kiti padeda mums suprasti, kaip naudojate musu svetaine.",
+    "acceptAll": "Priimti visus",
+    "rejectAll": "Atmesti visus",
+    "customize": "Tinkinti",
+    "save": "Issaugoti nustatymus",
+    "necessary": "Butini",
+    "necessaryDescription": "Reikalingi tinkamam svetaines veikimui",
+    "analytics": "Analitiniai",
+    "analyticsDescription": "Padeda mums suprasti, kaip lankytojai naudoja svetaine",
+    "marketing": "Rinkodaros",
+    "marketingDescription": "Naudojami aktualiems skelbimams rodyti",
+    "cookiePolicy": "Slapuku politika"
+  }
+}

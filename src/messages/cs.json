@@ -1,0 +1,24 @@
+{
+  "common": {
+    "readMore": "Cist dale",
+    "backToHome": "Zpet na uvod"
+  },
+  "header": {
+    "language": "Jazyk"
+  },
+  "cookieConsent": {
+    "title": "Používáme cookies",
+    "description": "Používáme cookies ke zlepšení vašeho zážitku na našich stránkách. Některé jsou nezbytné, jiné nám pomáhají pochopit, jak naše stránky používáte.",
+    "acceptAll": "Přijmout vše",
+    "rejectAll": "Odmítnout vše",
+    "customize": "Přizpůsobit",
+    "save": "Uložit předvolby",
+    "necessary": "Nezbytné",
+    "necessaryDescription": "Vyžadováno pro správné fungování webu",
+    "analytics": "Analytické",
+    "analyticsDescription": "Pomáhají nám pochopit, jak návštěvníci používají web",
+    "marketing": "Marketingové",
+    "marketingDescription": "Používány k zobrazování relevantních reklam",
+    "cookiePolicy": "Zásady cookies"
+  }
+}

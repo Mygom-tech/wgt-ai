@@ -1,0 +1,24 @@
+{
+  "common": {
+    "readMore": "Czytaj wiecej",
+    "backToHome": "Powrot do strony glownej"
+  },
+  "header": {
+    "language": "Język"
+  },
+  "cookieConsent": {
+    "title": "Używamy plików cookie",
+    "description": "Używamy plików cookie, aby poprawić Twoje doświadczenia na naszej stronie. Niektóre są niezbędne, a inne pomagają nam zrozumieć, jak korzystasz z naszej strony.",
+    "acceptAll": "Zaakceptuj wszystkie",
+    "rejectAll": "Odrzuć wszystkie",
+    "customize": "Dostosuj",
+    "save": "Zapisz preferencje",
+    "necessary": "Niezbędne",
+    "necessaryDescription": "Wymagane do prawidłowego działania strony",
+    "analytics": "Analityczne",
+    "analyticsDescription": "Pomagają nam zrozumieć, jak odwiedzający korzystają ze strony",
+    "marketing": "Marketingowe",
+    "marketingDescription": "Wykorzystywane do wyświetlania odpowiednich reklam",
+    "cookiePolicy": "Polityka plików cookie"
+  }
+}
