@@ -34,8 +34,21 @@ import { Images } from './collections/Images'
 import { Videos } from './collections/Videos'
 import { Pages } from './collections/Pages'
 import { LegalPages } from './collections/LegalPages'
+import { Forms } from './collections/Forms'
+import { FormSubmissions } from './collections/FormSubmissions'
+import { Testimonials } from './collections/Testimonials'
+import { BlogPosts } from './collections/BlogPosts'
+import { Partners } from './collections/Partners'
+import { FaqItems } from './collections/FaqItems'
+import { Events } from './collections/Events'
 import { SiteSettings } from './globals/SiteSettings'
+import { LandingPage } from './globals/LandingPage'
+import { Newsletter } from './globals/Newsletter'
+import { ContactsPage } from './globals/ContactsPage'
+import { BlogPage } from './globals/BlogPage'
+import { EventsPage } from './globals/EventsPage'
 import { seoConfig } from './plugins/seo'
+import { fixSeoSidebar } from './plugins/fixSeoSidebar'
 import { YouTubeBlock } from './blocks/YouTube'
 import { locales, defaultLocale } from './i18n/locales'
 import type { LocalizationConfig } from 'payload'
@@ -50,8 +63,8 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Users, Images, Videos, Pages, LegalPages],
-  globals: [SiteSettings],
+  collections: [Users, Images, Videos, Pages, LegalPages, BlogPosts, Events, Forms, FormSubmissions, Testimonials, Partners, FaqItems],
+  globals: [SiteSettings, LandingPage, Newsletter, ContactsPage, BlogPage, EventsPage],
   editor: lexicalEditor({
     features: [
       // Formatting
@@ -140,5 +153,6 @@ export default buildConfig({
       },
     }),
     seoConfig,
+    fixSeoSidebar,
   ],
 })

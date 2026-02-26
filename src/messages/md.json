@@ -1,10 +1,84 @@
 {
+  "meta": {
+    "home": "Acasă",
+    "contacts": "Contactați-ne",
+    "blog": "Blog",
+    "faq": "Întrebări frecvente",
+    "notFound": "Pagina nu a fost găsită"
+  },
+  "notFound": {
+    "eyebrow": "Pagina nu a fost găsită",
+    "heading": "Această pagină nu există",
+    "subtitle": "Pagina pe care o căutați a fost mutată, ștearsă sau nu a existat niciodată.",
+    "cta": "Înapoi acasă"
+  },
   "common": {
-    "readMore": "Citeste mai mult",
-    "backToHome": "Inapoi acasa"
+    "readMore": "Citește mai mult",
+    "backToHome": "Înapoi acasă"
   },
   "header": {
-    "language": "Limba"
+    "language": "Limbă",
+    "nav": {
+      "about": "Despre",
+      "course": "Curs",
+      "howItWorks": "Cum funcționează",
+      "events": "Evenimente",
+      "faq": "Întrebări frecvente",
+      "blog": "Blog",
+      "contact": "Contact"
+    },
+    "aria": {
+      "menu": "Navigare principală",
+      "openMenu": "Deschide meniul",
+      "closeMenu": "Închide meniul",
+      "languageSelector": "Selectează limba",
+      "currentLanguage": "Limba curentă"
+    },
+    "cta": "Începe să înveți"
+  },
+  "hero": {
+    "partnersLabel": "Parteneri"
+  },
+  "problem": {
+    "backgroundWord": "EVOLUȚIE",
+    "cta": "Începe să înveți"
+  },
+  "skills": {
+    "eyebrow": "Competențe cheie",
+    "skillLabel": "Competență",
+    "outcomesEyebrow": "Rezultate",
+    "backgroundWord": "IMPACT",
+    "cta": "Înscrie-te gratuit"
+  },
+  "howItWorks": {
+    "eyebrow": "Cum funcționează",
+    "phaseLabel": "Etapa",
+    "cta": "Începe"
+  },
+  "audience": {
+    "eyebrow": "Cui se adresează",
+    "groupLabel": "Grup",
+    "backgroundWord": "BINE VENIȚI"
+  },
+  "registration": {
+    "eyebrow": "Înregistrare",
+    "submitButton": "Trimite",
+    "submitting": "Se trimite...",
+    "successTitle": "Mulțumim!",
+    "errorTitle": "Ceva nu a mers bine",
+    "required": "Acest câmp este obligatoriu",
+    "invalidEmail": "Introduceți un email valid"
+  },
+  "newsletter": {
+    "eyebrow": "Newsletter",
+    "submitButton": "Abonează-te",
+    "submitting": "Se abonează...",
+    "successTitle": "Te-ai abonat!",
+    "errorTitle": "Ceva nu a mers bine",
+    "invalidEmail": "Introduceți un email valid",
+    "dismiss": "Închide bara de newsletter",
+    "emailLabel": "Adresă de email",
+    "backgroundWord": "ABONARE"
   },
   "cookieConsent": {
     "title": "Folosim cookie-uri",
@@ -20,5 +94,87 @@
     "marketing": "Marketing",
     "marketingDescription": "Utilizate pentru afișarea reclamelor relevante",
     "cookiePolicy": "Politica de cookie-uri"
+  },
+  "contacts": {
+    "eyebrow": "Contactați-ne",
+    "supportLabel": "Suport",
+    "partnershipLabel": "Parteneriate",
+    "formHeading": "Trimiteți-ne un mesaj",
+    "formSubtitle": "Completați formularul și vă vom contacta."
+  },
+  "blog": {
+    "loadMore": "Încarcă mai multe",
+    "loading": "Se încarcă...",
+    "backToNews": "\u2190 Înapoi la noutăți",
+    "noPostsYet": "Nicio postare încă.",
+    "relatedPosts": "Articole similare"
+  },
+  "events": {
+    "upcoming": "Upcoming Events",
+    "past": "Past Events",
+    "showPast": "Show past events",
+    "hidePast": "Hide past events",
+    "noEvents": "No events yet",
+    "noEventsDescription": "We're planning exciting workshops and meetups. Check back soon!",
+    "noMatchingEvents": "No events match your filters",
+    "noEventsOnDate": "No events on {date}",
+    "showAllEvents": "Show all events",
+    "filterFormat": "Format",
+    "filterLocation": "Location",
+    "filterAll": "All",
+    "clearFilters": "Clear filters",
+    "addToCalendar": "Add to Calendar",
+    "googleCalendar": "Google Calendar",
+    "downloadIcs": "Download .ics",
+    "learnMore": "Learn More",
+    "register": "Register",
+    "inPerson": "In Person",
+    "online": "Online",
+    "hybrid": "Hybrid",
+    "eventCount": "{count} events",
+    "previousMonth": "Previous month",
+    "nextMonth": "Next month",
+    "previousPhoto": "Fotografia anterioară",
+    "nextPhoto": "Fotografia următoare",
+    "closeLightbox": "Închide",
+    "galleryPhotos": "Fotografii {title}",
+    "photoSlide": "Fotografia {current} din {total}",
+    "filterEvents": "Filtrează evenimentele",
+    "backToEvents": "\u2190 Înapoi la evenimente",
+    "speakers": "Vorbitori",
+    "eventGallery": "Galerie",
+    "loadMore": "Încarcă mai multe evenimente",
+    "loading": "Se încarcă...",
+    "registerHeading": "Pregătiți să participați?"
+  },
+  "footer": {
+    "navigationHeading": "Navigare",
+    "legalHeading": "Informații legale",
+    "contactHeading": "Contact",
+    "socialHeading": "Urmăriți-ne",
+    "links": {
+      "home": "Acasă",
+      "course": "Curs",
+      "events": "Evenimente",
+      "blog": "Blog",
+      "faq": "Întrebări frecvente",
+      "contact": "Contact"
+    },
+    "legal": {
+      "terms": "Termeni și condiții",
+      "privacy": "Politica de confidențialitate",
+      "cookies": "Politica de cookie-uri"
+    },
+    "contact": {
+      "supportLabel": "Suport",
+      "partnershipLabel": "Parteneriate"
+    },
+    "aria": {
+      "footerNav": "Navigare subsol",
+      "quickLinks": "Linkuri rapide",
+      "legalLinks": "Linkuri legale",
+      "socialLinks": "Linkuri social media",
+      "socialPrefix": "Vizitați-ne pe"
+    }
   }
 }

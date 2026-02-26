@@ -44,6 +44,23 @@ export const SiteSettings: GlobalConfig = {
       },
     },
     {
+      name: 'logo',
+      type: 'upload',
+      relationTo: 'images',
+      admin: {
+        description: 'Site logo displayed in the header. Recommended: SVG or PNG with transparent background, max height 40px.',
+      },
+    },
+    {
+      name: 'headerCtaText',
+      type: 'text',
+      localized: true,
+      admin: {
+        description:
+          'Optional override for the header CTA button text. Leave empty to use the default translation for each language.',
+      },
+    },
+    {
       type: 'tabs',
       tabs: [
         {
@@ -126,6 +143,35 @@ export const SiteSettings: GlobalConfig = {
                   },
                 },
               ],
+            },
+          ],
+        },
+        {
+          label: 'Footer',
+          fields: [
+            {
+              name: 'supportEmail',
+              type: 'email',
+              admin: {
+                description: 'General support email displayed in the footer.',
+                placeholder: 'support@jarune.com',
+              },
+            },
+            {
+              name: 'partnershipEmail',
+              type: 'email',
+              admin: {
+                description: 'Partnership inquiry email displayed in the footer.',
+                placeholder: 'partners@jarune.com',
+              },
+            },
+            {
+              name: 'footerText',
+              type: 'text',
+              localized: true,
+              admin: {
+                description: 'Copyright text at the bottom of every page.',
+              },
             },
           ],
         },

@@ -72,6 +72,13 @@ export interface Config {
     videos: Video;
     pages: Page;
     'legal-pages': LegalPage;
+    'blog-posts': BlogPost;
+    events: Event;
+    forms: Form;
+    'form-submissions': FormSubmission;
+    testimonials: Testimonial;
+    partners: Partner;
+    'faq-items': FaqItem;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -84,6 +91,13 @@ export interface Config {
     videos: VideosSelect<false> | VideosSelect<true>;
     pages: PagesSelect<false> | PagesSelect<true>;
     'legal-pages': LegalPagesSelect<false> | LegalPagesSelect<true>;
+    'blog-posts': BlogPostsSelect<false> | BlogPostsSelect<true>;
+    events: EventsSelect<false> | EventsSelect<true>;
+    forms: FormsSelect<false> | FormsSelect<true>;
+    'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
+    testimonials: TestimonialsSelect<false> | TestimonialsSelect<true>;
+    partners: PartnersSelect<false> | PartnersSelect<true>;
+    'faq-items': FaqItemsSelect<false> | FaqItemsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -100,9 +114,19 @@ export interface Config {
     | ('en' | 'lt' | 'lv' | 'cs' | 'ro' | 'bg' | 'md' | 'pl')[];
   globals: {
     'site-settings': SiteSetting;
+    'landing-page': LandingPage;
+    newsletter: Newsletter;
+    'contacts-page': ContactsPage;
+    'blog-page': BlogPage;
+    'events-page': EventsPage;
   };
   globalsSelect: {
     'site-settings': SiteSettingsSelect<false> | SiteSettingsSelect<true>;
+    'landing-page': LandingPageSelect<false> | LandingPageSelect<true>;
+    newsletter: NewsletterSelect<false> | NewsletterSelect<true>;
+    'contacts-page': ContactsPageSelect<false> | ContactsPageSelect<true>;
+    'blog-page': BlogPageSelect<false> | BlogPageSelect<true>;
+    'events-page': EventsPageSelect<false> | EventsPageSelect<true>;
   };
   locale: 'en' | 'lt' | 'lv' | 'cs' | 'ro' | 'bg' | 'md' | 'pl';
   user: User;
@@ -171,7 +195,7 @@ export interface User {
 export interface Image {
   id: string;
   /**
-   * Describe the image for screen readers and search engines. Be specific — e.g., "Team meeting in the office" not just "photo".
+   * Describe the image for screen readers and search engines. Be specific - e.g., "Team meeting in the office" not just "photo".
    */
   alt: string;
   /**
@@ -256,8 +280,10 @@ export interface Video {
  */
 export interface Page {
   id: string;
-  title: string;
   slug: string;
+  status?: ('draft' | 'published') | null;
+  publishedAt?: string | null;
+  title: string;
   /**
    * Short description used for SEO and previews
    */
@@ -278,8 +304,6 @@ export interface Page {
     [k: string]: unknown;
   } | null;
   featuredImage?: (string | null) | Image;
-  status?: ('draft' | 'published') | null;
-  publishedAt?: string | null;
   meta?: {
     title?: string | null;
     description?: string | null;
@@ -292,7 +316,7 @@ export interface Page {
      */
     noIndex?: boolean | null;
     /**
-     * When checked, search engines will not follow any links on this page. This is rarely needed — only use it if you don't want Google to discover other pages through links on this one.
+     * When checked, search engines will not follow any links on this page. This is rarely needed - only use it if you don't want Google to discover other pages through links on this one.
      */
     noFollow?: boolean | null;
     /**
@@ -333,6 +357,822 @@ export interface LegalPage {
     };
     [k: string]: unknown;
   } | null;
+  status?: ('draft' | 'published') | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Blog posts and news articles. Each post belongs to specific countries.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "blog-posts".
+ */
+export interface BlogPost {
+  id: string;
+  slug: string;
+  date: string;
+  /**
+   * Which countries this post belongs to.
+   */
+  locales: ('en' | 'lt' | 'lv' | 'cs' | 'ro' | 'bg' | 'md' | 'pl')[];
+  status?: ('draft' | 'published') | null;
+  title: string;
+  /**
+   * Recommended: 1200×675px (16:9 ratio). Used as hero image and OG/social preview.
+   */
+  keyVisual: string | Image;
+  body?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  /**
+   * Select up to 3 related posts. Helps SEO via internal linking.
+   */
+  relatedPosts?: (string | BlogPost)[] | null;
+  meta?: {
+    title?: string | null;
+    description?: string | null;
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
+    image?: (string | null) | Image;
+    /**
+     * When checked, this page will NOT appear in Google or other search results. Use this for private pages, thank-you pages, or pages still being worked on.
+     */
+    noIndex?: boolean | null;
+    /**
+     * When checked, search engines will not follow any links on this page. This is rarely needed - only use it if you don't want Google to discover other pages through links on this one.
+     */
+    noFollow?: boolean | null;
+    /**
+     * Leave this empty in most cases. Only fill this in if this page's content also exists at a different URL and you want to tell Google "the other URL is the main one." For example, if you republished a blog post from another site.
+     */
+    canonicalURL?: string | null;
+    /**
+     * How should this page appear when shared on Facebook or LinkedIn? "Website" works for most pages. Choose "Article" for blog posts or "Product" for shop items.
+     */
+    ogType?: ('website' | 'article' | 'product') | null;
+  };
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Events and workshops. Each event belongs to specific countries.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "events".
+ */
+export interface Event {
+  id: string;
+  slug: string;
+  date: string;
+  /**
+   * For multi-day events
+   */
+  endDate?: string | null;
+  timeFrom?: string | null;
+  timeTo?: string | null;
+  timeZone?:
+    | (
+        | 'Africa/Abidjan'
+        | 'Africa/Accra'
+        | 'Africa/Addis_Ababa'
+        | 'Africa/Algiers'
+        | 'Africa/Asmera'
+        | 'Africa/Bamako'
+        | 'Africa/Bangui'
+        | 'Africa/Banjul'
+        | 'Africa/Bissau'
+        | 'Africa/Blantyre'
+        | 'Africa/Brazzaville'
+        | 'Africa/Bujumbura'
+        | 'Africa/Cairo'
+        | 'Africa/Casablanca'
+        | 'Africa/Ceuta'
+        | 'Africa/Conakry'
+        | 'Africa/Dakar'
+        | 'Africa/Dar_es_Salaam'
+        | 'Africa/Djibouti'
+        | 'Africa/Douala'
+        | 'Africa/El_Aaiun'
+        | 'Africa/Freetown'
+        | 'Africa/Gaborone'
+        | 'Africa/Harare'
+        | 'Africa/Johannesburg'
+        | 'Africa/Juba'
+        | 'Africa/Kampala'
+        | 'Africa/Khartoum'
+        | 'Africa/Kigali'
+        | 'Africa/Kinshasa'
+        | 'Africa/Lagos'
+        | 'Africa/Libreville'
+        | 'Africa/Lome'
+        | 'Africa/Luanda'
+        | 'Africa/Lubumbashi'
+        | 'Africa/Lusaka'
+        | 'Africa/Malabo'
+        | 'Africa/Maputo'
+        | 'Africa/Maseru'
+        | 'Africa/Mbabane'
+        | 'Africa/Mogadishu'
+        | 'Africa/Monrovia'
+        | 'Africa/Nairobi'
+        | 'Africa/Ndjamena'
+        | 'Africa/Niamey'
+        | 'Africa/Nouakchott'
+        | 'Africa/Ouagadougou'
+        | 'Africa/Porto-Novo'
+        | 'Africa/Sao_Tome'
+        | 'Africa/Tripoli'
+        | 'Africa/Tunis'
+        | 'Africa/Windhoek'
+        | 'America/Adak'
+        | 'America/Anchorage'
+        | 'America/Anguilla'
+        | 'America/Antigua'
+        | 'America/Araguaina'
+        | 'America/Argentina/La_Rioja'
+        | 'America/Argentina/Rio_Gallegos'
+        | 'America/Argentina/Salta'
+        | 'America/Argentina/San_Juan'
+        | 'America/Argentina/San_Luis'
+        | 'America/Argentina/Tucuman'
+        | 'America/Argentina/Ushuaia'
+        | 'America/Aruba'
+        | 'America/Asuncion'
+        | 'America/Bahia'
+        | 'America/Bahia_Banderas'
+        | 'America/Barbados'
+        | 'America/Belem'
+        | 'America/Belize'
+        | 'America/Blanc-Sablon'
+        | 'America/Boa_Vista'
+        | 'America/Bogota'
+        | 'America/Boise'
+        | 'America/Buenos_Aires'
+        | 'America/Cambridge_Bay'
+        | 'America/Campo_Grande'
+        | 'America/Cancun'
+        | 'America/Caracas'
+        | 'America/Catamarca'
+        | 'America/Cayenne'
+        | 'America/Cayman'
+        | 'America/Chicago'
+        | 'America/Chihuahua'
+        | 'America/Ciudad_Juarez'
+        | 'America/Coral_Harbour'
+        | 'America/Cordoba'
+        | 'America/Costa_Rica'
+        | 'America/Coyhaique'
+        | 'America/Creston'
+        | 'America/Cuiaba'
+        | 'America/Curacao'
+        | 'America/Danmarkshavn'
+        | 'America/Dawson'
+        | 'America/Dawson_Creek'
+        | 'America/Denver'
+        | 'America/Detroit'
+        | 'America/Dominica'
+        | 'America/Edmonton'
+        | 'America/Eirunepe'
+        | 'America/El_Salvador'
+        | 'America/Fort_Nelson'
+        | 'America/Fortaleza'
+        | 'America/Glace_Bay'
+        | 'America/Godthab'
+        | 'America/Goose_Bay'
+        | 'America/Grand_Turk'
+        | 'America/Grenada'
+        | 'America/Guadeloupe'
+        | 'America/Guatemala'
+        | 'America/Guayaquil'
+        | 'America/Guyana'
+        | 'America/Halifax'
+        | 'America/Havana'
+        | 'America/Hermosillo'
+        | 'America/Indiana/Knox'
+        | 'America/Indiana/Marengo'
+        | 'America/Indiana/Petersburg'
+        | 'America/Indiana/Tell_City'
+        | 'America/Indiana/Vevay'
+        | 'America/Indiana/Vincennes'
+        | 'America/Indiana/Winamac'
+        | 'America/Indianapolis'
+        | 'America/Inuvik'
+        | 'America/Iqaluit'
+        | 'America/Jamaica'
+        | 'America/Jujuy'
+        | 'America/Juneau'
+        | 'America/Kentucky/Monticello'
+        | 'America/Kralendijk'
+        | 'America/La_Paz'
+        | 'America/Lima'
+        | 'America/Los_Angeles'
+        | 'America/Louisville'
+        | 'America/Lower_Princes'
+        | 'America/Maceio'
+        | 'America/Managua'
+        | 'America/Manaus'
+        | 'America/Marigot'
+        | 'America/Martinique'
+        | 'America/Matamoros'
+        | 'America/Mazatlan'
+        | 'America/Mendoza'
+        | 'America/Menominee'
+        | 'America/Merida'
+        | 'America/Metlakatla'
+        | 'America/Mexico_City'
+        | 'America/Miquelon'
+        | 'America/Moncton'
+        | 'America/Monterrey'
+        | 'America/Montevideo'
+        | 'America/Montserrat'
+        | 'America/Nassau'
+        | 'America/New_York'
+        | 'America/Nome'
+        | 'America/Noronha'
+        | 'America/North_Dakota/Beulah'
+        | 'America/North_Dakota/Center'
+        | 'America/North_Dakota/New_Salem'
+        | 'America/Ojinaga'
+        | 'America/Panama'
+        | 'America/Paramaribo'
+        | 'America/Phoenix'
+        | 'America/Port-au-Prince'
+        | 'America/Port_of_Spain'
+        | 'America/Porto_Velho'
+        | 'America/Puerto_Rico'
+        | 'America/Punta_Arenas'
+        | 'America/Rankin_Inlet'
+        | 'America/Recife'
+        | 'America/Regina'
+        | 'America/Resolute'
+        | 'America/Rio_Branco'
+        | 'America/Santarem'
+        | 'America/Santiago'
+        | 'America/Santo_Domingo'
+        | 'America/Sao_Paulo'
+        | 'America/Scoresbysund'
+        | 'America/Sitka'
+        | 'America/St_Barthelemy'
+        | 'America/St_Johns'
+        | 'America/St_Kitts'
+        | 'America/St_Lucia'
+        | 'America/St_Thomas'
+        | 'America/St_Vincent'
+        | 'America/Swift_Current'
+        | 'America/Tegucigalpa'
+        | 'America/Thule'
+        | 'America/Tijuana'
+        | 'America/Toronto'
+        | 'America/Tortola'
+        | 'America/Vancouver'
+        | 'America/Whitehorse'
+        | 'America/Winnipeg'
+        | 'America/Yakutat'
+        | 'Antarctica/Casey'
+        | 'Antarctica/Davis'
+        | 'Antarctica/DumontDUrville'
+        | 'Antarctica/Macquarie'
+        | 'Antarctica/Mawson'
+        | 'Antarctica/McMurdo'
+        | 'Antarctica/Palmer'
+        | 'Antarctica/Rothera'
+        | 'Antarctica/Syowa'
+        | 'Antarctica/Troll'
+        | 'Antarctica/Vostok'
+        | 'Arctic/Longyearbyen'
+        | 'Asia/Aden'
+        | 'Asia/Almaty'
+        | 'Asia/Amman'
+        | 'Asia/Anadyr'
+        | 'Asia/Aqtau'
+        | 'Asia/Aqtobe'
+        | 'Asia/Ashgabat'
+        | 'Asia/Atyrau'
+        | 'Asia/Baghdad'
+        | 'Asia/Bahrain'
+        | 'Asia/Baku'
+        | 'Asia/Bangkok'
+        | 'Asia/Barnaul'
+        | 'Asia/Beirut'
+        | 'Asia/Bishkek'
+        | 'Asia/Brunei'
+        | 'Asia/Calcutta'
+        | 'Asia/Chita'
+        | 'Asia/Colombo'
+        | 'Asia/Damascus'
+        | 'Asia/Dhaka'
+        | 'Asia/Dili'
+        | 'Asia/Dubai'
+        | 'Asia/Dushanbe'
+        | 'Asia/Famagusta'
+        | 'Asia/Gaza'
+        | 'Asia/Hebron'
+        | 'Asia/Hong_Kong'
+        | 'Asia/Hovd'
+        | 'Asia/Irkutsk'
+        | 'Asia/Jakarta'
+        | 'Asia/Jayapura'
+        | 'Asia/Jerusalem'
+        | 'Asia/Kabul'
+        | 'Asia/Kamchatka'
+        | 'Asia/Karachi'
+        | 'Asia/Katmandu'
+        | 'Asia/Khandyga'
+        | 'Asia/Krasnoyarsk'
+        | 'Asia/Kuala_Lumpur'
+        | 'Asia/Kuching'
+        | 'Asia/Kuwait'
+        | 'Asia/Macau'
+        | 'Asia/Magadan'
+        | 'Asia/Makassar'
+        | 'Asia/Manila'
+        | 'Asia/Muscat'
+        | 'Asia/Nicosia'
+        | 'Asia/Novokuznetsk'
+        | 'Asia/Novosibirsk'
+        | 'Asia/Omsk'
+        | 'Asia/Oral'
+        | 'Asia/Phnom_Penh'
+        | 'Asia/Pontianak'
+        | 'Asia/Pyongyang'
+        | 'Asia/Qatar'
+        | 'Asia/Qostanay'
+        | 'Asia/Qyzylorda'
+        | 'Asia/Rangoon'
+        | 'Asia/Riyadh'
+        | 'Asia/Saigon'
+        | 'Asia/Sakhalin'
+        | 'Asia/Samarkand'
+        | 'Asia/Seoul'
+        | 'Asia/Shanghai'
+        | 'Asia/Singapore'
+        | 'Asia/Srednekolymsk'
+        | 'Asia/Taipei'
+        | 'Asia/Tashkent'
+        | 'Asia/Tbilisi'
+        | 'Asia/Tehran'
+        | 'Asia/Thimphu'
+        | 'Asia/Tokyo'
+        | 'Asia/Tomsk'
+        | 'Asia/Ulaanbaatar'
+        | 'Asia/Urumqi'
+        | 'Asia/Ust-Nera'
+        | 'Asia/Vientiane'
+        | 'Asia/Vladivostok'
+        | 'Asia/Yakutsk'
+        | 'Asia/Yekaterinburg'
+        | 'Asia/Yerevan'
+        | 'Atlantic/Azores'
+        | 'Atlantic/Bermuda'
+        | 'Atlantic/Canary'
+        | 'Atlantic/Cape_Verde'
+        | 'Atlantic/Faeroe'
+        | 'Atlantic/Madeira'
+        | 'Atlantic/Reykjavik'
+        | 'Atlantic/South_Georgia'
+        | 'Atlantic/St_Helena'
+        | 'Atlantic/Stanley'
+        | 'Australia/Adelaide'
+        | 'Australia/Brisbane'
+        | 'Australia/Broken_Hill'
+        | 'Australia/Darwin'
+        | 'Australia/Eucla'
+        | 'Australia/Hobart'
+        | 'Australia/Lindeman'
+        | 'Australia/Lord_Howe'
+        | 'Australia/Melbourne'
+        | 'Australia/Perth'
+        | 'Australia/Sydney'
+        | 'Europe/Amsterdam'
+        | 'Europe/Andorra'
+        | 'Europe/Astrakhan'
+        | 'Europe/Athens'
+        | 'Europe/Belgrade'
+        | 'Europe/Berlin'
+        | 'Europe/Bratislava'
+        | 'Europe/Brussels'
+        | 'Europe/Bucharest'
+        | 'Europe/Budapest'
+        | 'Europe/Busingen'
+        | 'Europe/Chisinau'
+        | 'Europe/Copenhagen'
+        | 'Europe/Dublin'
+        | 'Europe/Gibraltar'
+        | 'Europe/Guernsey'
+        | 'Europe/Helsinki'
+        | 'Europe/Isle_of_Man'
+        | 'Europe/Istanbul'
+        | 'Europe/Jersey'
+        | 'Europe/Kaliningrad'
+        | 'Europe/Kiev'
+        | 'Europe/Kirov'
+        | 'Europe/Lisbon'
+        | 'Europe/Ljubljana'
+        | 'Europe/London'
+        | 'Europe/Luxembourg'
+        | 'Europe/Madrid'
+        | 'Europe/Malta'
+        | 'Europe/Mariehamn'
+        | 'Europe/Minsk'
+        | 'Europe/Monaco'
+        | 'Europe/Moscow'
+        | 'Europe/Oslo'
+        | 'Europe/Paris'
+        | 'Europe/Podgorica'
+        | 'Europe/Prague'
+        | 'Europe/Riga'
+        | 'Europe/Rome'
+        | 'Europe/Samara'
+        | 'Europe/San_Marino'
+        | 'Europe/Sarajevo'
+        | 'Europe/Saratov'
+        | 'Europe/Simferopol'
+        | 'Europe/Skopje'
+        | 'Europe/Sofia'
+        | 'Europe/Stockholm'
+        | 'Europe/Tallinn'
+        | 'Europe/Tirane'
+        | 'Europe/Ulyanovsk'
+        | 'Europe/Vaduz'
+        | 'Europe/Vatican'
+        | 'Europe/Vienna'
+        | 'Europe/Vilnius'
+        | 'Europe/Volgograd'
+        | 'Europe/Warsaw'
+        | 'Europe/Zagreb'
+        | 'Europe/Zurich'
+        | 'Indian/Antananarivo'
+        | 'Indian/Chagos'
+        | 'Indian/Christmas'
+        | 'Indian/Cocos'
+        | 'Indian/Comoro'
+        | 'Indian/Kerguelen'
+        | 'Indian/Mahe'
+        | 'Indian/Maldives'
+        | 'Indian/Mauritius'
+        | 'Indian/Mayotte'
+        | 'Indian/Reunion'
+        | 'Pacific/Apia'
+        | 'Pacific/Auckland'
+        | 'Pacific/Bougainville'
+        | 'Pacific/Chatham'
+        | 'Pacific/Easter'
+        | 'Pacific/Efate'
+        | 'Pacific/Enderbury'
+        | 'Pacific/Fakaofo'
+        | 'Pacific/Fiji'
+        | 'Pacific/Funafuti'
+        | 'Pacific/Galapagos'
+        | 'Pacific/Gambier'
+        | 'Pacific/Guadalcanal'
+        | 'Pacific/Guam'
+        | 'Pacific/Honolulu'
+        | 'Pacific/Kiritimati'
+        | 'Pacific/Kosrae'
+        | 'Pacific/Kwajalein'
+        | 'Pacific/Majuro'
+        | 'Pacific/Marquesas'
+        | 'Pacific/Midway'
+        | 'Pacific/Nauru'
+        | 'Pacific/Niue'
+        | 'Pacific/Norfolk'
+        | 'Pacific/Noumea'
+        | 'Pacific/Pago_Pago'
+        | 'Pacific/Palau'
+        | 'Pacific/Pitcairn'
+        | 'Pacific/Ponape'
+        | 'Pacific/Port_Moresby'
+        | 'Pacific/Rarotonga'
+        | 'Pacific/Saipan'
+        | 'Pacific/Tahiti'
+        | 'Pacific/Tarawa'
+        | 'Pacific/Tongatapu'
+        | 'Pacific/Truk'
+        | 'Pacific/Wake'
+        | 'Pacific/Wallis'
+      )
+    | null;
+  format?: ('in-person' | 'online' | 'hybrid') | null;
+  /**
+   * Which countries this event belongs to.
+   */
+  locales: ('en' | 'lt' | 'lv' | 'cs' | 'ro' | 'bg' | 'md' | 'pl')[];
+  status?: ('draft' | 'published') | null;
+  title: string;
+  /**
+   * Short description for event cards and SEO previews
+   */
+  excerpt?: string | null;
+  /**
+   * "Vilnius, Lithuania" or "Online"
+   */
+  location?: string | null;
+  /**
+   * Cover images. First image is used as the primary/hero image.
+   */
+  gallery: (string | Image)[];
+  body?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  speakers?:
+    | {
+        name: string;
+        /**
+         * Job title
+         */
+        role?: string | null;
+        /**
+         * Short bio
+         */
+        bio?: string | null;
+        photo?: (string | null) | Image;
+        /**
+         * LinkedIn, website, or other social profiles
+         */
+        socialLinks?:
+          | {
+              platform: 'linkedin' | 'x' | 'instagram' | 'facebook' | 'website';
+              /**
+               * Full URL (e.g. https://linkedin.com/in/username)
+               */
+              url: string;
+              id?: string | null;
+            }[]
+          | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * External registration link (e.g. Eventbrite, Google Form)
+   */
+  registrationUrl?: string | null;
+  /**
+   * Optional Payload form for in-house registration
+   */
+  registrationForm?: (string | null) | Form;
+  meta?: {
+    title?: string | null;
+    description?: string | null;
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
+    image?: (string | null) | Image;
+    /**
+     * When checked, this page will NOT appear in Google or other search results. Use this for private pages, thank-you pages, or pages still being worked on.
+     */
+    noIndex?: boolean | null;
+    /**
+     * When checked, search engines will not follow any links on this page. This is rarely needed - only use it if you don't want Google to discover other pages through links on this one.
+     */
+    noFollow?: boolean | null;
+    /**
+     * Leave this empty in most cases. Only fill this in if this page's content also exists at a different URL and you want to tell Google "the other URL is the main one." For example, if you republished a blog post from another site.
+     */
+    canonicalURL?: string | null;
+    /**
+     * How should this page appear when shared on Facebook or LinkedIn? "Website" works for most pages. Choose "Article" for blog posts or "Product" for shop items.
+     */
+    ogType?: ('website' | 'article' | 'product') | null;
+  };
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "forms".
+ */
+export interface Form {
+  id: string;
+  /**
+   * Internal name for this form, e.g. "Registration Form"
+   */
+  title: string;
+  /**
+   * Every form includes an email field. Customize its label and placeholder.
+   */
+  emailField: {
+    label: string;
+    placeholder?: string | null;
+  };
+  fields?: (TextFieldBlock | PhoneFieldBlock | TextareaFieldBlock | SelectFieldBlock | CheckboxFieldBlock)[] | null;
+  /**
+   * MailerLite group ID for subscriber syncing
+   */
+  mailerliteGroupId?: string | null;
+  /**
+   * Shown after successful form submission
+   */
+  successMessage?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TextFieldBlock".
+ */
+export interface TextFieldBlock {
+  label: string;
+  /**
+   * URL-safe identifier
+   */
+  name: string;
+  placeholder?: string | null;
+  required?: boolean | null;
+  width?: ('full' | 'half') | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'textField';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "PhoneFieldBlock".
+ */
+export interface PhoneFieldBlock {
+  label: string;
+  name: string;
+  placeholder?: string | null;
+  required?: boolean | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'phoneField';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TextareaFieldBlock".
+ */
+export interface TextareaFieldBlock {
+  label: string;
+  name: string;
+  placeholder?: string | null;
+  required?: boolean | null;
+  maxLength?: number | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'textareaField';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "SelectFieldBlock".
+ */
+export interface SelectFieldBlock {
+  label: string;
+  name: string;
+  required?: boolean | null;
+  options?:
+    | {
+        label: string;
+        value: string;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'selectField';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CheckboxFieldBlock".
+ */
+export interface CheckboxFieldBlock {
+  label: string;
+  name: string;
+  required?: boolean | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'checkboxField';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "form-submissions".
+ */
+export interface FormSubmission {
+  id: string;
+  form: string | Form;
+  locale: 'en' | 'lt' | 'lv' | 'cs' | 'ro' | 'bg' | 'md' | 'pl';
+  submissionData:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  /**
+   * Extracted from submission for search
+   */
+  email?: string | null;
+  /**
+   * Extracted from submission for display
+   */
+  name?: string | null;
+  mailerliteSynced?: boolean | null;
+  notificationSent?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "testimonials".
+ */
+export interface Testimonial {
+  id: string;
+  name: string;
+  role?: string | null;
+  company?: string | null;
+  quote: string;
+  program?: string | null;
+  featured?: boolean | null;
+  order?: number | null;
+  status?: ('draft' | 'published') | null;
+  publishedAt?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "partners".
+ */
+export interface Partner {
+  id: string;
+  organizationName: string;
+  logo: string | Image;
+  /**
+   * Full URL (e.g. https://google.org). Leave empty if partner has no website.
+   */
+  website?: string | null;
+  /**
+   * Country of origin (admin metadata only)
+   */
+  country?: ('BE' | 'BG' | 'CZ' | 'DK' | 'FI' | 'LV' | 'LT' | 'MD' | 'NL' | 'PL' | 'RO' | 'SE' | 'GB') | null;
+  /**
+   * Lower numbers display first
+   */
+  sortOrder?: number | null;
+  status?: ('draft' | 'published') | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * FAQ items. Each item belongs to specific countries.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "faq-items".
+ */
+export interface FaqItem {
+  id: string;
+  /**
+   * Keep questions concise (max 200 characters)
+   */
+  question: string;
+  answer: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  /**
+   * Which countries this FAQ item belongs to.
+   */
+  locales: ('en' | 'lt' | 'lv' | 'cs' | 'ro' | 'bg' | 'md' | 'pl')[];
+  /**
+   * Lower numbers display first
+   */
+  sortOrder?: number | null;
   status?: ('draft' | 'published') | null;
   updatedAt: string;
   createdAt: string;
@@ -380,6 +1220,34 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'legal-pages';
         value: string | LegalPage;
+      } | null)
+    | ({
+        relationTo: 'blog-posts';
+        value: string | BlogPost;
+      } | null)
+    | ({
+        relationTo: 'events';
+        value: string | Event;
+      } | null)
+    | ({
+        relationTo: 'forms';
+        value: string | Form;
+      } | null)
+    | ({
+        relationTo: 'form-submissions';
+        value: string | FormSubmission;
+      } | null)
+    | ({
+        relationTo: 'testimonials';
+        value: string | Testimonial;
+      } | null)
+    | ({
+        relationTo: 'partners';
+        value: string | Partner;
+      } | null)
+    | ({
+        relationTo: 'faq-items';
+        value: string | FaqItem;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -527,13 +1395,13 @@ export interface VideosSelect<T extends boolean = true> {
  * via the `definition` "pages_select".
  */
 export interface PagesSelect<T extends boolean = true> {
-  title?: T;
   slug?: T;
+  status?: T;
+  publishedAt?: T;
+  title?: T;
   excerpt?: T;
   content?: T;
   featuredImage?: T;
-  status?: T;
-  publishedAt?: T;
   meta?:
     | T
     | {
@@ -557,6 +1425,236 @@ export interface LegalPagesSelect<T extends boolean = true> {
   slug?: T;
   pageType?: T;
   content?: T;
+  status?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "blog-posts_select".
+ */
+export interface BlogPostsSelect<T extends boolean = true> {
+  slug?: T;
+  date?: T;
+  locales?: T;
+  status?: T;
+  title?: T;
+  keyVisual?: T;
+  body?: T;
+  relatedPosts?: T;
+  meta?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        image?: T;
+        noIndex?: T;
+        noFollow?: T;
+        canonicalURL?: T;
+        ogType?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "events_select".
+ */
+export interface EventsSelect<T extends boolean = true> {
+  slug?: T;
+  date?: T;
+  endDate?: T;
+  timeFrom?: T;
+  timeTo?: T;
+  timeZone?: T;
+  format?: T;
+  locales?: T;
+  status?: T;
+  title?: T;
+  excerpt?: T;
+  location?: T;
+  gallery?: T;
+  body?: T;
+  speakers?:
+    | T
+    | {
+        name?: T;
+        role?: T;
+        bio?: T;
+        photo?: T;
+        socialLinks?:
+          | T
+          | {
+              platform?: T;
+              url?: T;
+              id?: T;
+            };
+        id?: T;
+      };
+  registrationUrl?: T;
+  registrationForm?: T;
+  meta?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        image?: T;
+        noIndex?: T;
+        noFollow?: T;
+        canonicalURL?: T;
+        ogType?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "forms_select".
+ */
+export interface FormsSelect<T extends boolean = true> {
+  title?: T;
+  emailField?:
+    | T
+    | {
+        label?: T;
+        placeholder?: T;
+      };
+  fields?:
+    | T
+    | {
+        textField?: T | TextFieldBlockSelect<T>;
+        phoneField?: T | PhoneFieldBlockSelect<T>;
+        textareaField?: T | TextareaFieldBlockSelect<T>;
+        selectField?: T | SelectFieldBlockSelect<T>;
+        checkboxField?: T | CheckboxFieldBlockSelect<T>;
+      };
+  mailerliteGroupId?: T;
+  successMessage?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TextFieldBlock_select".
+ */
+export interface TextFieldBlockSelect<T extends boolean = true> {
+  label?: T;
+  name?: T;
+  placeholder?: T;
+  required?: T;
+  width?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "PhoneFieldBlock_select".
+ */
+export interface PhoneFieldBlockSelect<T extends boolean = true> {
+  label?: T;
+  name?: T;
+  placeholder?: T;
+  required?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TextareaFieldBlock_select".
+ */
+export interface TextareaFieldBlockSelect<T extends boolean = true> {
+  label?: T;
+  name?: T;
+  placeholder?: T;
+  required?: T;
+  maxLength?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "SelectFieldBlock_select".
+ */
+export interface SelectFieldBlockSelect<T extends boolean = true> {
+  label?: T;
+  name?: T;
+  required?: T;
+  options?:
+    | T
+    | {
+        label?: T;
+        value?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CheckboxFieldBlock_select".
+ */
+export interface CheckboxFieldBlockSelect<T extends boolean = true> {
+  label?: T;
+  name?: T;
+  required?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "form-submissions_select".
+ */
+export interface FormSubmissionsSelect<T extends boolean = true> {
+  form?: T;
+  locale?: T;
+  submissionData?: T;
+  email?: T;
+  name?: T;
+  mailerliteSynced?: T;
+  notificationSent?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "testimonials_select".
+ */
+export interface TestimonialsSelect<T extends boolean = true> {
+  name?: T;
+  role?: T;
+  company?: T;
+  quote?: T;
+  program?: T;
+  featured?: T;
+  order?: T;
+  status?: T;
+  publishedAt?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "partners_select".
+ */
+export interface PartnersSelect<T extends boolean = true> {
+  organizationName?: T;
+  logo?: T;
+  website?: T;
+  country?: T;
+  sortOrder?: T;
+  status?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "faq-items_select".
+ */
+export interface FaqItemsSelect<T extends boolean = true> {
+  question?: T;
+  answer?: T;
+  locales?: T;
+  sortOrder?: T;
   status?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -620,6 +1718,14 @@ export interface SiteSetting {
    */
   enabledLocales?: ('en' | 'lt' | 'lv' | 'cs' | 'ro' | 'bg' | 'md' | 'pl')[] | null;
   /**
+   * Site logo displayed in the header. Recommended: SVG or PNG with transparent background, max height 40px.
+   */
+  logo?: (string | null) | Image;
+  /**
+   * Optional override for the header CTA button text. Leave empty to use the default translation for each language.
+   */
+  headerCtaText?: string | null;
+  /**
    * These are fallback values used when a page doesn't have its own SEO settings.
    */
   defaultMeta?: {
@@ -647,9 +1753,354 @@ export interface SiteSetting {
       }[]
     | null;
   /**
+   * General support email displayed in the footer.
+   */
+  supportEmail?: string | null;
+  /**
+   * Partnership inquiry email displayed in the footer.
+   */
+  partnershipEmail?: string | null;
+  /**
+   * Copyright text at the bottom of every page.
+   */
+  footerText?: string | null;
+  /**
    * Your GTM container ID (looks like GTM-XXXXXXX). Find it at tagmanager.google.com. Tracking is automatically disabled in development.
    */
   gtmId?: string | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "landing-page".
+ */
+export interface LandingPage {
+  id: string;
+  hero: {
+    /**
+     * Main H1 heading. Use line breaks to control how text wraps, e.g. "Technology\nshould work\nfor everyone."
+     */
+    heading: string;
+    /**
+     * Word in the heading to highlight with accent color (teal). E.g. "everyone"
+     */
+    highlightWord?: string | null;
+    /**
+     * Short label shown between heading and subtitle, e.g. "Strategic Engineering Partner"
+     */
+    eyebrow?: string | null;
+    /**
+     * Supporting text below heading, 1-2 sentences
+     */
+    subtitle?: string | null;
+    /**
+     * Primary CTA button text
+     */
+    ctaText: string;
+    /**
+     * Optional hero background image. If empty, subtle gradient is used. Recommended: WebP, max 200KB.
+     */
+    backgroundImage?: (string | null) | Image;
+    /**
+     * Partner logos below CTA, e.g. Google.org, Coursera, EU. Displayed in grayscale.
+     */
+    trustLogos?:
+      | {
+          image: string | Image;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  problem: {
+    /**
+     * Small label above the heading, e.g. "The Challenge"
+     */
+    eyebrow?: string | null;
+    heading: string;
+    body: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    };
+    /**
+     * Conceptual image for the problem section. Recommended: WebP, 16:9 or 3:4 aspect ratio.
+     */
+    image?: (string | null) | Image;
+  };
+  skills: {
+    heading: string;
+    subtitle?: string | null;
+    items?:
+      | {
+          title: string;
+          description: string;
+          image?: (string | null) | Image;
+          id?: string | null;
+        }[]
+      | null;
+    /**
+     * Heading for the benefits section at the bottom of Skills
+     */
+    benefitsHeading?: string | null;
+    benefits?:
+      | {
+          text: string;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  howItWorks: {
+    heading: string;
+    steps?:
+      | {
+          title: string;
+          description: string;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  audience: {
+    heading: string;
+    introText?: string | null;
+    groups?:
+      | {
+          title: string;
+          description: string;
+          image?: (string | null) | Image;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  testimonials: {
+    /**
+     * Small label above the heading, e.g. "Testimonials"
+     */
+    eyebrow?: string | null;
+    /**
+     * Main heading for the testimonials section
+     */
+    heading: string;
+    /**
+     * Optional supporting text below the heading
+     */
+    subtitle?: string | null;
+    /**
+     * Large decorative watermark word behind the section
+     */
+    backgroundWord?: string | null;
+  };
+  partners: {
+    /**
+     * Small label above the heading, e.g. "Partners"
+     */
+    eyebrow?: string | null;
+    /**
+     * Main heading for the partners section
+     */
+    heading: string;
+    /**
+     * Optional supporting text below the heading
+     */
+    subtitle?: string | null;
+    /**
+     * Large decorative watermark word behind the section
+     */
+    backgroundWord?: string | null;
+    /**
+     * Screen reader text for partner links, e.g. "Visit website"
+     */
+    visitWebsiteLabel?: string | null;
+  };
+  registration?: {
+    /**
+     * Main heading for the registration section
+     */
+    heading?: string | null;
+    /**
+     * Supporting text below the heading
+     */
+    subtitle?: string | null;
+    /**
+     * Select which form to display in this section
+     */
+    form?: (string | null) | Form;
+  };
+  faq: {
+    /**
+     * Small label above the heading, e.g. "FAQ"
+     */
+    eyebrow?: string | null;
+    /**
+     * Main heading for the FAQ section
+     */
+    heading: string;
+    /**
+     * Optional supporting text below the heading
+     */
+    subtitle?: string | null;
+    /**
+     * Large decorative watermark word behind the section
+     */
+    backgroundWord?: string | null;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "newsletter".
+ */
+export interface Newsletter {
+  id: string;
+  /**
+   * Main heading for the newsletter section, e.g. "Stay in the loop"
+   */
+  heading: string;
+  /**
+   * Supporting text below the heading, e.g. "Get updates on new courses and AI insights"
+   */
+  subtitle?: string | null;
+  /**
+   * Button text for the subscribe button
+   */
+  ctaText?: string | null;
+  /**
+   * Placeholder text for the email input field
+   */
+  placeholder?: string | null;
+  /**
+   * Message shown after a successful subscription
+   */
+  successMessage?: string | null;
+  /**
+   * MailerLite group ID to add subscribers to. Find it in MailerLite dashboard.
+   */
+  mailerliteGroupId?: string | null;
+  /**
+   * Large watermark word displayed in the section background
+   */
+  backgroundWord?: string | null;
+  /**
+   * Sticky mobile bar settings
+   */
+  stickyBar?: {
+    /**
+     * Show a sticky newsletter bar on mobile
+     */
+    enabled?: boolean | null;
+    /**
+     * Short CTA text for the mobile sticky bar, e.g. "Subscribe to updates"
+     */
+    text?: string | null;
+    /**
+     * Button text on the sticky bar
+     */
+    ctaText?: string | null;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contacts-page".
+ */
+export interface ContactsPage {
+  id: string;
+  /**
+   * Main H1 heading for the contacts page
+   */
+  heading: string;
+  /**
+   * Supporting paragraph below the heading
+   */
+  subtitle?: string | null;
+  /**
+   * Large decorative watermark word behind the hero section
+   */
+  backgroundWord?: string | null;
+  /**
+   * Select which form to display on the contacts page
+   */
+  form?: (string | null) | Form;
+  faq: {
+    /**
+     * Small label above the FAQ heading
+     */
+    eyebrow?: string | null;
+    /**
+     * Main heading for the FAQ section
+     */
+    heading: string;
+    /**
+     * Optional supporting text below the FAQ heading
+     */
+    subtitle?: string | null;
+    /**
+     * Large decorative watermark word behind the FAQ section
+     */
+    backgroundWord?: string | null;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "blog-page".
+ */
+export interface BlogPage {
+  id: string;
+  /**
+   * Small label above the heading
+   */
+  eyebrow?: string | null;
+  /**
+   * Main H1 heading for the blog list page
+   */
+  heading: string;
+  /**
+   * Supporting paragraph below the heading
+   */
+  subtitle?: string | null;
+  /**
+   * Large decorative watermark word behind the hero section
+   */
+  backgroundWord?: string | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "events-page".
+ */
+export interface EventsPage {
+  id: string;
+  /**
+   * Small label above the heading
+   */
+  eyebrow?: string | null;
+  /**
+   * Main H1 heading for the events list page
+   */
+  heading: string;
+  /**
+   * Supporting paragraph below the heading
+   */
+  subtitle?: string | null;
+  /**
+   * Large decorative watermark word behind the hero section
+   */
+  backgroundWord?: string | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -661,6 +2112,8 @@ export interface SiteSettingsSelect<T extends boolean = true> {
   siteName?: T;
   siteUrl?: T;
   enabledLocales?: T;
+  logo?: T;
+  headerCtaText?: T;
   defaultMeta?:
     | T
     | {
@@ -675,7 +2128,192 @@ export interface SiteSettingsSelect<T extends boolean = true> {
         url?: T;
         id?: T;
       };
+  supportEmail?: T;
+  partnershipEmail?: T;
+  footerText?: T;
   gtmId?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "landing-page_select".
+ */
+export interface LandingPageSelect<T extends boolean = true> {
+  hero?:
+    | T
+    | {
+        heading?: T;
+        highlightWord?: T;
+        eyebrow?: T;
+        subtitle?: T;
+        ctaText?: T;
+        backgroundImage?: T;
+        trustLogos?:
+          | T
+          | {
+              image?: T;
+              id?: T;
+            };
+      };
+  problem?:
+    | T
+    | {
+        eyebrow?: T;
+        heading?: T;
+        body?: T;
+        image?: T;
+      };
+  skills?:
+    | T
+    | {
+        heading?: T;
+        subtitle?: T;
+        items?:
+          | T
+          | {
+              title?: T;
+              description?: T;
+              image?: T;
+              id?: T;
+            };
+        benefitsHeading?: T;
+        benefits?:
+          | T
+          | {
+              text?: T;
+              id?: T;
+            };
+      };
+  howItWorks?:
+    | T
+    | {
+        heading?: T;
+        steps?:
+          | T
+          | {
+              title?: T;
+              description?: T;
+              id?: T;
+            };
+      };
+  audience?:
+    | T
+    | {
+        heading?: T;
+        introText?: T;
+        groups?:
+          | T
+          | {
+              title?: T;
+              description?: T;
+              image?: T;
+              id?: T;
+            };
+      };
+  testimonials?:
+    | T
+    | {
+        eyebrow?: T;
+        heading?: T;
+        subtitle?: T;
+        backgroundWord?: T;
+      };
+  partners?:
+    | T
+    | {
+        eyebrow?: T;
+        heading?: T;
+        subtitle?: T;
+        backgroundWord?: T;
+        visitWebsiteLabel?: T;
+      };
+  registration?:
+    | T
+    | {
+        heading?: T;
+        subtitle?: T;
+        form?: T;
+      };
+  faq?:
+    | T
+    | {
+        eyebrow?: T;
+        heading?: T;
+        subtitle?: T;
+        backgroundWord?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "newsletter_select".
+ */
+export interface NewsletterSelect<T extends boolean = true> {
+  heading?: T;
+  subtitle?: T;
+  ctaText?: T;
+  placeholder?: T;
+  successMessage?: T;
+  mailerliteGroupId?: T;
+  backgroundWord?: T;
+  stickyBar?:
+    | T
+    | {
+        enabled?: T;
+        text?: T;
+        ctaText?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contacts-page_select".
+ */
+export interface ContactsPageSelect<T extends boolean = true> {
+  heading?: T;
+  subtitle?: T;
+  backgroundWord?: T;
+  form?: T;
+  faq?:
+    | T
+    | {
+        eyebrow?: T;
+        heading?: T;
+        subtitle?: T;
+        backgroundWord?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "blog-page_select".
+ */
+export interface BlogPageSelect<T extends boolean = true> {
+  eyebrow?: T;
+  heading?: T;
+  subtitle?: T;
+  backgroundWord?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "events-page_select".
+ */
+export interface EventsPageSelect<T extends boolean = true> {
+  eyebrow?: T;
+  heading?: T;
+  subtitle?: T;
+  backgroundWord?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

@@ -57,16 +57,19 @@ export const superAdminFieldAccess: FieldAccess = ({ req: { user } }) => {
   return isSuperAdmin(user as UserWithRole)
 }
 
+// ─── Submissions Access ─────────────────────────────────────────────────────
+
+/** Country-admins see only their locale's submissions; super-admins see all */
+export const submissionsByLocale: Access = ({ req: { user } }) => {
+  if (!user) return false
+  if (isSuperAdmin(user as UserWithRole)) return true
+  const locales = (user as UserWithRole).assignedLocales
+  if (!locales?.length) return false
+  return { locale: { in: locales } }
+}
+
 // ─── Locale Validation Hook ─────────────────────────────────────────────────
 
-/**
- * beforeChange hook that prevents country-admins from saving content
- * in locales they don't have access to.
- *
- * Payload's access control is document-level. Locale restriction
- * must happen in hooks because localized fields store all translations
- * in one document.
- */
 export function enforceLocaleAccess({
   req,
   operation,
@@ -78,7 +81,7 @@ export function enforceLocaleAccess({
   if (!user) return
   if (isSuperAdmin(user)) return
 
-  // Only enforce on updates — creation uses default locale
+  // Only enforce on updates - creation uses default locale
   if (operation !== 'update') return
 
   const locale = req.locale

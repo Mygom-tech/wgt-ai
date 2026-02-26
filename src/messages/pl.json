@@ -1,10 +1,84 @@
 {
+  "meta": {
+    "home": "Strona główna",
+    "contacts": "Skontaktuj się",
+    "blog": "Blog",
+    "faq": "FAQ",
+    "notFound": "Strona nie znaleziona"
+  },
+  "notFound": {
+    "eyebrow": "Strona nie znaleziona",
+    "heading": "Ta strona nie istnieje",
+    "subtitle": "Strona, której szukasz, mogła zostać przeniesiona, usunięta lub nigdy nie istniała.",
+    "cta": "Powrót do strony głównej"
+  },
   "common": {
-    "readMore": "Czytaj wiecej",
-    "backToHome": "Powrot do strony glownej"
+    "readMore": "Czytaj więcej",
+    "backToHome": "Powrót do strony głównej"
   },
   "header": {
-    "language": "Język"
+    "language": "Język",
+    "nav": {
+      "about": "O nas",
+      "course": "Kurs",
+      "howItWorks": "Jak to działa",
+      "events": "Wydarzenia",
+      "faq": "FAQ",
+      "blog": "Blog",
+      "contact": "Kontakt"
+    },
+    "aria": {
+      "menu": "Nawigacja główna",
+      "openMenu": "Otwórz menu",
+      "closeMenu": "Zamknij menu",
+      "languageSelector": "Wybierz język",
+      "currentLanguage": "Aktualny język"
+    },
+    "cta": "Zacznij się uczyć"
+  },
+  "hero": {
+    "partnersLabel": "Partnerzy"
+  },
+  "problem": {
+    "backgroundWord": "EWOLUCJA",
+    "cta": "Zacznij się uczyć"
+  },
+  "skills": {
+    "eyebrow": "Kluczowe umiejętności",
+    "skillLabel": "Umiejętność",
+    "outcomesEyebrow": "Wyniki",
+    "backgroundWord": "WPŁYW",
+    "cta": "Zapisz się za darmo"
+  },
+  "howItWorks": {
+    "eyebrow": "Jak to działa",
+    "phaseLabel": "Faza",
+    "cta": "Rozpocznij"
+  },
+  "audience": {
+    "eyebrow": "Dla kogo",
+    "groupLabel": "Grupa",
+    "backgroundWord": "WITAMY"
+  },
+  "registration": {
+    "eyebrow": "Rejestracja",
+    "submitButton": "Wyślij",
+    "submitting": "Wysyłanie...",
+    "successTitle": "Dziękujemy!",
+    "errorTitle": "Coś poszło nie tak",
+    "required": "To pole jest wymagane",
+    "invalidEmail": "Podaj prawidłowy adres e-mail"
+  },
+  "newsletter": {
+    "eyebrow": "Newsletter",
+    "submitButton": "Zapisz się",
+    "submitting": "Zapisywanie...",
+    "successTitle": "Zapisano!",
+    "errorTitle": "Coś poszło nie tak",
+    "invalidEmail": "Podaj prawidłowy adres e-mail",
+    "dismiss": "Zamknij pasek newslettera",
+    "emailLabel": "Adres e-mail",
+    "backgroundWord": "ZAPISZ SIĘ"
   },
   "cookieConsent": {
     "title": "Używamy plików cookie",
@@ -20,5 +94,87 @@
     "marketing": "Marketingowe",
     "marketingDescription": "Wykorzystywane do wyświetlania odpowiednich reklam",
     "cookiePolicy": "Polityka plików cookie"
+  },
+  "contacts": {
+    "eyebrow": "Skontaktuj się",
+    "supportLabel": "Wsparcie",
+    "partnershipLabel": "Partnerstwo",
+    "formHeading": "Napisz do nas",
+    "formSubtitle": "Wypełnij formularz, a my się z tobą skontaktujemy."
+  },
+  "blog": {
+    "loadMore": "Załaduj więcej",
+    "loading": "Ładowanie...",
+    "backToNews": "\u2190 Powrót do aktualności",
+    "noPostsYet": "Brak wpisów.",
+    "relatedPosts": "Powiązane artykuły"
+  },
+  "events": {
+    "upcoming": "Upcoming Events",
+    "past": "Past Events",
+    "showPast": "Show past events",
+    "hidePast": "Hide past events",
+    "noEvents": "No events yet",
+    "noEventsDescription": "We're planning exciting workshops and meetups. Check back soon!",
+    "noMatchingEvents": "No events match your filters",
+    "noEventsOnDate": "No events on {date}",
+    "showAllEvents": "Show all events",
+    "filterFormat": "Format",
+    "filterLocation": "Location",
+    "filterAll": "All",
+    "clearFilters": "Clear filters",
+    "addToCalendar": "Add to Calendar",
+    "googleCalendar": "Google Calendar",
+    "downloadIcs": "Download .ics",
+    "learnMore": "Learn More",
+    "register": "Register",
+    "inPerson": "In Person",
+    "online": "Online",
+    "hybrid": "Hybrid",
+    "eventCount": "{count} events",
+    "previousMonth": "Previous month",
+    "nextMonth": "Next month",
+    "previousPhoto": "Poprzednie zdjęcie",
+    "nextPhoto": "Następne zdjęcie",
+    "closeLightbox": "Zamknij",
+    "galleryPhotos": "Zdjęcia {title}",
+    "photoSlide": "Zdjęcie {current} z {total}",
+    "filterEvents": "Filtruj wydarzenia",
+    "backToEvents": "\u2190 Wróć do wydarzeń",
+    "speakers": "Prelegenci",
+    "eventGallery": "Galeria",
+    "loadMore": "Załaduj więcej wydarzeń",
+    "loading": "Ładowanie...",
+    "registerHeading": "Gotowi dołączyć?"
+  },
+  "footer": {
+    "navigationHeading": "Nawigacja",
+    "legalHeading": "Informacje prawne",
+    "contactHeading": "Kontakt",
+    "socialHeading": "Obserwuj nas",
+    "links": {
+      "home": "Strona główna",
+      "course": "Kurs",
+      "events": "Wydarzenia",
+      "blog": "Blog",
+      "faq": "FAQ",
+      "contact": "Kontakt"
+    },
+    "legal": {
+      "terms": "Regulamin",
+      "privacy": "Polityka prywatności",
+      "cookies": "Polityka plików cookie"
+    },
+    "contact": {
+      "supportLabel": "Wsparcie",
+      "partnershipLabel": "Partnerstwo"
+    },
+    "aria": {
+      "footerNav": "Nawigacja stopki",
+      "quickLinks": "Szybkie linki",
+      "legalLinks": "Linki prawne",
+      "socialLinks": "Linki mediów społecznościowych",
+      "socialPrefix": "Odwiedź nas na"
+    }
   }
 }

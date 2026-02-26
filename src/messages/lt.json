@@ -1,24 +1,180 @@
 {
+  "meta": {
+    "home": "Pradžia",
+    "contacts": "Susisiekite",
+    "blog": "Tinklaraštis",
+    "faq": "DUK",
+    "notFound": "Puslapis nerastas"
+  },
+  "notFound": {
+    "eyebrow": "Puslapis nerastas",
+    "heading": "Šis puslapis neegzistuoja",
+    "subtitle": "Puslapis, kurio ieškote, galėjo būti perkeltas, ištrintas arba niekada neegzistavo.",
+    "cta": "Grįžti į pradžią"
+  },
   "common": {
     "readMore": "Skaityti daugiau",
-    "backToHome": "Grizi i pradzia"
+    "backToHome": "Grįžti į pradžią"
   },
   "header": {
-    "language": "Kalba"
+    "language": "Kalba",
+    "nav": {
+      "about": "Apie",
+      "course": "Kursas",
+      "howItWorks": "Kaip tai veikia",
+      "events": "Renginiai",
+      "faq": "DUK",
+      "blog": "Tinklaraštis",
+      "contact": "Kontaktai"
+    },
+    "aria": {
+      "menu": "Pagrindinė navigacija",
+      "openMenu": "Atidaryti meniu",
+      "closeMenu": "Uždaryti meniu",
+      "languageSelector": "Pasirinkti kalbą",
+      "currentLanguage": "Dabartinė kalba"
+    },
+    "cta": "Pradėti mokytis"
+  },
+  "hero": {
+    "partnersLabel": "Partneriai"
+  },
+  "problem": {
+    "backgroundWord": "EVOLIUCIJA",
+    "cta": "Pradėti mokytis"
+  },
+  "skills": {
+    "eyebrow": "Pagrindiniai įgūdžiai",
+    "skillLabel": "Įgūdis",
+    "outcomesEyebrow": "Rezultatai",
+    "backgroundWord": "POVEIKIS",
+    "cta": "Registruotis nemokamai"
+  },
+  "howItWorks": {
+    "eyebrow": "Kaip tai veikia",
+    "phaseLabel": "Etapas",
+    "cta": "Pradėti"
+  },
+  "audience": {
+    "eyebrow": "Kam skirta",
+    "groupLabel": "Grupė",
+    "backgroundWord": "KVIEČIAME"
+  },
+  "registration": {
+    "eyebrow": "Registracija",
+    "submitButton": "Pateikti",
+    "submitting": "Siunčiama...",
+    "successTitle": "Ačiū!",
+    "errorTitle": "Kažkas nutiko",
+    "required": "Šis laukas privalomas",
+    "invalidEmail": "Įveskite teisingą el. paštą"
+  },
+  "newsletter": {
+    "eyebrow": "Naujienlaiškis",
+    "submitButton": "Prenumeruoti",
+    "submitting": "Prenumeruojama...",
+    "successTitle": "Puiku!",
+    "errorTitle": "Kažkas nutiko",
+    "invalidEmail": "Įveskite galiojantį el. pašto adresą",
+    "dismiss": "Uždaryti naujienlaiškio juostą",
+    "emailLabel": "El. pašto adresas",
+    "backgroundWord": "PRENUMERUOK"
   },
   "cookieConsent": {
     "title": "Naudojame slapukus",
-    "description": "Naudojame slapukus, kad pagerintume jusu patirtį musu svetaineje. Kai kurie yra butini, o kiti padeda mums suprasti, kaip naudojate musu svetaine.",
+    "description": "Naudojame slapukus, kad pagerintume jūsų patirtį mūsų svetainėje. Kai kurie yra būtini, o kiti padeda mums suprasti, kaip naudojate mūsų svetainę.",
     "acceptAll": "Priimti visus",
     "rejectAll": "Atmesti visus",
     "customize": "Tinkinti",
-    "save": "Issaugoti nustatymus",
-    "necessary": "Butini",
-    "necessaryDescription": "Reikalingi tinkamam svetaines veikimui",
+    "save": "Išsaugoti nustatymus",
+    "necessary": "Būtini",
+    "necessaryDescription": "Reikalingi tinkamam svetainės veikimui",
     "analytics": "Analitiniai",
-    "analyticsDescription": "Padeda mums suprasti, kaip lankytojai naudoja svetaine",
+    "analyticsDescription": "Padeda mums suprasti, kaip lankytojai naudoja svetainę",
     "marketing": "Rinkodaros",
     "marketingDescription": "Naudojami aktualiems skelbimams rodyti",
-    "cookiePolicy": "Slapuku politika"
+    "cookiePolicy": "Slapukų politika"
+  },
+  "contacts": {
+    "eyebrow": "Susisiekite",
+    "supportLabel": "Pagalba",
+    "partnershipLabel": "Partnerystė",
+    "formHeading": "Parašykite mums",
+    "formSubtitle": "Užpildykite formą ir mes su jumis susisieksime."
+  },
+  "blog": {
+    "loadMore": "Rodyti daugiau",
+    "loading": "Kraunama...",
+    "backToNews": "\u2190 Atgal į naujienas",
+    "noPostsYet": "Įrašų kol kas nėra.",
+    "relatedPosts": "Susiję įrašai"
+  },
+  "events": {
+    "upcoming": "Upcoming Events",
+    "past": "Past Events",
+    "showPast": "Show past events",
+    "hidePast": "Hide past events",
+    "noEvents": "No events yet",
+    "noEventsDescription": "We're planning exciting workshops and meetups. Check back soon!",
+    "noMatchingEvents": "No events match your filters",
+    "noEventsOnDate": "No events on {date}",
+    "showAllEvents": "Show all events",
+    "filterFormat": "Format",
+    "filterLocation": "Location",
+    "filterAll": "All",
+    "clearFilters": "Clear filters",
+    "addToCalendar": "Add to Calendar",
+    "googleCalendar": "Google Calendar",
+    "downloadIcs": "Download .ics",
+    "learnMore": "Learn More",
+    "register": "Register",
+    "inPerson": "In Person",
+    "online": "Online",
+    "hybrid": "Hybrid",
+    "eventCount": "{count} events",
+    "previousMonth": "Previous month",
+    "nextMonth": "Next month",
+    "previousPhoto": "Ankstesnė nuotrauka",
+    "nextPhoto": "Kita nuotrauka",
+    "closeLightbox": "Uždaryti",
+    "galleryPhotos": "{title} nuotraukos",
+    "photoSlide": "Nuotrauka {current} iš {total}",
+    "filterEvents": "Filtruoti renginius",
+    "backToEvents": "\u2190 Grįžti prie renginių",
+    "speakers": "Pranešėjai",
+    "eventGallery": "Galerija",
+    "loadMore": "Rodyti daugiau renginių",
+    "loading": "Kraunama...",
+    "registerHeading": "Pasiruošę dalyvauti?"
+  },
+  "footer": {
+    "navigationHeading": "Navigacija",
+    "legalHeading": "Teisinė informacija",
+    "contactHeading": "Kontaktai",
+    "socialHeading": "Sekite mus",
+    "links": {
+      "home": "Pradžia",
+      "course": "Kursas",
+      "events": "Renginiai",
+      "blog": "Tinklaraštis",
+      "faq": "DUK",
+      "contact": "Kontaktai"
+    },
+    "legal": {
+      "terms": "Taisyklės ir sąlygos",
+      "privacy": "Privatumo politika",
+      "cookies": "Slapukų politika"
+    },
+    "contact": {
+      "supportLabel": "Pagalba",
+      "partnershipLabel": "Partnerystė"
+    },
+    "aria": {
+      "footerNav": "Poraštės navigacija",
+      "quickLinks": "Greitos nuorodos",
+      "legalLinks": "Teisinės nuorodos",
+      "socialLinks": "Socialinių tinklų nuorodos",
+      "socialPrefix": "Aplankykite mūsų"
+    }
   }
 }

@@ -29,7 +29,7 @@ export const Images: CollectionConfig = {
       localized: true,
       admin: {
         description:
-          'Describe the image for screen readers and search engines. Be specific — e.g., "Team meeting in the office" not just "photo".',
+          'Describe the image for screen readers and search engines. Be specific - e.g., "Team meeting in the office" not just "photo".',
       },
     },
     {

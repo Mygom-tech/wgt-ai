@@ -27,31 +27,31 @@ const countryToLocale: Record<string, string> = {
  * Detection priority:
  *   1. NEXT_LOCALE cookie (user's explicit choice from locale selector)
  *   2. CDN geo IP headers (resolved at edge, zero latency)
- *   3. Accept-Language header (browser language — handled by next-intl)
+ *   3. Accept-Language header (browser language - handled by next-intl)
  *   4. Default locale: en
  */
 function getGeoCountry(request: NextRequest): string | null {
-  // Vercel — automatically added on all deployments
+  // Vercel - automatically added on all deployments
   const vercel = request.headers.get('x-vercel-ip-country')
   if (vercel) return vercel.toLowerCase()
 
-  // Cloudflare — available on all plans, added automatically
+  // Cloudflare - available on all plans, added automatically
   const cloudflare = request.headers.get('cf-ipcountry')
   if (cloudflare) return cloudflare.toLowerCase()
 
-  // AWS CloudFront — requires cache policy configuration
+  // AWS CloudFront - requires cache policy configuration
   const cloudfront = request.headers.get('cloudfront-viewer-country')
   if (cloudfront) return cloudfront.toLowerCase()
 
-  // Fastly — added via VCL configuration
+  // Fastly - added via VCL configuration
   const fastly = request.headers.get('x-country-code')
   if (fastly) return fastly.toLowerCase()
 
-  // Bunny.net — automatically added
+  // Bunny.net - automatically added
   const bunny = request.headers.get('bunny-ipcountrycode')
   if (bunny) return bunny.toLowerCase()
 
-  // Fly.io — automatically added
+  // Fly.io - automatically added
   const fly = request.headers.get('fly-client-country')
   if (fly) return fly.toLowerCase()
 

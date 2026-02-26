@@ -1,10 +1,84 @@
 {
+  "meta": {
+    "home": "Начало",
+    "contacts": "Свържете се с нас",
+    "blog": "Блог",
+    "faq": "Въпроси и отговори",
+    "notFound": "Страницата не е намерена"
+  },
+  "notFound": {
+    "eyebrow": "Страницата не е намерена",
+    "heading": "Тази страница не съществува",
+    "subtitle": "Страницата, която търсите, може да е била преместена, изтрита или никога не е съществувала.",
+    "cta": "Обратно към началото"
+  },
   "common": {
-    "readMore": "Read more",
-    "backToHome": "Back to home"
+    "readMore": "Прочети още",
+    "backToHome": "Обратно към началото"
   },
   "header": {
-    "language": "Език"
+    "language": "Език",
+    "nav": {
+      "about": "За нас",
+      "course": "Курс",
+      "howItWorks": "Как работи",
+      "events": "Събития",
+      "faq": "Въпроси",
+      "blog": "Блог",
+      "contact": "Контакт"
+    },
+    "aria": {
+      "menu": "Основна навигация",
+      "openMenu": "Отвори менюто",
+      "closeMenu": "Затвори менюто",
+      "languageSelector": "Избери език",
+      "currentLanguage": "Текущ език"
+    },
+    "cta": "Започни да учиш"
+  },
+  "hero": {
+    "partnersLabel": "Партньори"
+  },
+  "problem": {
+    "backgroundWord": "ЕВОЛЮЦИЯ",
+    "cta": "Започни да учиш"
+  },
+  "skills": {
+    "eyebrow": "Основни умения",
+    "skillLabel": "Умение",
+    "outcomesEyebrow": "Резултати",
+    "backgroundWord": "ВЪЗДЕЙСТВИЕ",
+    "cta": "Запиши се безплатно"
+  },
+  "howItWorks": {
+    "eyebrow": "Как работи",
+    "phaseLabel": "Фаза",
+    "cta": "Започни"
+  },
+  "audience": {
+    "eyebrow": "За кого е",
+    "groupLabel": "Група",
+    "backgroundWord": "ДОБРЕ ДОШЛИ"
+  },
+  "registration": {
+    "eyebrow": "Регистрация",
+    "submitButton": "Изпрати",
+    "submitting": "Изпращане...",
+    "successTitle": "Благодарим!",
+    "errorTitle": "Нещо се обърка",
+    "required": "Това поле е задължително",
+    "invalidEmail": "Въведете валиден имейл"
+  },
+  "newsletter": {
+    "eyebrow": "Бюлетин",
+    "submitButton": "Абонирай се",
+    "submitting": "Абониране...",
+    "successTitle": "Абонирахте се!",
+    "errorTitle": "Нещо се обърка",
+    "invalidEmail": "Въведете валиден имейл",
+    "dismiss": "Затвори лентата за бюлетин",
+    "emailLabel": "Имейл адрес",
+    "backgroundWord": "АБОНАМЕНТ"
   },
   "cookieConsent": {
     "title": "Използваме бисквитки",
@@ -20,5 +94,87 @@
     "marketing": "Маркетингови",
     "marketingDescription": "Използват се за показване на подходящи реклами",
     "cookiePolicy": "Политика за бисквитките"
+  },
+  "contacts": {
+    "eyebrow": "Свържете се с нас",
+    "supportLabel": "Поддръжка",
+    "partnershipLabel": "Партньорства",
+    "formHeading": "Изпратете ни съобщение",
+    "formSubtitle": "Попълнете формата и ние ще се свържем с вас."
+  },
+  "blog": {
+    "loadMore": "Зареди още",
+    "loading": "Зарежда...",
+    "backToNews": "\u2190 Обратно към новините",
+    "noPostsYet": "Все още няма публикации.",
+    "relatedPosts": "Свързани статии"
+  },
+  "events": {
+    "upcoming": "Upcoming Events",
+    "past": "Past Events",
+    "showPast": "Show past events",
+    "hidePast": "Hide past events",
+    "noEvents": "No events yet",
+    "noEventsDescription": "We're planning exciting workshops and meetups. Check back soon!",
+    "noMatchingEvents": "No events match your filters",
+    "noEventsOnDate": "No events on {date}",
+    "showAllEvents": "Show all events",
+    "filterFormat": "Format",
+    "filterLocation": "Location",
+    "filterAll": "All",
+    "clearFilters": "Clear filters",
+    "addToCalendar": "Add to Calendar",
+    "googleCalendar": "Google Calendar",
+    "downloadIcs": "Download .ics",
+    "learnMore": "Learn More",
+    "register": "Register",
+    "inPerson": "In Person",
+    "online": "Online",
+    "hybrid": "Hybrid",
+    "eventCount": "{count} events",
+    "previousMonth": "Previous month",
+    "nextMonth": "Next month",
+    "previousPhoto": "Предишна снимка",
+    "nextPhoto": "Следваща снимка",
+    "closeLightbox": "Затвори",
+    "galleryPhotos": "Снимки на {title}",
+    "photoSlide": "Снимка {current} от {total}",
+    "filterEvents": "Филтриране на събития",
+    "backToEvents": "\u2190 Обратно към събитията",
+    "speakers": "Лектори",
+    "eventGallery": "Галерия",
+    "loadMore": "Зареди още събития",
+    "loading": "Зареждане...",
+    "registerHeading": "Готови ли сте да се присъедините?"
+  },
+  "footer": {
+    "navigationHeading": "Навигация",
+    "legalHeading": "Правна информация",
+    "contactHeading": "Контакт",
+    "socialHeading": "Последвайте ни",
+    "links": {
+      "home": "Начало",
+      "course": "Курс",
+      "events": "Събития",
+      "blog": "Блог",
+      "faq": "Въпроси",
+      "contact": "Контакт"
+    },
+    "legal": {
+      "terms": "Общи условия",
+      "privacy": "Политика за поверителност",
+      "cookies": "Политика за бисквитките"
+    },
+    "contact": {
+      "supportLabel": "Поддръжка",
+      "partnershipLabel": "Партньорства"
+    },
+    "aria": {
+      "footerNav": "Навигация в долния колонтитул",
+      "quickLinks": "Бързи връзки",
+      "legalLinks": "Правни връзки",
+      "socialLinks": "Социални мрежи",
+      "socialPrefix": "Посетете ни в"
+    }
   }
 }

@@ -1,14 +1,88 @@
 {
+  "meta": {
+    "home": "Sākums",
+    "contacts": "Sazinieties",
+    "blog": "Emuārs",
+    "faq": "BUJ",
+    "notFound": "Lapa nav atrasta"
+  },
+  "notFound": {
+    "eyebrow": "Lapa nav atrasta",
+    "heading": "Šī lapa neeksistē",
+    "subtitle": "Lapa, kuru meklējat, iespējams, ir pārvietota, dzēsta vai nekad nav pastāvējusi.",
+    "cta": "Atpakaļ uz sākumu"
+  },
   "common": {
-    "readMore": "Lasit vairak",
-    "backToHome": "Atpakal uz sakumu"
+    "readMore": "Lasīt vairāk",
+    "backToHome": "Atpakaļ uz sākumu"
   },
   "header": {
-    "language": "Valoda"
+    "language": "Valoda",
+    "nav": {
+      "about": "Par mums",
+      "course": "Kurss",
+      "howItWorks": "Kā tas darbojas",
+      "events": "Pasākumi",
+      "faq": "BUJ",
+      "blog": "Emuārs",
+      "contact": "Kontakti"
+    },
+    "aria": {
+      "menu": "Galvenā navigācija",
+      "openMenu": "Atvērt izvēlni",
+      "closeMenu": "Aizvērt izvēlni",
+      "languageSelector": "Izvēlēties valodu",
+      "currentLanguage": "Pašreizējā valoda"
+    },
+    "cta": "Sākt mācīties"
+  },
+  "hero": {
+    "partnersLabel": "Partneri"
+  },
+  "problem": {
+    "backgroundWord": "EVOLŪCIJA",
+    "cta": "Sākt mācīties"
+  },
+  "skills": {
+    "eyebrow": "Pamatprasmes",
+    "skillLabel": "Prasme",
+    "outcomesEyebrow": "Rezultāti",
+    "backgroundWord": "IETEKME",
+    "cta": "Reģistrēties bez maksas"
+  },
+  "howItWorks": {
+    "eyebrow": "Kā tas darbojas",
+    "phaseLabel": "Fāze",
+    "cta": "Sākt"
+  },
+  "audience": {
+    "eyebrow": "Kam paredzēts",
+    "groupLabel": "Grupa",
+    "backgroundWord": "AICINĀM"
+  },
+  "registration": {
+    "eyebrow": "Reģistrācija",
+    "submitButton": "Iesniegt",
+    "submitting": "Iesniedz...",
+    "successTitle": "Paldies!",
+    "errorTitle": "Kaut kas nogāja greizi",
+    "required": "Šis lauks ir obligāts",
+    "invalidEmail": "Lūdzu ievadiet derīgu e-pastu"
+  },
+  "newsletter": {
+    "eyebrow": "Jaunumu vēstule",
+    "submitButton": "Abonēt",
+    "submitting": "Abonē...",
+    "successTitle": "Esat pieteikušies!",
+    "errorTitle": "Kaut kas nogāja greizi",
+    "invalidEmail": "Lūdzu ievadiet derīgu e-pasta adresi",
+    "dismiss": "Aizvērt jaunumu joslu",
+    "emailLabel": "E-pasta adrese",
+    "backgroundWord": "ABONĒT"
   },
   "cookieConsent": {
-    "title": "Mes izmantojam sikdatnes",
-    "description": "Mes izmantojam sikdatnes, lai uzlabotu jusu pieredzi musu vietne. Dažas ir obligatas, bet citas palīdz mums saprast, ka jūs izmantojat mūsu vietni.",
+    "title": "Mēs izmantojam sīkdatnes",
+    "description": "Mēs izmantojam sīkdatnes, lai uzlabotu jūsu pieredzi mūsu vietnē. Dažas ir obligātas, bet citas palīdz mums saprast, kā jūs izmantojat mūsu vietni.",
     "acceptAll": "Pieņemt visas",
     "rejectAll": "Noraidīt visas",
     "customize": "Pielāgot",
@@ -20,5 +94,87 @@
     "marketing": "Mārketinga",
     "marketingDescription": "Tiek izmantotas atbilstošu reklāmu rādīšanai",
     "cookiePolicy": "Sīkdatņu politika"
+  },
+  "contacts": {
+    "eyebrow": "Sazinieties",
+    "supportLabel": "Atbalsts",
+    "partnershipLabel": "Partnerība",
+    "formHeading": "Rakstiet mums",
+    "formSubtitle": "Aizpildiet formu un mēs ar jums sazināsimies."
+  },
+  "blog": {
+    "loadMore": "Ielādēt vairāk",
+    "loading": "Ielādē...",
+    "backToNews": "\u2190 Atpakaļ uz jaunumiem",
+    "noPostsYet": "Pagaidām nav ierakstu.",
+    "relatedPosts": "Saistītie raksti"
+  },
+  "events": {
+    "upcoming": "Upcoming Events",
+    "past": "Past Events",
+    "showPast": "Show past events",
+    "hidePast": "Hide past events",
+    "noEvents": "No events yet",
+    "noEventsDescription": "We're planning exciting workshops and meetups. Check back soon!",
+    "noMatchingEvents": "No events match your filters",
+    "noEventsOnDate": "No events on {date}",
+    "showAllEvents": "Show all events",
+    "filterFormat": "Format",
+    "filterLocation": "Location",
+    "filterAll": "All",
+    "clearFilters": "Clear filters",
+    "addToCalendar": "Add to Calendar",
+    "googleCalendar": "Google Calendar",
+    "downloadIcs": "Download .ics",
+    "learnMore": "Learn More",
+    "register": "Register",
+    "inPerson": "In Person",
+    "online": "Online",
+    "hybrid": "Hybrid",
+    "eventCount": "{count} events",
+    "previousMonth": "Previous month",
+    "nextMonth": "Next month",
+    "previousPhoto": "Iepriekšējā fotogrāfija",
+    "nextPhoto": "Nākamā fotogrāfija",
+    "closeLightbox": "Aizvērt",
+    "galleryPhotos": "{title} fotogrāfijas",
+    "photoSlide": "Fotogrāfija {current} no {total}",
+    "filterEvents": "Filtrēt pasākumus",
+    "backToEvents": "\u2190 Atpakaļ pie pasākumiem",
+    "speakers": "Runātāji",
+    "eventGallery": "Galerija",
+    "loadMore": "Ielādēt vairāk pasākumu",
+    "loading": "Ielādē...",
+    "registerHeading": "Gatavi piedalīties?"
+  },
+  "footer": {
+    "navigationHeading": "Navigācija",
+    "legalHeading": "Juridiskā informācija",
+    "contactHeading": "Kontakti",
+    "socialHeading": "Sekojiet mums",
+    "links": {
+      "home": "Sākums",
+      "course": "Kurss",
+      "events": "Pasākumi",
+      "blog": "Emuārs",
+      "faq": "BUJ",
+      "contact": "Kontakti"
+    },
+    "legal": {
+      "terms": "Noteikumi un nosacījumi",
+      "privacy": "Privātuma politika",
+      "cookies": "Sīkdatņu politika"
+    },
+    "contact": {
+      "supportLabel": "Atbalsts",
+      "partnershipLabel": "Partnerība"
+    },
+    "aria": {
+      "footerNav": "Kājenes navigācija",
+      "quickLinks": "Ātrās saites",
+      "legalLinks": "Juridiskās saites",
+      "socialLinks": "Sociālo tīklu saites",
+      "socialPrefix": "Apmeklējiet mūsu"
+    }
   }
 }

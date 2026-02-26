@@ -1,10 +1,84 @@
 {
+  "meta": {
+    "home": "Home",
+    "contacts": "Contact Us",
+    "blog": "Blog",
+    "faq": "FAQ",
+    "notFound": "Page Not Found"
+  },
+  "notFound": {
+    "eyebrow": "Page Not Found",
+    "heading": "This page doesn\u2019t exist",
+    "subtitle": "The page you\u2019re looking for may have been moved, deleted, or never existed.",
+    "cta": "Back to Home"
+  },
   "common": {
     "readMore": "Read more",
     "backToHome": "Back to home"
   },
   "header": {
-    "language": "Language"
+    "language": "Language",
+    "nav": {
+      "about": "About",
+      "course": "Course",
+      "howItWorks": "How It Works",
+      "events": "Events",
+      "faq": "FAQ",
+      "blog": "Blog",
+      "contact": "Contact"
+    },
+    "aria": {
+      "menu": "Main navigation",
+      "openMenu": "Open menu",
+      "closeMenu": "Close menu",
+      "languageSelector": "Select language",
+      "currentLanguage": "Current language"
+    },
+    "cta": "Start Learning"
+  },
+  "hero": {
+    "partnersLabel": "Partners"
+  },
+  "problem": {
+    "backgroundWord": "EVOLUTION",
+    "cta": "Start Learning"
+  },
+  "skills": {
+    "eyebrow": "Core Skills",
+    "skillLabel": "Skill",
+    "outcomesEyebrow": "Outcomes",
+    "backgroundWord": "IMPACT",
+    "cta": "Enroll for Free"
+  },
+  "howItWorks": {
+    "eyebrow": "How It Works",
+    "phaseLabel": "Phase",
+    "cta": "Get Started"
+  },
+  "audience": {
+    "eyebrow": "Who Can Join",
+    "groupLabel": "Group",
+    "backgroundWord": "WELCOME"
+  },
+  "registration": {
+    "eyebrow": "Register",
+    "submitButton": "Submit",
+    "submitting": "Submitting...",
+    "successTitle": "Thank you!",
+    "errorTitle": "Something went wrong",
+    "required": "This field is required",
+    "invalidEmail": "Please enter a valid email"
+  },
+  "newsletter": {
+    "eyebrow": "Newsletter",
+    "submitButton": "Subscribe",
+    "submitting": "Subscribing...",
+    "successTitle": "You're in!",
+    "errorTitle": "Something went wrong",
+    "invalidEmail": "Please enter a valid email",
+    "dismiss": "Dismiss newsletter bar",
+    "emailLabel": "Email address",
+    "backgroundWord": "SUBSCRIBE"
   },
   "cookieConsent": {
     "title": "We use cookies",
@@ -20,5 +94,87 @@
     "marketing": "Marketing",
     "marketingDescription": "Used to deliver relevant advertisements",
     "cookiePolicy": "Cookie Policy"
+  },
+  "contacts": {
+    "eyebrow": "Contact Us",
+    "supportLabel": "Support",
+    "partnershipLabel": "Partnerships",
+    "formHeading": "Send Us a Message",
+    "formSubtitle": "Fill out the form below and we'll get back to you."
+  },
+  "blog": {
+    "loadMore": "Load More",
+    "loading": "Loading...",
+    "backToNews": "\u2190 Back to News",
+    "noPostsYet": "No posts yet.",
+    "relatedPosts": "Related Posts"
+  },
+  "events": {
+    "upcoming": "Upcoming Events",
+    "past": "Past Events",
+    "showPast": "Show past events",
+    "hidePast": "Hide past events",
+    "noEvents": "No events yet",
+    "noEventsDescription": "We're planning exciting workshops and meetups. Check back soon!",
+    "noMatchingEvents": "No events match your filters",
+    "noEventsOnDate": "No events on {date}",
+    "showAllEvents": "Show all events",
+    "filterFormat": "Format",
+    "filterLocation": "Location",
+    "filterAll": "All",
+    "clearFilters": "Clear filters",
+    "addToCalendar": "Add to Calendar",
+    "googleCalendar": "Google Calendar",
+    "downloadIcs": "Download .ics",
+    "learnMore": "Learn More",
+    "register": "Register",
+    "inPerson": "In Person",
+    "online": "Online",
+    "hybrid": "Hybrid",
+    "eventCount": "{count} events",
+    "previousMonth": "Previous month",
+    "nextMonth": "Next month",
+    "previousPhoto": "Previous photo",
+    "nextPhoto": "Next photo",
+    "closeLightbox": "Close",
+    "galleryPhotos": "{title} photos",
+    "photoSlide": "Photo {current} of {total}",
+    "filterEvents": "Filter events",
+    "backToEvents": "\u2190 Back to events",
+    "speakers": "Speakers",
+    "eventGallery": "Gallery",
+    "loadMore": "Load more events",
+    "loading": "Loading...",
+    "registerHeading": "Ready to join?"
+  },
+  "footer": {
+    "navigationHeading": "Navigation",
+    "legalHeading": "Legal",
+    "contactHeading": "Contact",
+    "socialHeading": "Follow Us",
+    "links": {
+      "home": "Home",
+      "course": "Course",
+      "events": "Events",
+      "blog": "Blog",
+      "faq": "FAQ",
+      "contact": "Contact"
+    },
+    "legal": {
+      "terms": "Terms & Conditions",
+      "privacy": "Privacy Policy",
+      "cookies": "Cookie Policy"
+    },
+    "contact": {
+      "supportLabel": "Support",
+      "partnershipLabel": "Partnerships"
+    },
+    "aria": {
+      "footerNav": "Footer navigation",
+      "quickLinks": "Quick links",
+      "legalLinks": "Legal links",
+      "socialLinks": "Social media links",
+      "socialPrefix": "Visit our"
+    }
   }
 }

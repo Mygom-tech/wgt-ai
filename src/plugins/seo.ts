@@ -6,10 +6,10 @@ import type {
   GenerateImage,
 } from '@payloadcms/plugin-seo/types'
 import type { PayloadRequest } from 'payload'
-import type { Page, SiteSetting } from '@/payload-types'
+import type { BlogPost, Event, Page, SiteSetting } from '@/payload-types'
 import { getSiteUrl } from '@/lib/payload-data'
 
-type SeoDoc = Page
+type SeoDoc = Page | BlogPost | Event
 
 async function getSettingsFromReq(req: PayloadRequest): Promise<SiteSetting> {
   if (!req.context._siteSettings) {
@@ -31,10 +31,12 @@ const generateDescription: GenerateDescription<SeoDoc> = async ({ doc, req }) =>
   return settings.defaultMeta?.description || ''
 }
 
-const generateURL: GenerateURL<SeoDoc> = async ({ doc, req }) => {
+const generateURL: GenerateURL<SeoDoc> = async ({ doc, req, collectionSlug }) => {
   const settings = await getSettingsFromReq(req)
   const siteUrl = getSiteUrl(settings)
   if (!doc?.slug) return siteUrl
+  if (collectionSlug === 'blog-posts') return `${siteUrl}/blog/${doc.slug}`
+  if (collectionSlug === 'events') return `${siteUrl}/events/${doc.slug}`
   return `${siteUrl}/${doc.slug}`
 }
 
@@ -43,9 +45,20 @@ const generateImage: GenerateImage<SeoDoc> = async ({ doc, req }) => {
   if (metaImage) {
     return typeof metaImage === 'object' ? metaImage.id : metaImage
   }
-  const featured = doc?.featuredImage
+  const featured = 'featuredImage' in doc ? doc.featuredImage : undefined
   if (featured) {
     return typeof featured === 'object' ? featured.id : featured
+  }
+  const keyVisual = 'keyVisual' in doc ? doc.keyVisual : undefined
+  if (keyVisual) {
+    return typeof keyVisual === 'object' ? keyVisual.id : keyVisual
+  }
+  const gallery = 'gallery' in doc ? doc.gallery : undefined
+  if (Array.isArray(gallery) && gallery.length > 0) {
+    const firstImage = gallery[0]
+    if (firstImage) {
+      return typeof firstImage === 'object' ? firstImage.id : firstImage
+    }
   }
   const settings = await getSettingsFromReq(req)
   const defaultImage = settings.defaultMeta?.image
@@ -56,7 +69,7 @@ const generateImage: GenerateImage<SeoDoc> = async ({ doc, req }) => {
 }
 
 export const seoConfig = seoPlugin({
-  collections: ['pages'],
+  collections: ['pages', 'blog-posts', 'events'],
   uploadsCollection: 'images',
   tabbedUI: true,
   generateTitle,
@@ -80,7 +93,7 @@ export const seoConfig = seoPlugin({
       label: 'Block Link Following',
       defaultValue: false,
       admin: {
-        description: 'When checked, search engines will not follow any links on this page. This is rarely needed — only use it if you don\'t want Google to discover other pages through links on this one.',
+        description: 'When checked, search engines will not follow any links on this page. This is rarely needed - only use it if you don\'t want Google to discover other pages through links on this one.',
       },
     },
     {

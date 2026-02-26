@@ -1,10 +1,84 @@
 {
+  "meta": {
+    "home": "Domů",
+    "contacts": "Kontaktujte nás",
+    "blog": "Blog",
+    "faq": "Časté dotazy",
+    "notFound": "Stránka nenalezena"
+  },
+  "notFound": {
+    "eyebrow": "Stránka nenalezena",
+    "heading": "Tato stránka neexistuje",
+    "subtitle": "Stránka, kterou hledáte, mohla být přesunuta, odstraněna nebo nikdy neexistovala.",
+    "cta": "Zpět na úvod"
+  },
   "common": {
-    "readMore": "Cist dale",
-    "backToHome": "Zpet na uvod"
+    "readMore": "Číst dále",
+    "backToHome": "Zpět na úvod"
   },
   "header": {
-    "language": "Jazyk"
+    "language": "Jazyk",
+    "nav": {
+      "about": "O nás",
+      "course": "Kurz",
+      "howItWorks": "Jak to funguje",
+      "events": "Události",
+      "faq": "Časté dotazy",
+      "blog": "Blog",
+      "contact": "Kontakt"
+    },
+    "aria": {
+      "menu": "Hlavní navigace",
+      "openMenu": "Otevřít menu",
+      "closeMenu": "Zavřít menu",
+      "languageSelector": "Vybrat jazyk",
+      "currentLanguage": "Aktuální jazyk"
+    },
+    "cta": "Začít se učit"
+  },
+  "hero": {
+    "partnersLabel": "Partneři"
+  },
+  "problem": {
+    "backgroundWord": "EVOLUCE",
+    "cta": "Začít se učit"
+  },
+  "skills": {
+    "eyebrow": "Klíčové dovednosti",
+    "skillLabel": "Dovednost",
+    "outcomesEyebrow": "Výsledky",
+    "backgroundWord": "DOPAD",
+    "cta": "Zapsat se zdarma"
+  },
+  "howItWorks": {
+    "eyebrow": "Jak to funguje",
+    "phaseLabel": "Fáze",
+    "cta": "Začít"
+  },
+  "audience": {
+    "eyebrow": "Pro koho",
+    "groupLabel": "Skupina",
+    "backgroundWord": "VÍTEJTE"
+  },
+  "registration": {
+    "eyebrow": "Registrace",
+    "submitButton": "Odeslat",
+    "submitting": "Odesílání...",
+    "successTitle": "Děkujeme!",
+    "errorTitle": "Něco se pokazilo",
+    "required": "Toto pole je povinné",
+    "invalidEmail": "Zadejte platný e-mail"
+  },
+  "newsletter": {
+    "eyebrow": "Newsletter",
+    "submitButton": "Odebírat",
+    "submitting": "Odesílání...",
+    "successTitle": "Jste přihlášeni!",
+    "errorTitle": "Něco se pokazilo",
+    "invalidEmail": "Zadejte platný e-mail",
+    "dismiss": "Zavřít panel newsletteru",
+    "emailLabel": "E-mailová adresa",
+    "backgroundWord": "ODEBÍREJTE"
   },
   "cookieConsent": {
     "title": "Používáme cookies",
@@ -20,5 +94,87 @@
     "marketing": "Marketingové",
     "marketingDescription": "Používány k zobrazování relevantních reklam",
     "cookiePolicy": "Zásady cookies"
+  },
+  "contacts": {
+    "eyebrow": "Kontaktujte nás",
+    "supportLabel": "Podpora",
+    "partnershipLabel": "Partnerství",
+    "formHeading": "Napište nám",
+    "formSubtitle": "Vyplňte formulář a my se vám ozveme."
+  },
+  "blog": {
+    "loadMore": "Načíst další",
+    "loading": "Načítání...",
+    "backToNews": "\u2190 Zpět na novinky",
+    "noPostsYet": "Zatím žádné příspěvky.",
+    "relatedPosts": "Související články"
+  },
+  "events": {
+    "upcoming": "Upcoming Events",
+    "past": "Past Events",
+    "showPast": "Show past events",
+    "hidePast": "Hide past events",
+    "noEvents": "No events yet",
+    "noEventsDescription": "We're planning exciting workshops and meetups. Check back soon!",
+    "noMatchingEvents": "No events match your filters",
+    "noEventsOnDate": "No events on {date}",
+    "showAllEvents": "Show all events",
+    "filterFormat": "Format",
+    "filterLocation": "Location",
+    "filterAll": "All",
+    "clearFilters": "Clear filters",
+    "addToCalendar": "Add to Calendar",
+    "googleCalendar": "Google Calendar",
+    "downloadIcs": "Download .ics",
+    "learnMore": "Learn More",
+    "register": "Register",
+    "inPerson": "In Person",
+    "online": "Online",
+    "hybrid": "Hybrid",
+    "eventCount": "{count} events",
+    "previousMonth": "Previous month",
+    "nextMonth": "Next month",
+    "previousPhoto": "Předchozí fotografie",
+    "nextPhoto": "Další fotografie",
+    "closeLightbox": "Zavřít",
+    "galleryPhotos": "Fotografie {title}",
+    "photoSlide": "Fotografie {current} z {total}",
+    "filterEvents": "Filtrovat události",
+    "backToEvents": "\u2190 Zpět na události",
+    "speakers": "Přednášející",
+    "eventGallery": "Galerie",
+    "loadMore": "Načíst více událostí",
+    "loading": "Načítání...",
+    "registerHeading": "Připraveni se přidat?"
+  },
+  "footer": {
+    "navigationHeading": "Navigace",
+    "legalHeading": "Právní informace",
+    "contactHeading": "Kontakt",
+    "socialHeading": "Sledujte nás",
+    "links": {
+      "home": "Domů",
+      "course": "Kurz",
+      "events": "Události",
+      "blog": "Blog",
+      "faq": "Časté dotazy",
+      "contact": "Kontakt"
+    },
+    "legal": {
+      "terms": "Obchodní podmínky",
+      "privacy": "Zásady ochrany osobních údajů",
+      "cookies": "Zásady cookies"
+    },
+    "contact": {
+      "supportLabel": "Podpora",
+      "partnershipLabel": "Partnerství"
+    },
+    "aria": {
+      "footerNav": "Navigace v patičce",
+      "quickLinks": "Rychlé odkazy",
+      "legalLinks": "Právní odkazy",
+      "socialLinks": "Odkazy na sociální sítě",
+      "socialPrefix": "Navštivte nás na"
+    }
   }
 }

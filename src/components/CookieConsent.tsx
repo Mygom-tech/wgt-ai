@@ -234,7 +234,7 @@ export function CookieConsent() {
 
       <div style={{ marginTop: '0.75rem', textAlign: 'center' }}>
         <Link
-          href="/cookie-policy"
+          href="/legal/cookie-policy"
           style={{ color: '#6b7280', fontSize: '13px', textDecoration: 'underline' }}
         >
           {t('cookiePolicy')}

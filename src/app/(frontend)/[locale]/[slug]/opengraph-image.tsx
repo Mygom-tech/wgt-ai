@@ -19,7 +19,7 @@ export default async function OgImage({
     getSiteSettings(locale as LocaleCode),
   ])
 
-  // If there's an uploaded OG image, skip generation — Next.js will use the metadata image
+  // If there's an uploaded OG image, skip generation - Next.js will use the metadata image
   const existingImage = resolveMedia(doc?.meta?.image)
   if (existingImage?.url) {
     // Return a minimal response; the metadata image takes precedence
