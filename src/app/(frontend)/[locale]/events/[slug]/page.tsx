@@ -156,6 +156,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 
   const event = doc as Event
+  const eventLocales = event.locales ?? []
+
+  // Event not published for this locale — treat as 404
+  if (!eventLocales.includes(locale as LocaleCode)) {
+    return { title: 'Not Found' }
+  }
   const [settings, enabledLocales] = await Promise.all([
     getSiteSettings(locale as LocaleCode),
     getEnabledLocales(),
@@ -170,7 +176,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     (img): img is Image => typeof img === 'object' && img !== null && !!img.url,
   )
 
-  const eventLocales = event.locales ?? []
   const relevantLocales = enabledLocales.filter((l) => eventLocales.includes(l))
   const languages = buildAlternateLanguages(relevantLocales, siteUrl, `/events/${slug}`)
 
@@ -269,6 +274,10 @@ export default async function EventDetailPage({ params }: Props) {
   if (!doc) notFound()
 
   const event = doc as Event
+
+  // Event not published for this locale — 404
+  const eventLocales = event.locales ?? []
+  if (!eventLocales.includes(locale as LocaleCode)) notFound()
   const siteUrl = getSiteUrl(settings)
   const siteName = settings.siteName || 'Jarune'
   const eventsHeading = eventsPageData?.heading || siteName

@@ -5,12 +5,18 @@ import { CTA } from '@/sections/CTA'
 import { JsonLd } from '@/components/JsonLd'
 import { getSiteUrl, queryGlobal, queryCollection } from '@/lib/payload-data'
 import { getSiteSettings, getEnabledLocales } from '@/lib/getSiteSettings'
-import { buildAlternateLanguages, resolveMedia } from '@/lib/generateMeta'
+import { buildAlternateLanguages, resolveMedia, generateBreadcrumbJsonLd } from '@/lib/generateMeta'
+import { getTwitterHandle } from '@/lib/socialUtils'
 import { extractHtml } from '@/lib/lexical-html'
 import { defaultLocale, getHtmlLang, type LocaleCode } from '@/i18n/locales'
 
 type Props = {
   params: Promise<{ locale: string }>
+}
+
+export async function generateStaticParams() {
+  const enabledLocales = await getEnabledLocales()
+  return enabledLocales.map((locale) => ({ locale }))
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -26,7 +32,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const siteName = settings.siteName || 'Jarune'
   const defaultMeta = settings.defaultMeta
   const title = `${t('faq')} | ${defaultMeta?.title || siteName}`
-  const description = defaultMeta?.description || ''
+  const description = t('faqDescription') || defaultMeta?.description || ''
 
   const localePrefix = locale === defaultLocale ? '' : `/${locale}`
   const url = `${siteUrl}${localePrefix}/faq`
@@ -51,6 +57,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     },
     twitter: {
       card: 'summary_large_image',
+      site: getTwitterHandle(settings.socialLinks),
       title,
       description,
       ...(ogImages.length ? { images: ogImages.map((img) => img.url) } : {}),
@@ -85,6 +92,8 @@ export default async function FaqPage({ params }: Props) {
   const faqSection = landingData?.faq
   const faqDocs = faqResult?.docs ?? []
   const siteUrl = getSiteUrl(settings)
+  const siteName = settings.siteName || 'Jarune'
+  const localePrefix = locale === defaultLocale ? '' : `/${locale}`
 
   return (
     <>
@@ -98,6 +107,8 @@ export default async function FaqPage({ params }: Props) {
           headingAs="h1"
         />
       )}
+
+      <JsonLd data={generateBreadcrumbJsonLd(siteName, siteUrl, faqSection?.heading || 'FAQ', '/faq')} />
 
       {faqDocs.length > 0 && (() => {
         const faqEntities = faqDocs
@@ -120,8 +131,8 @@ export default async function FaqPage({ params }: Props) {
             data={{
               '@context': 'https://schema.org',
               '@type': 'FAQPage',
-              url: `${siteUrl}/faq`,
-              inLanguage: locale,
+              url: `${siteUrl}${localePrefix}/faq`,
+              inLanguage: getHtmlLang(locale),
               mainEntity: faqEntities,
             }}
           />
