@@ -1,3 +1,4 @@
+import { Suspense } from 'react'
 import type { Metadata } from 'next'
 import { getTranslations, setRequestLocale } from 'next-intl/server'
 import { Section } from '@/components/ui/Section'
@@ -265,11 +266,13 @@ export default async function EventsListPage({ params }: Props) {
             )}
           </header>
 
-          <EventsPageClient
-            events={events}
-            locale={locale}
-            hasNextPage={result.hasNextPage ?? false}
-          />
+          <Suspense>
+            <EventsPageClient
+              events={events}
+              locale={locale}
+              hasNextPage={result.hasNextPage ?? false}
+            />
+          </Suspense>
         </Container>
       </Section>
 
