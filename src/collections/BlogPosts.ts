@@ -90,6 +90,17 @@ export const BlogPosts: CollectionConfig = {
       relationTo: 'blog-posts',
       hasMany: true,
       maxRows: 3,
+      filterOptions: ({ id, data }) => {
+        const where: Where = {}
+        if (id) {
+          where.id = { not_equals: id }
+        }
+        const postLocales = (data as Record<string, unknown>)?.locales as string[] | undefined
+        if (postLocales?.length) {
+          where.locales = { in: postLocales }
+        }
+        return where
+      },
       admin: {
         description: 'Select up to 3 related posts. Helps SEO via internal linking.',
       },

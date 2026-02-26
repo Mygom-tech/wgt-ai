@@ -71,7 +71,10 @@ export const Images: CollectionConfig = {
     },
     focalPoint: true,
     crop: true,
-    adminThumbnail: 'thumbnail',
+    adminThumbnail: ({ doc }) => {
+      const sizes = doc?.sizes as Record<string, { url?: string | null }> | undefined
+      return sizes?.thumbnail?.url || sizes?.card?.url || (doc?.url as string) || ''
+    },
     mimeTypes: ['image/*'],
   },
   hooks: {
