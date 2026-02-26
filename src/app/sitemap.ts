@@ -6,32 +6,22 @@ import { defaultLocale, getHtmlLang, localeCodes } from '@/i18n/locales'
 
 export const revalidate = 3600
 
-function buildLanguages(
-  enabledLocales: string[],
-  siteUrl: string,
-  path: string,
-): Record<string, string> {
-  const languages: Record<string, string> = {}
-  for (const code of enabledLocales) {
-    const prefix = code === defaultLocale ? '' : `/${code}`
-    languages[getHtmlLang(code)] = `${siteUrl}${prefix}${path}`
-  }
-  languages['x-default'] = `${siteUrl}${path}`
-  return languages
+function localeUrl(siteUrl: string, locale: string, path: string): string {
+  const prefix = locale === defaultLocale ? '' : `/${locale}`
+  return `${siteUrl}${prefix}${path}`
 }
 
-function buildLocaleFilteredLanguages(
-  relevantLocales: string[],
+function buildLanguages(
+  locales: string[],
   siteUrl: string,
   path: string,
 ): Record<string, string> {
   const languages: Record<string, string> = {}
-  for (const code of relevantLocales) {
-    const prefix = code === defaultLocale ? '' : `/${code}`
-    languages[getHtmlLang(code)] = `${siteUrl}${prefix}${path}`
+  for (const code of locales) {
+    languages[getHtmlLang(code)] = localeUrl(siteUrl, code, path)
   }
-  if (relevantLocales.includes(defaultLocale)) {
-    languages['x-default'] = `${siteUrl}${path}`
+  if (locales.includes(defaultLocale)) {
+    languages['x-default'] = localeUrl(siteUrl, defaultLocale, path)
   }
   return languages
 }
@@ -43,14 +33,27 @@ function resolveImageUrl(img: unknown, siteUrl: string): string | null {
   return url.startsWith('http') ? url : `${siteUrl}${url}`
 }
 
-/** Build the canonical URL for locale-filtered content (blogs, events).
- *  Uses the unprefixed URL when the default locale is available,
- *  otherwise falls back to the first available locale's prefixed URL. */
-function buildCanonicalUrl(relevantLocales: string[], siteUrl: string, path: string): string {
-  if (relevantLocales.includes(defaultLocale)) {
-    return `${siteUrl}${path}`
-  }
-  return `${siteUrl}/${relevantLocales[0]}${path}`
+/** Generate one <url> entry per locale for a given path. */
+function perLocaleEntries(
+  locales: string[],
+  siteUrl: string,
+  path: string,
+  options: {
+    lastModified: Date
+    changeFrequency: MetadataRoute.Sitemap[number]['changeFrequency']
+    priority: number
+    images?: string[]
+  },
+): MetadataRoute.Sitemap {
+  const languages = buildLanguages(locales, siteUrl, path)
+  return locales.map((locale) => ({
+    url: localeUrl(siteUrl, locale, path),
+    lastModified: options.lastModified,
+    changeFrequency: options.changeFrequency,
+    priority: options.priority,
+    alternates: { languages },
+    ...(options.images?.length ? { images: options.images } : {}),
+  }))
 }
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
@@ -61,17 +64,18 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
     const settings = await payload.findGlobal({ slug: 'site-settings' })
     const enabledLocales = (settings.enabledLocales as string[] | null) ?? [...localeCodes]
+    const settingsDate = settings.updatedAt ? new Date(settings.updatedAt as string) : new Date()
 
     const entries: MetadataRoute.Sitemap = []
 
     // ─── Homepage ──────────────────────────────────────────────────
-    entries.push({
-      url: siteUrl,
-      lastModified: settings.updatedAt ? new Date(settings.updatedAt as string) : new Date(),
-      changeFrequency: 'daily',
-      priority: 1.0,
-      alternates: { languages: buildLanguages(enabledLocales, siteUrl, '') },
-    })
+    entries.push(
+      ...perLocaleEntries(enabledLocales, siteUrl, '', {
+        lastModified: settingsDate,
+        changeFrequency: 'daily',
+        priority: 1.0,
+      }),
+    )
 
     // ─── Static pages (all enabled locales) ────────────────────────
     const staticPages = [
@@ -82,13 +86,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ]
 
     for (const page of staticPages) {
-      entries.push({
-        url: `${siteUrl}${page.path}`,
-        lastModified: settings.updatedAt ? new Date(settings.updatedAt as string) : new Date(),
-        changeFrequency: page.changeFrequency,
-        priority: page.priority,
-        alternates: { languages: buildLanguages(enabledLocales, siteUrl, page.path) },
-      })
+      entries.push(
+        ...perLocaleEntries(enabledLocales, siteUrl, page.path, {
+          lastModified: settingsDate,
+          changeFrequency: page.changeFrequency,
+          priority: page.priority,
+        }),
+      )
     }
 
     // ─── Blog posts ────────────────────────────────────────────────
@@ -112,14 +116,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       const imgUrl = resolveImageUrl(post.keyVisual, siteUrl)
       if (imgUrl) images.push(imgUrl)
 
-      entries.push({
-        url: buildCanonicalUrl(relevantLocales, siteUrl, path),
-        lastModified: post.updatedAt ? new Date(post.updatedAt) : new Date(),
-        changeFrequency: 'weekly',
-        priority: 0.7,
-        alternates: { languages: buildLocaleFilteredLanguages(relevantLocales, siteUrl, path) },
-        ...(images.length ? { images } : {}),
-      })
+      entries.push(
+        ...perLocaleEntries(relevantLocales, siteUrl, path, {
+          lastModified: post.updatedAt ? new Date(post.updatedAt) : new Date(),
+          changeFrequency: 'weekly',
+          priority: 0.7,
+          images,
+        }),
+      )
     }
 
     // ─── Events ──────────────────────────────────────────────────
@@ -147,14 +151,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       const imgUrl = firstImg ? resolveImageUrl(firstImg, siteUrl) : null
       if (imgUrl) images.push(imgUrl)
 
-      entries.push({
-        url: buildCanonicalUrl(relevantLocales, siteUrl, path),
-        lastModified: event.updatedAt ? new Date(event.updatedAt) : new Date(),
-        changeFrequency: 'weekly',
-        priority: 0.7,
-        alternates: { languages: buildLocaleFilteredLanguages(relevantLocales, siteUrl, path) },
-        ...(images.length ? { images } : {}),
-      })
+      entries.push(
+        ...perLocaleEntries(relevantLocales, siteUrl, path, {
+          lastModified: event.updatedAt ? new Date(event.updatedAt) : new Date(),
+          changeFrequency: 'weekly',
+          priority: 0.7,
+          images,
+        }),
+      )
     }
 
     // Legal pages excluded — they set robots noindex in their metadata
