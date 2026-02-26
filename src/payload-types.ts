@@ -70,7 +70,6 @@ export interface Config {
     users: User;
     images: Image;
     videos: Video;
-    pages: Page;
     'legal-pages': LegalPage;
     'blog-posts': BlogPost;
     events: Event;
@@ -89,7 +88,6 @@ export interface Config {
     users: UsersSelect<false> | UsersSelect<true>;
     images: ImagesSelect<false> | ImagesSelect<true>;
     videos: VideosSelect<false> | VideosSelect<true>;
-    pages: PagesSelect<false> | PagesSelect<true>;
     'legal-pages': LegalPagesSelect<false> | LegalPagesSelect<true>;
     'blog-posts': BlogPostsSelect<false> | BlogPostsSelect<true>;
     events: EventsSelect<false> | EventsSelect<true>;
@@ -273,63 +271,6 @@ export interface Video {
   height?: number | null;
   focalX?: number | null;
   focalY?: number | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "pages".
- */
-export interface Page {
-  id: string;
-  slug: string;
-  status?: ('draft' | 'published') | null;
-  publishedAt?: string | null;
-  title: string;
-  /**
-   * Short description used for SEO and previews
-   */
-  excerpt?: string | null;
-  content?: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
-  featuredImage?: (string | null) | Image;
-  meta?: {
-    title?: string | null;
-    description?: string | null;
-    /**
-     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
-     */
-    image?: (string | null) | Image;
-    /**
-     * When checked, this page will NOT appear in Google or other search results. Use this for private pages, thank-you pages, or pages still being worked on.
-     */
-    noIndex?: boolean | null;
-    /**
-     * When checked, search engines will not follow any links on this page. This is rarely needed - only use it if you don't want Google to discover other pages through links on this one.
-     */
-    noFollow?: boolean | null;
-    /**
-     * Leave this empty in most cases. Only fill this in if this page's content also exists at a different URL and you want to tell Google "the other URL is the main one." For example, if you republished a blog post from another site.
-     */
-    canonicalURL?: string | null;
-    /**
-     * How should this page appear when shared on Facebook or LinkedIn? "Website" works for most pages. Choose "Article" for blog posts or "Product" for shop items.
-     */
-    ogType?: ('website' | 'article' | 'product') | null;
-  };
-  updatedAt: string;
-  createdAt: string;
 }
 /**
  * Legal documents: Cookie Policy, Terms and Conditions, Privacy Policy.
@@ -1214,10 +1155,6 @@ export interface PayloadLockedDocument {
         value: string | Video;
       } | null)
     | ({
-        relationTo: 'pages';
-        value: string | Page;
-      } | null)
-    | ({
         relationTo: 'legal-pages';
         value: string | LegalPage;
       } | null)
@@ -1389,32 +1326,6 @@ export interface VideosSelect<T extends boolean = true> {
   height?: T;
   focalX?: T;
   focalY?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "pages_select".
- */
-export interface PagesSelect<T extends boolean = true> {
-  slug?: T;
-  status?: T;
-  publishedAt?: T;
-  title?: T;
-  excerpt?: T;
-  content?: T;
-  featuredImage?: T;
-  meta?:
-    | T
-    | {
-        title?: T;
-        description?: T;
-        image?: T;
-        noIndex?: T;
-        noFollow?: T;
-        canonicalURL?: T;
-        ogType?: T;
-      };
-  updatedAt?: T;
-  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

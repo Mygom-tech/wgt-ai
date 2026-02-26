@@ -32,7 +32,6 @@ import { s3Storage } from '@payloadcms/storage-s3'
 import { Users } from './collections/Users'
 import { Images } from './collections/Images'
 import { Videos } from './collections/Videos'
-import { Pages } from './collections/Pages'
 import { LegalPages } from './collections/LegalPages'
 import { Forms } from './collections/Forms'
 import { FormSubmissions } from './collections/FormSubmissions'
@@ -63,7 +62,7 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Users, Images, Videos, Pages, LegalPages, BlogPosts, Events, Forms, FormSubmissions, Testimonials, Partners, FaqItems],
+  collections: [Users, Images, Videos, LegalPages, BlogPosts, Events, Forms, FormSubmissions, Testimonials, Partners, FaqItems],
   globals: [SiteSettings, LandingPage, Newsletter, ContactsPage, BlogPage, EventsPage],
   editor: lexicalEditor({
     features: [

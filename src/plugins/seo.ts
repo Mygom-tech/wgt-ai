@@ -6,10 +6,10 @@ import type {
   GenerateImage,
 } from '@payloadcms/plugin-seo/types'
 import type { PayloadRequest } from 'payload'
-import type { BlogPost, Event, Page, SiteSetting } from '@/payload-types'
+import type { BlogPost, Event, SiteSetting } from '@/payload-types'
 import { getSiteUrl } from '@/lib/payload-data'
 
-type SeoDoc = Page | BlogPost | Event
+type SeoDoc = BlogPost | Event
 
 async function getSettingsFromReq(req: PayloadRequest): Promise<SiteSetting> {
   if (!req.context._siteSettings) {
@@ -44,10 +44,6 @@ const generateImage: GenerateImage<SeoDoc> = async ({ doc, req }) => {
   const metaImage = doc?.meta?.image
   if (metaImage) {
     return typeof metaImage === 'object' ? metaImage.id : metaImage
-  }
-  const featured = 'featuredImage' in doc ? doc.featuredImage : undefined
-  if (featured) {
-    return typeof featured === 'object' ? featured.id : featured
   }
   const keyVisual = 'keyVisual' in doc ? doc.keyVisual : undefined
   if (keyVisual) {
