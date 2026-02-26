@@ -37,7 +37,8 @@
     "cta": "Začít se učit"
   },
   "hero": {
-    "partnersLabel": "Partneři"
+    "partnersLabel": "Partneři",
+    "imageAlt": "Studenti se učí dovednosti umělé inteligence ve třídě"
   },
   "problem": {
     "backgroundWord": "EVOLUCE",

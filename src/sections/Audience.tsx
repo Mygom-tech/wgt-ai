@@ -143,7 +143,7 @@ export function Audience({ audience }: AudienceProps) {
                   {img?.url ? (
                     <Image
                       src={img.url}
-                      alt=""
+                      alt={img.alt || group.title}
                       fill
                       sizes="(max-width: 640px) 100vw, 50vw"
                       loading="lazy"

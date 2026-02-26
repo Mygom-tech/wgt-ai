@@ -288,7 +288,7 @@ export function Hero({ hero }: HeroProps) {
                     <Image
                       ref={imageRef}
                       src={heroImage.url!}
-                      alt={heroImage.alt || 'Students learning AI skills in a classroom'}
+                      alt={heroImage.alt || t('imageAlt')}
                       fill
                       sizes="(max-width: 1024px) 100vw, 45vw"
                       priority

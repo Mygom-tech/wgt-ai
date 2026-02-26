@@ -167,7 +167,7 @@ export function Footer({
                 {isPopulatedImage(logo) ? (
                   <Image
                     src={logo.url as string}
-                    alt={logo.alt || 'Mygom'}
+                    alt={logo.alt || ''}
                     height={24}
                     width={120}
                     className="h-6 w-auto object-contain brightness-0 invert"
@@ -281,7 +281,7 @@ export function Footer({
             <a
               href="https://mygom.tech"
               target="_blank"
-              rel="noopener"
+              rel="noopener noreferrer"
               className="text-white/40 hover:text-white transition-colors duration-200"
             >
               Mygom.tech

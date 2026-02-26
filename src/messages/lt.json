@@ -37,7 +37,8 @@
     "cta": "Pradėti mokytis"
   },
   "hero": {
-    "partnersLabel": "Partneriai"
+    "partnersLabel": "Partneriai",
+    "imageAlt": "Studentai mokosi dirbtinio intelekto įgūdžių klasėje"
   },
   "problem": {
     "backgroundWord": "EVOLIUCIJA",

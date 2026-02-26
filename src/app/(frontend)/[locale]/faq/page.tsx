@@ -94,6 +94,7 @@ export default async function FaqPage({ params }: Props) {
           subtitle={faqSection.subtitle}
           backgroundWord={faqSection.backgroundWord}
           items={faqDocs}
+          headingAs="h1"
         />
       )}
 

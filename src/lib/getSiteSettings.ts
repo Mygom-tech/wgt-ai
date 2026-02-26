@@ -9,7 +9,7 @@ import { globalTag } from './payload-data'
 const defaults: SiteSetting = {
   id: '',
   siteName: 'Jarune',
-  siteUrl: process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000',
+  siteUrl: process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000',
   defaultMeta: {},
   socialLinks: [],
   updatedAt: '',
@@ -45,7 +45,7 @@ export const getSiteSettings = cache(async (locale?: LocaleCode): Promise<SiteSe
 export const getEnabledLocales = cache(async (): Promise<LocaleCode[]> => {
   const settings = await getSiteSettings()
   const raw = settings.enabledLocales as string[] | null
-  if (!raw || raw.length === 0) return [defaultLocale]
+  if (!raw || raw.length === 0) return [...localeCodes]
   const valid = raw.filter((code): code is LocaleCode =>
     localeCodes.includes(code as LocaleCode),
   )

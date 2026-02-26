@@ -37,7 +37,8 @@
     "cta": "Sākt mācīties"
   },
   "hero": {
-    "partnersLabel": "Partneri"
+    "partnersLabel": "Partneri",
+    "imageAlt": "Studenti apgūst mākslīgā intelekta prasmes klasē"
   },
   "problem": {
     "backgroundWord": "EVOLŪCIJA",

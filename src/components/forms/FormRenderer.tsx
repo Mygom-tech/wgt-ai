@@ -139,6 +139,7 @@ export function FormRenderer({ form, submitAction, variant = 'dark' }: FormRende
       <input
         {...register('_hp')}
         type="text"
+        aria-label="Leave this field empty"
         className="absolute -left-[9999px] w-0 h-0 overflow-hidden"
         aria-hidden="true"
         tabIndex={-1}

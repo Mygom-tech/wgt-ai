@@ -15,9 +15,10 @@ type FAQProps = {
   subtitle?: string | null
   backgroundWord?: string | null
   items: FaqItem[]
+  headingAs?: 'h1' | 'h2'
 }
 
-export function FAQ({ eyebrow, heading, subtitle, backgroundWord, items }: FAQProps) {
+export function FAQ({ eyebrow, heading, subtitle, backgroundWord, items, headingAs = 'h2' }: FAQProps) {
   const sectionRef = useRef<HTMLElement>(null)
   const headerRef = useRef<HTMLDivElement>(null)
   const panelRefs = useRef<(HTMLDivElement | null)[]>([])
@@ -167,16 +168,21 @@ export function FAQ({ eyebrow, heading, subtitle, backgroundWord, items }: FAQPr
           <header ref={headerRef} className="flex flex-col gap-5 lg:gap-6 mb-12 lg:mb-0 lg:sticky lg:top-32 lg:self-start">
             {eyebrow && <Eyebrow label={eyebrow} color="primary" />}
 
-            <h2
-              id="faq-heading"
-              className="text-[clamp(2.5rem,6vw,5rem)] font-medium uppercase leading-[0.95] tracking-[-0.04em] font-heading text-foreground"
-            >
-              {heading.split(' ').map((word, i) => (
-                <span key={i} data-faq-word className="inline-block mr-[0.25em]">
-                  {word}
-                </span>
-              ))}
-            </h2>
+            {(() => {
+              const Heading = headingAs
+              return (
+                <Heading
+                  id="faq-heading"
+                  className="text-[clamp(2.5rem,6vw,5rem)] font-medium uppercase leading-[0.95] tracking-[-0.04em] font-heading text-foreground"
+                >
+                  {heading.split(' ').map((word, i) => (
+                    <span key={i} data-faq-word className="inline-block mr-[0.25em]">
+                      {word}
+                    </span>
+                  ))}
+                </Heading>
+              )
+            })()}
 
             {subtitle && (
               <>

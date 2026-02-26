@@ -160,13 +160,13 @@ export function CookieConsent() {
         </div>
       )}
 
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
         {showCustomize ? (
           <button
             onClick={handleSave}
             style={{
-              flex: 1,
-              padding: '0.5rem 1rem',
+              width: '100%',
+              padding: '0.6rem 1rem',
               backgroundColor: '#111827',
               color: '#fff',
               border: 'none',
@@ -183,8 +183,8 @@ export function CookieConsent() {
             <button
               onClick={handleAcceptAll}
               style={{
-                flex: 1,
-                padding: '0.5rem 1rem',
+                width: '100%',
+                padding: '0.6rem 1rem',
                 backgroundColor: '#111827',
                 color: '#fff',
                 border: 'none',
@@ -196,38 +196,40 @@ export function CookieConsent() {
             >
               {t('acceptAll')}
             </button>
-            <button
-              onClick={handleRejectAll}
-              style={{
-                flex: 1,
-                padding: '0.5rem 1rem',
-                backgroundColor: '#fff',
-                color: '#111827',
-                border: '1px solid #d1d5db',
-                borderRadius: '6px',
-                cursor: 'pointer',
-                fontWeight: 500,
-                fontSize: '14px',
-              }}
-            >
-              {t('rejectAll')}
-            </button>
-            <button
-              onClick={() => setShowCustomize(true)}
-              style={{
-                flex: 1,
-                padding: '0.5rem 1rem',
-                backgroundColor: '#fff',
-                color: '#111827',
-                border: '1px solid #d1d5db',
-                borderRadius: '6px',
-                cursor: 'pointer',
-                fontWeight: 500,
-                fontSize: '14px',
-              }}
-            >
-              {t('customize')}
-            </button>
+            <div style={{ display: 'flex', gap: '0.5rem' }}>
+              <button
+                onClick={handleRejectAll}
+                style={{
+                  flex: 1,
+                  padding: '0.6rem 1rem',
+                  backgroundColor: '#fff',
+                  color: '#111827',
+                  border: '1px solid #d1d5db',
+                  borderRadius: '6px',
+                  cursor: 'pointer',
+                  fontWeight: 500,
+                  fontSize: '14px',
+                }}
+              >
+                {t('rejectAll')}
+              </button>
+              <button
+                onClick={() => setShowCustomize(true)}
+                style={{
+                  flex: 1,
+                  padding: '0.6rem 1rem',
+                  backgroundColor: '#fff',
+                  color: '#111827',
+                  border: '1px solid #d1d5db',
+                  borderRadius: '6px',
+                  cursor: 'pointer',
+                  fontWeight: 500,
+                  fontSize: '14px',
+                }}
+              >
+                {t('customize')}
+              </button>
+            </div>
           </>
         )}
       </div>

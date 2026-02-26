@@ -37,7 +37,8 @@
     "cta": "Start Learning"
   },
   "hero": {
-    "partnersLabel": "Partners"
+    "partnersLabel": "Partners",
+    "imageAlt": "Students learning AI skills in a classroom"
   },
   "problem": {
     "backgroundWord": "EVOLUTION",

@@ -37,7 +37,7 @@ export function LogoRow({
         {logos.map((item, i) => {
           const img = item.image
           const src = typeof img === 'string' ? '' : img.url
-          const alt = typeof img === 'string' ? 'Partner Logo' : (img.alt || 'Partner Logo')
+          const alt = typeof img === 'string' ? '' : (img.alt || '')
 
           if (!src) return null
 

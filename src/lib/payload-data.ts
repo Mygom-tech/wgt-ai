@@ -23,7 +23,12 @@ export function globalTag(slug: string): string {
 // ─── Shared Helpers ──────────────────────────────────────────────────────────
 
 export function getSiteUrl(settings?: Pick<SiteSetting, 'siteUrl'> | null): string {
-  return settings?.siteUrl || process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
+  const cmsUrl = settings?.siteUrl
+  // Prefer env var when CMS still has the default localhost value
+  if (!cmsUrl || cmsUrl.includes('localhost')) {
+    return process.env.NEXT_PUBLIC_SITE_URL || cmsUrl || 'http://localhost:3000'
+  }
+  return cmsUrl
 }
 
 async function getPayloadSafe() {

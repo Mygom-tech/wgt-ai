@@ -211,6 +211,7 @@ export function CTA({ newsletter }: CTAProps) {
                   <input
                     type="text"
                     name="_hp"
+                    aria-label="Leave this field empty"
                     className="absolute -left-[9999px] w-0 h-0 overflow-hidden"
                     aria-hidden="true"
                     tabIndex={-1}

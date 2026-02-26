@@ -37,7 +37,8 @@
     "cta": "Începe să înveți"
   },
   "hero": {
-    "partnersLabel": "Parteneri"
+    "partnersLabel": "Parteneri",
+    "imageAlt": "Studenți care învață abilități de inteligență artificială în clasă"
   },
   "problem": {
     "backgroundWord": "EVOLUȚIE",

@@ -37,7 +37,8 @@
     "cta": "Започни да учиш"
   },
   "hero": {
-    "partnersLabel": "Партньори"
+    "partnersLabel": "Партньори",
+    "imageAlt": "Студенти учат умения за изкуствен интелект в класна стая"
   },
   "problem": {
     "backgroundWord": "ЕВОЛЮЦИЯ",

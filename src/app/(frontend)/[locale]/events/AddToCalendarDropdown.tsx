@@ -94,7 +94,7 @@ export function AddToCalendarDropdown({ event }: AddToCalendarDropdownProps) {
             role="menuitem"
             href={googleCalUrl}
             target="_blank"
-            rel="noopener"
+            rel="noopener noreferrer"
             onClick={(e) => e.stopPropagation()}
             className="block px-4 py-2 text-sm text-foreground hover:bg-background transition-colors"
           >

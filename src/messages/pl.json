@@ -37,7 +37,8 @@
     "cta": "Zacznij się uczyć"
   },
   "hero": {
-    "partnersLabel": "Partnerzy"
+    "partnersLabel": "Partnerzy",
+    "imageAlt": "Studenci uczą się umiejętności sztucznej inteligencji w klasie"
   },
   "problem": {
     "backgroundWord": "EWOLUCJA",

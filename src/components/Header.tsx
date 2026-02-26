@@ -128,7 +128,7 @@ export function Header({ enabledLocales, logo }: HeaderProps) {
                   {isPopulatedImage(logo) ? (
                     <Image
                       src={logo.url as string}
-                      alt={logo.alt || 'Mygom'}
+                      alt={logo.alt || ''}
                       height={24}
                       width={120}
                       className={cn(
