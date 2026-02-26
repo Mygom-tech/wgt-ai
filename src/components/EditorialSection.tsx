@@ -129,7 +129,7 @@ export function EditorialSection({
               ref={imageRef}
               className="relative aspect-[4/5] lg:aspect-[3/4] overflow-hidden shadow-2xl rounded-[2px]"
             >
-              <div data-editorial-image className="absolute inset-0 bg-border">
+              <div data-editorial-image className="absolute inset-x-0 -inset-y-[15%]">
                 {image?.url ? (
                   <Image
                     src={image.url}

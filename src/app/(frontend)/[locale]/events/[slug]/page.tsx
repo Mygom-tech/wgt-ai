@@ -290,10 +290,12 @@ export default async function EventDetailPage({ params }: Props) {
     event.registrationForm && typeof event.registrationForm === 'object'
       ? (event.registrationForm as Form)
       : null
+  const registrationFormId = registrationForm?.id ?? null
 
   async function handleEventFormSubmit(rawData: Record<string, string | boolean>) {
     'use server'
-    return submitForm(registrationForm!.id, locale, rawData)
+    if (!registrationFormId) throw new Error('No registration form configured')
+    return submitForm(registrationFormId, locale, rawData)
   }
 
   const formattedDate = formatDateRange(event.date, event.endDate, locale)
