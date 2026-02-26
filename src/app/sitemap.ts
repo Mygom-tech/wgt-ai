@@ -2,7 +2,7 @@ import type { MetadataRoute } from 'next'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import type { Image } from '@/payload-types'
-import { defaultLocale, getHtmlLang } from '@/i18n/locales'
+import { defaultLocale, getHtmlLang, localeCodes } from '@/i18n/locales'
 
 export const revalidate = 3600
 
@@ -60,7 +60,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const payload = await getPayload({ config })
 
     const settings = await payload.findGlobal({ slug: 'site-settings' })
-    const enabledLocales = (settings.enabledLocales as string[] | null) ?? [defaultLocale]
+    const enabledLocales = (settings.enabledLocales as string[] | null) ?? [...localeCodes]
 
     const entries: MetadataRoute.Sitemap = []
 

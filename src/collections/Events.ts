@@ -17,7 +17,7 @@ type UserWithRole = {
 }
 
 const revalidation = createCollectionRevalidationHooks('events', {
-  revalidatePaths: ['/events', '/events/{slug}'],
+  revalidatePaths: ['/events', '/events/{slug}', '/sitemap.xml'],
 })
 
 export const Events: CollectionConfig = {

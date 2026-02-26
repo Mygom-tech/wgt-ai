@@ -10,7 +10,7 @@ type UserWithRole = {
 }
 
 const revalidation = createCollectionRevalidationHooks('blog-posts', {
-  revalidatePaths: ['/blog', '/blog/{slug}'],
+  revalidatePaths: ['/blog', '/blog/{slug}', '/sitemap.xml'],
 })
 
 export const BlogPosts: CollectionConfig = {

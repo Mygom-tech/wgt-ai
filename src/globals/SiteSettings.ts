@@ -10,7 +10,9 @@ export const SiteSettings: GlobalConfig = {
     update: superAdminOnly,
   },
   hooks: {
-    afterChange: [createGlobalRevalidationHook('site-settings')],
+    afterChange: [createGlobalRevalidationHook('site-settings', {
+      revalidatePaths: ['/sitemap.xml'],
+    })],
   },
   fields: [
     {
