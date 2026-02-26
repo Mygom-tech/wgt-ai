@@ -335,7 +335,7 @@ export function EventsPageClient({ events, locale, hasNextPage }: EventsPageClie
               >
                 {dateFilteredAll.map((event) => (
                   <li key={event.id}>
-                    <EventCard event={event} locale={locale} />
+                    <EventCard event={event} locale={locale} isPast={!isUpcoming(event)} />
                   </li>
                 ))}
               </ul>
@@ -382,7 +382,7 @@ export function EventsPageClient({ events, locale, hasNextPage }: EventsPageClie
                     >
                       {pastEvents.map((event) => (
                         <li key={event.id}>
-                          <EventCard event={event} locale={locale} />
+                          <EventCard event={event} locale={locale} isPast />
                         </li>
                       ))}
                     </ul>

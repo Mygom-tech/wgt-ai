@@ -147,7 +147,9 @@
     "eventGallery": "Galerie",
     "loadMore": "Încarcă mai multe evenimente",
     "loading": "Se încarcă...",
-    "registerHeading": "Pregătiți să participați?"
+    "registerHeading": "Pregătiți să participați?",
+    "pastEvent": "Eveniment trecut",
+    "eventEnded": "Acest eveniment s-a încheiat"
   },
   "footer": {
     "navigationHeading": "Navigare",

@@ -21,6 +21,7 @@ type EventHeroProps = {
   format: string | null | undefined
   locale: string
   event: Event
+  isPast?: boolean
 }
 
 const formatTranslationKeys: Record<string, 'inPerson' | 'online' | 'hybrid'> = {
@@ -39,6 +40,7 @@ export function EventHero({
   format,
   locale,
   event,
+  isPast = false,
 }: EventHeroProps) {
   const containerRef = useRef<HTMLElement>(null)
   const imageRef = useRef<HTMLImageElement>(null)
@@ -271,10 +273,20 @@ export function EventHero({
                 </>
               )}
 
-              {/* Spacer pushes calendar to right on larger screens */}
+              {/* Spacer pushes action to right on larger screens */}
               <span className="hidden lg:block flex-1" aria-hidden="true" />
 
-              <AddToCalendarDropdown event={event} />
+              {isPast ? (
+                <span className="inline-flex items-center gap-1.5 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.15em] rounded-full bg-white/10 text-white/70">
+                  <svg aria-hidden="true" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                    <polyline points="22 4 12 14.01 9 11.01" />
+                  </svg>
+                  {t('pastEvent')}
+                </span>
+              ) : (
+                <AddToCalendarDropdown event={event} />
+              )}
             </div>
           </div>
         </Container>

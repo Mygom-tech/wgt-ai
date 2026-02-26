@@ -147,7 +147,9 @@
     "eventGallery": "Gallery",
     "loadMore": "Load more events",
     "loading": "Loading...",
-    "registerHeading": "Ready to join?"
+    "registerHeading": "Ready to join?",
+    "pastEvent": "Past Event",
+    "eventEnded": "This event has ended"
   },
   "footer": {
     "navigationHeading": "Navigation",

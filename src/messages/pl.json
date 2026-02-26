@@ -147,7 +147,9 @@
     "eventGallery": "Galeria",
     "loadMore": "Załaduj więcej wydarzeń",
     "loading": "Ładowanie...",
-    "registerHeading": "Gotowi dołączyć?"
+    "registerHeading": "Gotowi dołączyć?",
+    "pastEvent": "Wydarzenie zakończone",
+    "eventEnded": "To wydarzenie już się zakończyło"
   },
   "footer": {
     "navigationHeading": "Nawigacja",

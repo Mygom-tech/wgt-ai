@@ -84,7 +84,7 @@ export function Registration({ registration, form, submitAction }: RegistrationP
 
       <Container size="xl" className="relative z-10">
         {/* ─── Header ─── */}
-        <header ref={headerRef} className="flex flex-col gap-5 lg:gap-6 mb-16 lg:mb-20 max-w-3xl">
+        <header ref={headerRef} className="flex flex-col gap-5 lg:gap-6 mb-16 lg:mb-20">
           <Eyebrow label={t('eyebrow')} color="primary" />
 
           {heading && (
@@ -108,7 +108,7 @@ export function Registration({ registration, form, submitAction }: RegistrationP
           {subtitle && (
             <>
               <hr className="w-full h-[1px] bg-white/10 border-none" />
-              <p className="text-body-lg font-medium text-white/50 leading-relaxed tracking-tight max-w-xl">
+              <p className="text-body-lg font-medium text-white/50 leading-relaxed tracking-tight max-w-3xl">
                 {subtitle}
               </p>
             </>

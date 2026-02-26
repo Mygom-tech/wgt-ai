@@ -312,6 +312,11 @@ export default async function EventDetailPage({ params }: Props) {
     ? formatEventTime(event.timeFrom, event.timeTo, event.timeZone)
     : null
 
+  // Determine if event is past based on date
+  const eventDate = new Date(event.date)
+  eventDate.setHours(23, 59, 59, 999)
+  const isPast = eventDate < new Date()
+
   // ─── JSON-LD ────────────────────────────────────────────────────────────
 
   const breadcrumbJsonLd: WithContext<BreadcrumbList> = {
@@ -371,6 +376,7 @@ export default async function EventDetailPage({ params }: Props) {
         format={event.format}
         locale={locale}
         event={event}
+        isPast={isPast}
       />
 
       {/* Zone 2 — Excerpt + Body */}
@@ -497,8 +503,26 @@ export default async function EventDetailPage({ params }: Props) {
         </Section>
       )}
 
-      {/* Zone 5 — Registration */}
-      {(event.registrationUrl || registrationForm) && (
+      {/* Zone 5 — Registration / Past event notice */}
+      {isPast ? (
+        <Section variant="light">
+          <Container size="md" className="relative z-10">
+            <ScrollReveal>
+              <div className="flex flex-col items-center text-center py-6">
+                <div className="w-14 h-14 rounded-full bg-foreground/[0.06] flex items-center justify-center mb-5">
+                  <svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="text-muted">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                    <polyline points="22 4 12 14.01 9 11.01" />
+                  </svg>
+                </div>
+                <p className="text-sm font-semibold uppercase tracking-[0.15em] text-muted">
+                  {t('eventEnded')}
+                </p>
+              </div>
+            </ScrollReveal>
+          </Container>
+        </Section>
+      ) : (event.registrationUrl || registrationForm) ? (
         <Section variant="dark">
           <GridLines columns={16} rows={12} className="opacity-[0.02]" lineColor="rgba(255,255,255,0.12)" />
           <Container size="md" className="relative z-10">
@@ -560,7 +584,7 @@ export default async function EventDetailPage({ params }: Props) {
             )}
           </Container>
         </Section>
-      )}
+      ) : null}
 
       {/* Zone 6 — Newsletter CTA */}
       {newsletterData?.heading && (

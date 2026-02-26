@@ -147,7 +147,9 @@
     "eventGallery": "Galerie",
     "loadMore": "Načíst více událostí",
     "loading": "Načítání...",
-    "registerHeading": "Připraveni se přidat?"
+    "registerHeading": "Připraveni se přidat?",
+    "pastEvent": "Uplynulá akce",
+    "eventEnded": "Tato akce již skončila"
   },
   "footer": {
     "navigationHeading": "Navigace",

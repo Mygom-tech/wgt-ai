@@ -147,7 +147,9 @@
     "eventGallery": "Галерия",
     "loadMore": "Зареди още събития",
     "loading": "Зареждане...",
-    "registerHeading": "Готови ли сте да се присъедините?"
+    "registerHeading": "Готови ли сте да се присъедините?",
+    "pastEvent": "Минало събитие",
+    "eventEnded": "Това събитие вече приключи"
   },
   "footer": {
     "navigationHeading": "Навигация",

@@ -10,6 +10,7 @@ import type { Event, Image } from '@/payload-types'
 type EventCardProps = {
   event: Event
   locale: string
+  isPast?: boolean
 }
 
 const formatBadgeStyles: Record<string, string> = {
@@ -62,7 +63,7 @@ function formatEventTime(
   return result
 }
 
-export function EventCard({ event, locale }: EventCardProps) {
+export function EventCard({ event, locale, isPast = false }: EventCardProps) {
   const t = useTranslations('events')
 
   const galleryImages = (event.gallery || []).filter(
@@ -121,18 +122,30 @@ export function EventCard({ event, locale }: EventCardProps) {
       </Link>
 
       <div className="flex items-center gap-3 px-6 pb-6 pt-0">
-        {hasRegistration && (
-          <a
-            href={event.registrationUrl!}
-            target="_blank"
-            rel="noopener"
-            className="inline-flex items-center px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.15em] bg-primary text-white rounded-full hover:bg-primary/90 transition-colors"
-            onClick={(e) => e.stopPropagation()}
-          >
-            {t('register')}
-          </a>
+        {isPast ? (
+          <span className="inline-flex items-center gap-1.5 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.15em] rounded-full bg-foreground/[0.06] text-muted">
+            <svg aria-hidden="true" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-muted">
+              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+              <polyline points="22 4 12 14.01 9 11.01" />
+            </svg>
+            {t('pastEvent')}
+          </span>
+        ) : (
+          <>
+            {hasRegistration && (
+              <a
+                href={event.registrationUrl!}
+                target="_blank"
+                rel="noopener"
+                className="inline-flex items-center px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.15em] bg-primary text-white rounded-full hover:bg-primary/90 transition-colors"
+                onClick={(e) => e.stopPropagation()}
+              >
+                {t('register')}
+              </a>
+            )}
+            <AddToCalendarDropdown event={event} />
+          </>
         )}
-        <AddToCalendarDropdown event={event} />
       </div>
     </article>
   )

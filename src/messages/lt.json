@@ -147,7 +147,9 @@
     "eventGallery": "Galerija",
     "loadMore": "Rodyti daugiau renginių",
     "loading": "Kraunama...",
-    "registerHeading": "Pasiruošę dalyvauti?"
+    "registerHeading": "Pasiruošę dalyvauti?",
+    "pastEvent": "Praėjęs renginys",
+    "eventEnded": "Šis renginys jau pasibaigė"
   },
   "footer": {
     "navigationHeading": "Navigacija",

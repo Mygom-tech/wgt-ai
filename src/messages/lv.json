@@ -147,7 +147,9 @@
     "eventGallery": "Galerija",
     "loadMore": "Ielādēt vairāk pasākumu",
     "loading": "Ielādē...",
-    "registerHeading": "Gatavi piedalīties?"
+    "registerHeading": "Gatavi piedalīties?",
+    "pastEvent": "Pagājis pasākums",
+    "eventEnded": "Šis pasākums jau ir beidzies"
   },
   "footer": {
     "navigationHeading": "Navigācija",
