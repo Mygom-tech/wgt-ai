@@ -123,13 +123,20 @@ export function EventHero({
   )
 
   const renderChars = (text: string) =>
-    text.split('').map((char, i) => (
-      <span
-        key={i}
-        data-event-char
-        className="inline-block origin-top opacity-0"
-      >
-        {char === ' ' ? '\u00A0' : char}
+    text.split(' ').map((word, wi) => (
+      <span key={wi} className="inline-block whitespace-nowrap">
+        {word.split('').map((char, ci) => (
+          <span
+            key={ci}
+            data-event-char
+            className="inline-block origin-top opacity-0"
+          >
+            {char}
+          </span>
+        ))}
+        {wi < text.split(' ').length - 1 && (
+          <span data-event-char className="inline-block origin-top opacity-0">{'\u00A0'}</span>
+        )}
       </span>
     ))
 
