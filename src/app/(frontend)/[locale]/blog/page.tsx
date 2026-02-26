@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import NextImage from 'next/image'
-import { getTranslations } from 'next-intl/server'
+import { getTranslations, setRequestLocale } from 'next-intl/server'
 import { Section } from '@/components/ui/Section'
 import { Container } from '@/components/ui/Container'
 import { GridLines } from '@/components/ui/GridLines'
@@ -116,6 +116,7 @@ function BlogCard({ post, locale }: { post: BlogPost; locale: string }) {
 
 export default async function BlogListPage({ params }: Props) {
   const { locale } = await params
+  setRequestLocale(locale)
 
   const [result, blogPageData, newsletterData, settings, t] = await Promise.all([
     queryCollection('blog-posts', {

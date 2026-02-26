@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { getTranslations } from 'next-intl/server'
+import { getTranslations, setRequestLocale } from 'next-intl/server'
 import { Section } from '@/components/ui/Section'
 import { Container } from '@/components/ui/Container'
 import { GridLines } from '@/components/ui/GridLines'
@@ -128,6 +128,7 @@ function buildEventLocation(
 
 export default async function EventsListPage({ params }: Props) {
   const { locale } = await params
+  setRequestLocale(locale)
 
   const [result, eventsPageData, settings, newsletterData, t] = await Promise.all([
     queryCollection('events', {

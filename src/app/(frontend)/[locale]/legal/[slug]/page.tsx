@@ -10,6 +10,7 @@ import { queryBySlug, queryCollection, getSiteUrl } from '@/lib/payload-data'
 import { getSiteSettings, getEnabledLocales } from '@/lib/getSiteSettings'
 import { generateBreadcrumbJsonLd, buildAlternateLanguages } from '@/lib/generateMeta'
 import { defaultLocale, getHtmlLang, type LocaleCode } from '@/i18n/locales'
+import { setRequestLocale } from 'next-intl/server'
 import type { LegalPage } from '@/payload-types'
 import type { LexicalRootData } from '@/components/RichTextRenderer'
 
@@ -67,6 +68,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function LegalPageRoute({ params }: Props) {
   const { locale, slug } = await params
+  setRequestLocale(locale)
 
   const [doc, settings] = await Promise.all([
     queryBySlug('legal-pages', slug, { locale: locale as LocaleCode }),

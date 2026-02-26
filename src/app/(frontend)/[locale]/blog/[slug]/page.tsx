@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import NextImage from 'next/image'
 import { notFound } from 'next/navigation'
-import { getTranslations } from 'next-intl/server'
+import { getTranslations, setRequestLocale } from 'next-intl/server'
 import type { Article, BreadcrumbList, WithContext } from 'schema-dts'
 import { Section } from '@/components/ui/Section'
 import { Container } from '@/components/ui/Container'
@@ -119,6 +119,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function BlogPostPage({ params }: Props) {
   const { locale, slug } = await params
+  setRequestLocale(locale)
 
   const [doc, blogPageData, newsletterData, settings, t] = await Promise.all([
     queryBySlug('blog-posts', slug, { locale: locale as LocaleCode, depth: 2 }),

@@ -3,7 +3,7 @@ import type { Metadata, Viewport } from 'next'
 import type { Organization, WebSite, WithContext } from 'schema-dts'
 import { Inter, Jost } from 'next/font/google'
 import { NextIntlClientProvider } from 'next-intl'
-import { getMessages } from 'next-intl/server'
+import { getMessages, setRequestLocale } from 'next-intl/server'
 import { redirect } from 'next/navigation'
 import { JsonLd } from '@/components/JsonLd'
 import { GoogleTagManager, GoogleTagManagerNoScript } from '@/components/GoogleTagManager'
@@ -99,6 +99,8 @@ export default async function LocaleLayout({ children, params }: Props) {
   if (!enabledLocales.includes(locale as LocaleCode)) {
     redirect('/')
   }
+
+  setRequestLocale(locale)
 
   const [settings, newsletterData, messages] = await Promise.all([
     getSiteSettings(locale as LocaleCode),

@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { getTranslations } from 'next-intl/server'
+import { getTranslations, setRequestLocale } from 'next-intl/server'
 import { ContactsHero } from '@/sections/ContactsHero'
 import { FAQ } from '@/sections/FAQ'
 import { JsonLd } from '@/components/JsonLd'
@@ -65,6 +65,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function ContactsPage({ params }: Props) {
   const { locale } = await params
+  setRequestLocale(locale)
   const t = await getTranslations({ locale, namespace: 'contacts' })
 
   const [contactsData, faqResult, settings] = await Promise.all([
