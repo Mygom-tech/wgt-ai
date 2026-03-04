@@ -9,7 +9,7 @@ import {
   CheckboxField,
 } from '@/blocks/form-fields'
 
-const revalidation = createCollectionRevalidationHooks('forms')
+const revalidation = createCollectionRevalidationHooks('forms', { revalidateAll: true })
 
 export const Forms: CollectionConfig = {
   slug: 'forms',

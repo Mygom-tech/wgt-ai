@@ -2,7 +2,7 @@ import type { CollectionConfig } from 'payload'
 import { createCollectionRevalidationHooks } from '@/lib/revalidation'
 import { publicRead, adminAccess } from '@/lib/access'
 
-const revalidation = createCollectionRevalidationHooks('images')
+const revalidation = createCollectionRevalidationHooks('images', { revalidateAll: true })
 
 export const Images: CollectionConfig = {
   slug: 'images',

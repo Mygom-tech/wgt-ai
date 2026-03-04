@@ -13,7 +13,10 @@ export const Newsletter: GlobalConfig = {
     update: superAdminOnly,
   },
   hooks: {
-    afterChange: [createGlobalRevalidationHook('newsletter', { revalidatePaths: ['/'] })],
+    afterChange: [createGlobalRevalidationHook('newsletter', {
+      revalidateAll: true,
+      revalidatePaths: ['/'],
+    })],
   },
   fields: [
     {

@@ -11,6 +11,7 @@ export const SiteSettings: GlobalConfig = {
   },
   hooks: {
     afterChange: [createGlobalRevalidationHook('site-settings', {
+      revalidateAll: true,
       revalidatePaths: ['/sitemap.xml'],
     })],
   },

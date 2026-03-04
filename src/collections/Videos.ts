@@ -2,7 +2,9 @@ import type { CollectionConfig } from 'payload'
 import { createCollectionRevalidationHooks } from '@/lib/revalidation'
 import { publicRead, adminAccess } from '@/lib/access'
 
-const revalidation = createCollectionRevalidationHooks('videos')
+const revalidation = createCollectionRevalidationHooks('videos', {
+  revalidatePaths: ['/', '/blog', '/events'],
+})
 
 export const Videos: CollectionConfig = {
   slug: 'videos',

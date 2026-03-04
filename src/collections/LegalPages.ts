@@ -2,7 +2,9 @@ import type { CollectionConfig } from 'payload'
 import { createCollectionRevalidationHooks } from '@/lib/revalidation'
 import { adminAccess, enforceLocaleAccess } from '@/lib/access'
 
-const revalidation = createCollectionRevalidationHooks('legal-pages')
+const revalidation = createCollectionRevalidationHooks('legal-pages', {
+  revalidatePaths: ['/{slug}'],
+})
 
 export const LegalPages: CollectionConfig = {
   slug: 'legal-pages',
