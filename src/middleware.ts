@@ -1,7 +1,7 @@
 import createMiddleware from 'next-intl/middleware'
-import { type NextRequest } from 'next/server'
+import { type NextRequest, NextResponse } from 'next/server'
 import { routing } from './i18n/routing'
-import { localeCodes } from './i18n/locales'
+import { defaultLocale, localeCodes } from './i18n/locales'
 
 const intlMiddleware = createMiddleware(routing)
 
@@ -60,7 +60,22 @@ function getGeoCountry(request: NextRequest): string | null {
 
 const COOKIE_NAME = 'NEXT_LOCALE'
 
+const FALLBACK_PARAM = '__fallback'
+
 export default function middleware(request: NextRequest) {
+  // Layout redirects here when the locale is not enabled in the CMS.
+  // Reset the cookie to the default locale and redirect to a clean URL.
+  if (request.nextUrl.searchParams.has(FALLBACK_PARAM)) {
+    const url = request.nextUrl.clone()
+    url.searchParams.delete(FALLBACK_PARAM)
+    url.pathname = '/'
+
+    request.cookies.set(COOKIE_NAME, defaultLocale)
+    const response = NextResponse.redirect(url)
+    response.cookies.set(COOKIE_NAME, defaultLocale, { path: '/' })
+    return response
+  }
+
   // If user has no locale cookie yet, try to detect from geo IP
   if (!request.cookies.has(COOKIE_NAME)) {
     const country = getGeoCountry(request)

@@ -97,7 +97,7 @@ export default async function LocaleLayout({ children, params }: Props) {
 
   const enabledLocales = await getEnabledLocales()
   if (!enabledLocales.includes(locale as LocaleCode)) {
-    redirect('/')
+    redirect('/?__fallback=1')
   }
 
   setRequestLocale(locale)
