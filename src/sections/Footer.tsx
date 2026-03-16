@@ -36,7 +36,7 @@ const quickLinks = [
 ] as const
 
 const legalLinks = [
-  { key: 'terms', href: '/legal/terms-and-conditions' },
+  { key: 'terms', href: '/legal/terms' },
   { key: 'privacy', href: '/legal/privacy-policy' },
   { key: 'cookies', href: '/legal/cookie-policy' },
 ] as const
@@ -152,7 +152,12 @@ export function Footer({
 
   return (
     <Section ref={sectionRef} variant="dark" noPadding>
-      <GridLines columns={16} rows={8} className="opacity-[0.02]" lineColor="rgba(255,255,255,0.12)" />
+      <GridLines
+        columns={16}
+        rows={8}
+        className="opacity-[0.02]"
+        lineColor="rgba(255,255,255,0.12)"
+      />
 
       <Container size="xl" as="footer" className="relative z-10">
         <div ref={contentRef}>
@@ -163,7 +168,11 @@ export function Footer({
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8 pt-16 lg:pt-20 pb-12 lg:pb-16">
             {/* Col 1: Logo */}
             <div data-footer-col>
-              <Link href="/" aria-label="Home" className="inline-block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40 rounded-sm">
+              <Link
+                href="/"
+                aria-label="Home"
+                className="inline-block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40 rounded-sm"
+              >
                 {isPopulatedImage(logo) ? (
                   <Image
                     src={logo.url as string}
@@ -241,7 +250,11 @@ export function Footer({
               {socialLinks && socialLinks.length > 0 && (
                 <div className="mt-6">
                   <h4 className={headingClasses}>{t('socialHeading')}</h4>
-                  <ul role="list" aria-label={t('aria.socialLinks')} className="flex items-center gap-1">
+                  <ul
+                    role="list"
+                    aria-label={t('aria.socialLinks')}
+                    className="flex items-center gap-1"
+                  >
                     {socialLinks.map((link) => (
                       <li key={link.id || link.platform}>
                         <a
@@ -269,9 +282,7 @@ export function Footer({
             data-footer-bottom
             className="border-t border-white/[0.08] py-6 flex flex-col sm:flex-row items-center justify-between gap-4"
           >
-            {footerText && (
-              <p className="text-xs text-white/40 tracking-wide">{footerText}</p>
-            )}
+            {footerText && <p className="text-xs text-white/40 tracking-wide">{footerText}</p>}
             <LanguageSelector enabledLocales={enabledLocales} placement="top" variant="dark" />
           </div>
 
@@ -285,8 +296,8 @@ export function Footer({
               className="text-white/40 hover:text-white transition-colors duration-200"
             >
               Mygom.tech
-            </a>
-            {' '}with <span className="text-red-400">&#9829;</span>
+            </a>{' '}
+            with <span className="text-red-400">&#9829;</span>
           </p>
         </div>
       </Container>
