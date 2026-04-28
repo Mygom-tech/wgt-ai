@@ -72,6 +72,16 @@ export const Forms: CollectionConfig = {
       },
     },
     {
+      name: 'notifyAdmin',
+      type: 'checkbox',
+      defaultValue: false,
+      admin: {
+        description:
+          'Email country/super admins on each submission. Submissions are always saved in the CMS regardless.',
+        position: 'sidebar',
+      },
+    },
+    {
       name: 'successMessage',
       type: 'textarea',
       localized: true,
