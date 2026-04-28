@@ -913,13 +913,26 @@ export interface Form {
    */
   title: string;
   /**
-   * Every form includes an email field. Customize its label and placeholder.
+   * Every form includes an email field. It is always shown on the first step. Customize its label and placeholder.
    */
   emailField: {
     label: string;
     placeholder?: string | null;
   };
-  fields?: (TextFieldBlock | PhoneFieldBlock | TextareaFieldBlock | SelectFieldBlock | CheckboxFieldBlock)[] | null;
+  /**
+   * Forms are split into steps. With one step the form renders as a single page; with multiple steps a wizard with progress indicator and Previous/Next buttons is rendered. Field names must be unique across all steps.
+   */
+  steps: {
+    /**
+     * Optional step label shown in the indicator. Falls back to step number.
+     */
+    label?: string | null;
+    /**
+     * Each step must contain at least one field.
+     */
+    fields: (TextFieldBlock | PhoneFieldBlock | TextareaFieldBlock | SelectFieldBlock | CheckboxFieldBlock)[];
+    id?: string | null;
+  }[];
   /**
    * MailerLite group ID for subscriber syncing
    */
@@ -942,7 +955,7 @@ export interface Form {
 export interface TextFieldBlock {
   label: string;
   /**
-   * URL-safe identifier
+   * URL-safe identifier. Letters, numbers, underscores and hyphens only. Must start with a letter or underscore. No dots, brackets, or spaces.
    */
   name: string;
   placeholder?: string | null;
@@ -958,6 +971,9 @@ export interface TextFieldBlock {
  */
 export interface PhoneFieldBlock {
   label: string;
+  /**
+   * URL-safe identifier. Letters, numbers, underscores and hyphens only. Must start with a letter or underscore. No dots, brackets, or spaces.
+   */
   name: string;
   placeholder?: string | null;
   required?: boolean | null;
@@ -971,6 +987,9 @@ export interface PhoneFieldBlock {
  */
 export interface TextareaFieldBlock {
   label: string;
+  /**
+   * URL-safe identifier. Letters, numbers, underscores and hyphens only. Must start with a letter or underscore. No dots, brackets, or spaces.
+   */
   name: string;
   placeholder?: string | null;
   required?: boolean | null;
@@ -985,6 +1004,9 @@ export interface TextareaFieldBlock {
  */
 export interface SelectFieldBlock {
   label: string;
+  /**
+   * URL-safe identifier. Letters, numbers, underscores and hyphens only. Must start with a letter or underscore. No dots, brackets, or spaces.
+   */
   name: string;
   required?: boolean | null;
   options?:
@@ -1004,6 +1026,9 @@ export interface SelectFieldBlock {
  */
 export interface CheckboxFieldBlock {
   label: string;
+  /**
+   * URL-safe identifier. Letters, numbers, underscores and hyphens only. Must start with a letter or underscore. No dots, brackets, or spaces.
+   */
   name: string;
   required?: boolean | null;
   id?: string | null;
@@ -1433,14 +1458,20 @@ export interface FormsSelect<T extends boolean = true> {
         label?: T;
         placeholder?: T;
       };
-  fields?:
+  steps?:
     | T
     | {
-        textField?: T | TextFieldBlockSelect<T>;
-        phoneField?: T | PhoneFieldBlockSelect<T>;
-        textareaField?: T | TextareaFieldBlockSelect<T>;
-        selectField?: T | SelectFieldBlockSelect<T>;
-        checkboxField?: T | CheckboxFieldBlockSelect<T>;
+        label?: T;
+        fields?:
+          | T
+          | {
+              textField?: T | TextFieldBlockSelect<T>;
+              phoneField?: T | PhoneFieldBlockSelect<T>;
+              textareaField?: T | TextareaFieldBlockSelect<T>;
+              selectField?: T | SelectFieldBlockSelect<T>;
+              checkboxField?: T | CheckboxFieldBlockSelect<T>;
+            };
+        id?: T;
       };
   mailerliteGroupId?: T;
   notifyAdmin?: T;

@@ -8,7 +8,8 @@ import { notifyAdmins, sendConfirmationEmail } from '@/lib/resend'
 import type { ServiceResult } from '@/lib/service-result'
 import type { Form, FormSubmission } from '@/payload-types'
 
-type FormField = NonNullable<Form['fields']>[number]
+type FormStep = NonNullable<Form['steps']>[number]
+type FormField = NonNullable<FormStep['fields']>[number]
 
 export async function submitForm(
   formId: string,
@@ -39,7 +40,7 @@ export async function submitForm(
     return { success: false, message: 'Form not found' }
   }
 
-  const fields = form.fields ?? []
+  const fields: FormField[] = (form.steps ?? []).flatMap((step) => step.fields ?? [])
 
   // Build zod schema dynamically from form fields
   const schemaShape: Record<string, z.ZodType> = {}

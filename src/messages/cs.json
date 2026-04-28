@@ -69,7 +69,9 @@
     "successTitle": "Děkujeme!",
     "errorTitle": "Něco se pokazilo",
     "required": "Toto pole je povinné",
-    "invalidEmail": "Zadejte platný e-mail"
+    "invalidEmail": "Zadejte platný e-mail",
+    "previous": "Zpět",
+    "next": "Další"
   },
   "newsletter": {
     "eyebrow": "Newsletter",

@@ -69,7 +69,9 @@
     "successTitle": "Paldies!",
     "errorTitle": "Kaut kas nogāja greizi",
     "required": "Šis lauks ir obligāts",
-    "invalidEmail": "Lūdzu ievadiet derīgu e-pastu"
+    "invalidEmail": "Lūdzu ievadiet derīgu e-pastu",
+    "previous": "Atpakaļ",
+    "next": "Tālāk"
   },
   "newsletter": {
     "eyebrow": "Jaunumu vēstule",
