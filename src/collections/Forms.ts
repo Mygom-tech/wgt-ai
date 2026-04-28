@@ -63,7 +63,6 @@ export const Forms: CollectionConfig = {
       type: 'array',
       required: true,
       minRows: 1,
-      defaultValue: [{ fields: [] }],
       admin: {
         description:
           'Forms are split into steps. With one step the form renders as a single page; with multiple steps a wizard with progress indicator and Previous/Next buttons is rendered. Field names must be unique across all steps.',

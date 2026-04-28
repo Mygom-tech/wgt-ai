@@ -71,7 +71,8 @@
     "required": "Šis laukas privalomas",
     "invalidEmail": "Įveskite teisingą el. paštą",
     "previous": "Atgal",
-    "next": "Toliau"
+    "next": "Toliau",
+    "stepIndicator": "Žingsnis {current} iš {total}"
   },
   "newsletter": {
     "eyebrow": "Naujienlaiškis",

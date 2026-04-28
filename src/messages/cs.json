@@ -71,7 +71,8 @@
     "required": "Toto pole je povinné",
     "invalidEmail": "Zadejte platný e-mail",
     "previous": "Zpět",
-    "next": "Další"
+    "next": "Další",
+    "stepIndicator": "Krok {current} z {total}"
   },
   "newsletter": {
     "eyebrow": "Newsletter",

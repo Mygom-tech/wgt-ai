@@ -71,7 +71,8 @@
     "required": "To pole jest wymagane",
     "invalidEmail": "Podaj prawidłowy adres e-mail",
     "previous": "Wstecz",
-    "next": "Dalej"
+    "next": "Dalej",
+    "stepIndicator": "Krok {current} z {total}"
   },
   "newsletter": {
     "eyebrow": "Newsletter",

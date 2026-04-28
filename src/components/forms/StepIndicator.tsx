@@ -1,5 +1,6 @@
 'use client'
 
+import { useTranslations } from 'next-intl'
 import { cn } from '@/lib/utils'
 import type { FormVariant } from './styles'
 
@@ -10,10 +11,15 @@ type StepIndicatorProps = {
 }
 
 export function StepIndicator({ steps, current, variant = 'dark' }: StepIndicatorProps) {
+  const t = useTranslations('registration')
   const total = steps.length
 
   return (
-    <div className="mb-10" role="group" aria-label={`Step ${current + 1} of ${total}`}>
+    <div
+      className="mb-10"
+      role="group"
+      aria-label={t('stepIndicator', { current: current + 1, total })}
+    >
       <div className="flex items-center gap-2 sm:gap-3">
         {steps.map((step, i) => {
           const isActive = i === current
