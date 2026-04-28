@@ -265,7 +265,7 @@ export function MobileMenu({ isOpen, onClose, enabledLocales, ctaText, navLinks 
             <NavHashLink
               hash="#register"
               onClick={handleLinkClick}
-              className="inline-flex w-full items-center justify-center rounded-full bg-[#111111] px-6 py-3 text-sm font-medium text-white transition-all duration-300 ease-out hover:bg-[#333333] hover:scale-[1.02] active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#111111] focus-visible:ring-offset-2"
+              className="inline-flex w-full items-center justify-center rounded-full bg-secondary px-6 py-3 text-sm font-medium text-foreground transition-all duration-300 ease-out hover:bg-primary hover:text-white hover:scale-[1.02] active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground focus-visible:ring-offset-2"
             >
               {ctaText}
             </NavHashLink>

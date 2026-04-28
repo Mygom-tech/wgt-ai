@@ -201,7 +201,7 @@ export function FormRenderer({ form, submitAction, variant = 'dark' }: FormRende
       <button
         type="submit"
         disabled={isSubmitting}
-        className="mt-10 w-full border border-primary bg-primary px-8 py-4 text-[11px] font-semibold uppercase tracking-[0.4em] text-primary-foreground transition-all hover:bg-primary/90 disabled:opacity-40 disabled:cursor-not-allowed rounded-[2px]"
+        className="mt-10 w-full border border-secondary bg-secondary px-8 py-4 text-[11px] font-semibold uppercase tracking-[0.4em] text-foreground transition-all hover:border-primary hover:bg-primary hover:text-white disabled:opacity-40 disabled:cursor-not-allowed rounded-[2px]"
       >
         {isSubmitting ? t('submitting') : t('submitButton')}
       </button>

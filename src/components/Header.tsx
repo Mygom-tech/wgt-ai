@@ -29,7 +29,7 @@ export function Header({ enabledLocales, logo }: HeaderProps) {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isDarkHero, setIsDarkHero] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-  
+
   const headerRef = useRef<HTMLElement>(null)
   const logoRef = useRef<HTMLDivElement>(null)
   const navRef = useRef<HTMLElement>(null)
@@ -64,43 +64,45 @@ export function Header({ enabledLocales, logo }: HeaderProps) {
   }, [])
 
   // ─── Entrance Animation ────────────────────────────────────────
-  useGSAP(() => {
-    const logoEl = logoRef.current
-    const navEl = navRef.current
-    const actionsEl = actionsRef.current
-    
-    if (!logoEl || !navEl || !actionsEl) return
+  useGSAP(
+    () => {
+      const logoEl = logoRef.current
+      const navEl = navRef.current
+      const actionsEl = actionsRef.current
 
-    const links = navEl.querySelectorAll('[data-nav-link]')
+      if (!logoEl || !navEl || !actionsEl) return
 
-    // Reduced motion: show all elements immediately, skip animation
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    if (prefersReducedMotion) {
-      gsap.set([logoEl, actionsEl], { opacity: 1 })
-      gsap.set(links, { opacity: 1 })
-      return
-    }
+      const links = navEl.querySelectorAll('[data-nav-link]')
 
-    // Transform initial states (opacity handled by CSS opacity-0)
-    gsap.set([logoEl, actionsEl], { y: -15 })
-    gsap.set(links, { y: -10 })
+      // Reduced motion: show all elements immediately, skip animation
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      if (prefersReducedMotion) {
+        gsap.set([logoEl, actionsEl], { opacity: 1 })
+        gsap.set(links, { opacity: 1 })
+        return
+      }
 
-    const tl = gsap.timeline({ paused: true, delay: 0.1 })
+      // Transform initial states (opacity handled by CSS opacity-0)
+      gsap.set([logoEl, actionsEl], { y: -15 })
+      gsap.set(links, { y: -10 })
 
-    tl.to(logoEl, { y: 0, opacity: 1, duration: 0.8, ease: 'power3.out' }, 0)
-    tl.to(links, { y: 0, opacity: 1, stagger: 0.06, duration: 0.7, ease: 'power3.out' }, 0.1)
-    tl.to(actionsEl, { y: 0, opacity: 1, duration: 0.8, ease: 'power3.out' }, 0.2)
+      const tl = gsap.timeline({ paused: true, delay: 0.1 })
 
-    const isPreloaderDone = document.body.classList.contains('preloader-done')
-    if (isPreloaderDone) {
-      tl.play()
-    } else {
-      const handleStartExit = () => tl.play()
-      window.addEventListener('preloaderStartExit', handleStartExit)
-      return () => window.removeEventListener('preloaderStartExit', handleStartExit)
-    }
-  }, { scope: headerRef })
+      tl.to(logoEl, { y: 0, opacity: 1, duration: 0.8, ease: 'power3.out' }, 0)
+      tl.to(links, { y: 0, opacity: 1, stagger: 0.06, duration: 0.7, ease: 'power3.out' }, 0.1)
+      tl.to(actionsEl, { y: 0, opacity: 1, duration: 0.8, ease: 'power3.out' }, 0.2)
 
+      const isPreloaderDone = document.body.classList.contains('preloader-done')
+      if (isPreloaderDone) {
+        tl.play()
+      } else {
+        const handleStartExit = () => tl.play()
+        window.addEventListener('preloaderStartExit', handleStartExit)
+        return () => window.removeEventListener('preloaderStartExit', handleStartExit)
+      }
+    },
+    { scope: headerRef },
+  )
 
   const toggleMobileMenu = useCallback(() => setIsMobileMenuOpen((prev) => !prev), [])
   const closeMobileMenu = useCallback(() => setIsMobileMenuOpen(false), [])
@@ -116,7 +118,7 @@ export function Header({ enabledLocales, logo }: HeaderProps) {
           'fixed top-0 left-0 right-0 z-50 transition-all duration-700 ease-expo',
           isScrolled
             ? 'bg-white/90 backdrop-blur-xl border-b border-foreground/5 py-3'
-            : 'bg-transparent border-transparent py-6'
+            : 'bg-transparent border-transparent py-6',
         )}
       >
         <Container size="xl">
@@ -124,7 +126,11 @@ export function Header({ enabledLocales, logo }: HeaderProps) {
             {/* Minimalist Logo */}
             <div ref={logoRef} className="opacity-0">
               <MagneticButton strength={0.1}>
-                <Link href="/" aria-label="Go to homepage" className="flex items-center gap-2 group relative z-10">
+                <Link
+                  href="/"
+                  aria-label="Go to homepage"
+                  className="flex items-center gap-2 group relative z-10"
+                >
                   {isPopulatedImage(logo) ? (
                     <Image
                       src={logo.url as string}
@@ -137,10 +143,12 @@ export function Header({ enabledLocales, logo }: HeaderProps) {
                       )}
                     />
                   ) : (
-                    <span className={cn(
-                      'text-sm font-bold tracking-[-0.02em] uppercase font-heading transition-colors duration-700',
-                      isLight ? 'text-white' : 'text-foreground',
-                    )}>
+                    <span
+                      className={cn(
+                        'text-sm font-bold tracking-[-0.02em] uppercase font-heading transition-colors duration-700',
+                        isLight ? 'text-white' : 'text-foreground',
+                      )}
+                    >
                       Mygom
                     </span>
                   )}
@@ -149,7 +157,11 @@ export function Header({ enabledLocales, logo }: HeaderProps) {
             </div>
 
             {/* Desktop Nav - Architectural & Clean */}
-            <nav ref={navRef} aria-label="Main navigation" className="hidden lg:flex items-center gap-2">
+            <nav
+              ref={navRef}
+              aria-label="Main navigation"
+              className="hidden lg:flex items-center gap-2"
+            >
               {navLinks.map((link) => {
                 const isHash = link.href.startsWith('#')
                 const isRoute = link.href.startsWith('/')
@@ -189,10 +201,8 @@ export function Header({ enabledLocales, logo }: HeaderProps) {
                 <NavHashLink
                   hash="#register"
                   className={cn(
-                    'hidden lg:inline-flex rounded-full px-7 py-3 text-xs font-bold uppercase tracking-[0.15em] transition-all duration-700 hover:scale-[1.02] shadow-lg',
-                    isLight
-                      ? 'bg-white text-foreground hover:bg-primary hover:text-white'
-                      : 'bg-foreground text-white hover:bg-primary',
+                    'hidden lg:inline-flex rounded-full px-7 py-3 text-xs font-bold uppercase tracking-[0.15em] transition-all duration-700 hover:scale-[1.02] shadow-lg text-foreground hover:bg-primary hover:text-white',
+                    isLight ? 'bg-white' : 'bg-secondary',
                   )}
                 >
                   {t('cta')}
