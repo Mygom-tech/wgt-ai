@@ -379,15 +379,17 @@ export function Hero({ hero }: HeroProps) {
               </MagneticButton>
 
               {/* Partner Logos */}
-              <div
-                data-trust-sidebar
-                className="flex flex-col gap-4 pt-4 border-t border-foreground/8 opacity-0"
-              >
-                <span className="text-[10px] md:text-xs font-bold uppercase tracking-[0.3em] text-foreground/40">
-                  {t('partnersLabel')}
-                </span>
-                <LogoRow logos={hero.trustLogos} variant="dark" />
-              </div>
+              {!!hero.trustLogos?.length && (
+                <div
+                  data-trust-sidebar
+                  className="flex flex-col gap-4 pt-4 border-t border-foreground/8 opacity-0"
+                >
+                  <span className="text-[10px] md:text-xs font-bold uppercase tracking-[0.3em] text-foreground/40">
+                    {t('partnersLabel')}
+                  </span>
+                  <LogoRow logos={hero.trustLogos} variant="dark" />
+                </div>
+              )}
             </div>
           </div>
         </div>
