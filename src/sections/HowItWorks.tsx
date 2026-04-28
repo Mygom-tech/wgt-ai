@@ -136,7 +136,7 @@ export function HowItWorks({ howItWorks }: HowItWorksProps) {
         </ol>
 
         <div className="mt-12 lg:mt-16 flex justify-center">
-          <Button href="#register" variant="primary" size="lg">
+          <Button href="#register" variant="cta" size="lg">
             {t('cta')}
             <span aria-hidden="true" className="ml-2">&rarr;</span>
           </Button>

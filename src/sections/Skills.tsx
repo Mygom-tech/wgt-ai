@@ -181,9 +181,8 @@ export function Skills({ skills }: SkillsProps) {
             <div className="mt-12 lg:mt-16">
               <Button
                 href="#register"
-                variant="secondary"
+                variant="light"
                 size="lg"
-                className="border-white/20 text-white hover:border-white hover:bg-transparent"
               >
                 {t('cta')}
                 <span aria-hidden="true" className="ml-2">&rarr;</span>

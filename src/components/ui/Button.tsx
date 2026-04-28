@@ -4,7 +4,7 @@ import { forwardRef } from 'react'
 import { cn } from '@/lib/utils'
 import { Link } from '@/i18n/navigation'
 
-type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'outline'
+type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'outline' | 'light' | 'cta'
 type ButtonSize = 'sm' | 'md' | 'lg' | 'default'
 
 type ButtonProps = {
@@ -46,6 +46,14 @@ export const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonPr
         // Ghost: Text Only
         'bg-transparent text-[#111111] hover:text-[#666666]':
           variant === 'ghost',
+
+        // Light: Solid White, Black Text - for use on dark backgrounds
+        'bg-white text-[#111111] hover:bg-white/90 hover:scale-[1.02] active:scale-[0.98] focus-visible:ring-white':
+          variant === 'light',
+
+        // CTA: Honeysuckle, Black Text - top-priority call to action on light backgrounds
+        'bg-secondary text-foreground hover:bg-primary hover:text-white hover:scale-[1.02] active:scale-[0.98]':
+          variant === 'cta',
       },
       
       'rounded-full', // Always pill shape for this design system

@@ -20,7 +20,7 @@ export async function Problem({ problem }: ProblemProps) {
       image={image}
       backgroundWord={t('backgroundWord')}
       footer={
-        <Button href="#register" variant="secondary" size="default">
+        <Button href="#register" variant="primary" size="default">
           {t('cta')}
           <span aria-hidden="true" className="ml-2">&rarr;</span>
         </Button>

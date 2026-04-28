@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 @theme inline {
   /* Typography */
@@ -6,7 +6,7 @@
   --font-heading: var(--font-inter);
 
   /* Fluid type scale - Architectural proportions */
-  --font-size-mega: clamp(5rem, 5rem + 12vw, 14rem); 
+  --font-size-mega: clamp(5rem, 5rem + 12vw, 14rem);
   --font-size-hero: clamp(2.5rem, 7vw, 7.5rem);
   --font-size-display: clamp(2.5rem, 2rem + 4vw, 6rem);
   --font-size-title: clamp(2rem, 1.5rem + 2.5vw, 4rem);
@@ -17,21 +17,22 @@
   --font-size-xs: 0.75rem;
 
   /* Colors - Warm Premium Palette */
-  --color-background: #F8F8F8;
-  --color-surface: #FFFFFF;
+  --color-background: #f8f8f8;
+  --color-surface: #ffffff;
   --color-foreground: #111111;
   --color-muted: #666666;
-  --color-border: #E5E5E5;
-  
-  --color-primary: #008080; /* Teal - Trust & Calm */
-  --color-primary-foreground: #FFFFFF;
-  
-  --color-accent: #FF7F50; /* Coral - Warmth & Energy */
-  --color-electric-blue: #3B47FF;
+  --color-border: #e5e5e5;
+
+  --color-primary: #912bc4; /* Dark Orchid */
+  --color-secondary: #dcf166; /* Honeysuckle */
+  --color-primary-foreground: #ffffff;
+
+  --color-accent: #ff7f50; /* Coral - Warmth & Energy */
+  --color-electric-blue: #3b47ff;
 
   /* Spacing */
   --spacing-section: clamp(4rem, 6vw, 8rem);
-  
+
   --spacing: 0.25rem;
   --radius-sm: 0.25rem;
   --radius-md: 0.5rem;
@@ -56,7 +57,12 @@
     -webkit-font-smoothing: antialiased;
   }
 
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     font-family: var(--font-jost);
     color: var(--color-foreground);
     letter-spacing: -0.02em;
@@ -74,7 +80,7 @@
   .blend-difference {
     mix-blend-mode: difference;
   }
-  
+
   .text-outline {
     -webkit-text-stroke: 1.5px #111111;
     color: transparent;
@@ -295,4 +301,3 @@
     transform: none !important;
   }
 }
-
