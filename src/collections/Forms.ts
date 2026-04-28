@@ -35,9 +35,10 @@ export const Forms: CollectionConfig = {
     {
       name: 'emailField',
       type: 'group',
-      label: 'Email Field (always included)',
+      label: 'Email Field (always rendered on step 1)',
       admin: {
-        description: 'Every form includes an email field. Customize its label and placeholder.',
+        description:
+          'Every form includes an email field. It is always shown on the first step. Customize its label and placeholder.',
       },
       fields: [
         {
@@ -58,10 +59,59 @@ export const Forms: CollectionConfig = {
       ],
     },
     {
-      name: 'fields',
-      type: 'blocks',
-      label: 'Additional Fields',
-      blocks: [TextField, PhoneField, TextareaField, SelectField, CheckboxField],
+      name: 'steps',
+      type: 'array',
+      required: true,
+      minRows: 1,
+      defaultValue: [{ fields: [] }],
+      admin: {
+        description:
+          'Forms are split into steps. With one step the form renders as a single page; with multiple steps a wizard with progress indicator and Previous/Next buttons is rendered. Field names must be unique across all steps.',
+      },
+      validate: (value: unknown) => {
+        const steps =
+          (value as Array<{ fields?: Array<{ name?: string }> }> | null | undefined) ?? []
+        const seen = new Map<string, number>()
+
+        for (let i = 0; i < steps.length; i++) {
+          const fields = steps[i]?.fields ?? []
+
+          for (const field of fields) {
+            const name = field?.name
+            if (!name) continue
+
+            if (seen.has(name)) {
+              return `Field name "${name}" is duplicated (also on step ${
+                (seen.get(name) ?? 0) + 1
+              }). Each field name must be unique across all steps.`
+            }
+
+            seen.set(name, i)
+          }
+        }
+        return true
+      },
+      fields: [
+        {
+          name: 'label',
+          type: 'text',
+          localized: true,
+          admin: {
+            description: 'Optional step label shown in the indicator. Falls back to step number.',
+          },
+        },
+        {
+          name: 'fields',
+          type: 'blocks',
+          label: 'Fields',
+          minRows: 1,
+          required: true,
+          blocks: [TextField, PhoneField, TextareaField, SelectField, CheckboxField],
+          admin: {
+            description: 'Each step must contain at least one field.',
+          },
+        },
+      ],
     },
     {
       name: 'mailerliteGroupId',

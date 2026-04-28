@@ -1,4 +1,5 @@
 import type { Block } from 'payload'
+import { fieldNameDescription, validateFieldName } from './fieldName'
 
 export const PhoneField: Block = {
   slug: 'phoneField',
@@ -18,6 +19,10 @@ export const PhoneField: Block = {
       name: 'name',
       type: 'text',
       required: true,
+      validate: validateFieldName,
+      admin: {
+        description: fieldNameDescription,
+      },
     },
     {
       name: 'placeholder',

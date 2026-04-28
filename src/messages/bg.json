@@ -69,7 +69,9 @@
     "successTitle": "Благодарим!",
     "errorTitle": "Нещо се обърка",
     "required": "Това поле е задължително",
-    "invalidEmail": "Въведете валиден имейл"
+    "invalidEmail": "Въведете валиден имейл",
+    "previous": "Назад",
+    "next": "Напред"
   },
   "newsletter": {
     "eyebrow": "Бюлетин",
