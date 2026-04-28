@@ -54,7 +54,6 @@
     font-family: var(--font-sans);
     line-height: 1.5;
     -webkit-font-smoothing: antialiased;
-    cursor: none;
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -297,7 +296,3 @@
   }
 }
 
-/* Custom Cursor interactions */
-a, button, [data-magnetic] {
-  cursor: none !important;
-}
