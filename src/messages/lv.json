@@ -71,7 +71,8 @@
     "required": "Šis lauks ir obligāts",
     "invalidEmail": "Lūdzu ievadiet derīgu e-pastu",
     "previous": "Atpakaļ",
-    "next": "Tālāk"
+    "next": "Tālāk",
+    "stepIndicator": "Solis {current} no {total}"
   },
   "newsletter": {
     "eyebrow": "Jaunumu vēstule",

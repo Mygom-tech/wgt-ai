@@ -955,7 +955,7 @@ export interface Form {
 export interface TextFieldBlock {
   label: string;
   /**
-   * URL-safe identifier. Letters, numbers, underscores and hyphens only. Must start with a letter or underscore. No dots, brackets, or spaces.
+   * URL-safe identifier. Letters, numbers, underscores and hyphens only. Must start with a letter or underscore. No dots, brackets, or spaces. Reserved names: "email" (built-in email field) and "_hp" (honeypot).
    */
   name: string;
   placeholder?: string | null;
@@ -972,7 +972,7 @@ export interface TextFieldBlock {
 export interface PhoneFieldBlock {
   label: string;
   /**
-   * URL-safe identifier. Letters, numbers, underscores and hyphens only. Must start with a letter or underscore. No dots, brackets, or spaces.
+   * URL-safe identifier. Letters, numbers, underscores and hyphens only. Must start with a letter or underscore. No dots, brackets, or spaces. Reserved names: "email" (built-in email field) and "_hp" (honeypot).
    */
   name: string;
   placeholder?: string | null;
@@ -988,7 +988,7 @@ export interface PhoneFieldBlock {
 export interface TextareaFieldBlock {
   label: string;
   /**
-   * URL-safe identifier. Letters, numbers, underscores and hyphens only. Must start with a letter or underscore. No dots, brackets, or spaces.
+   * URL-safe identifier. Letters, numbers, underscores and hyphens only. Must start with a letter or underscore. No dots, brackets, or spaces. Reserved names: "email" (built-in email field) and "_hp" (honeypot).
    */
   name: string;
   placeholder?: string | null;
@@ -1005,7 +1005,7 @@ export interface TextareaFieldBlock {
 export interface SelectFieldBlock {
   label: string;
   /**
-   * URL-safe identifier. Letters, numbers, underscores and hyphens only. Must start with a letter or underscore. No dots, brackets, or spaces.
+   * URL-safe identifier. Letters, numbers, underscores and hyphens only. Must start with a letter or underscore. No dots, brackets, or spaces. Reserved names: "email" (built-in email field) and "_hp" (honeypot).
    */
   name: string;
   required?: boolean | null;
@@ -1027,7 +1027,7 @@ export interface SelectFieldBlock {
 export interface CheckboxFieldBlock {
   label: string;
   /**
-   * URL-safe identifier. Letters, numbers, underscores and hyphens only. Must start with a letter or underscore. No dots, brackets, or spaces.
+   * URL-safe identifier. Letters, numbers, underscores and hyphens only. Must start with a letter or underscore. No dots, brackets, or spaces. Reserved names: "email" (built-in email field) and "_hp" (honeypot).
    */
   name: string;
   required?: boolean | null;
