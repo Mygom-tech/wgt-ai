@@ -925,6 +925,10 @@ export interface Form {
    */
   mailerliteGroupId?: string | null;
   /**
+   * Email country/super admins on each submission. Submissions are always saved in the CMS regardless.
+   */
+  notifyAdmin?: boolean | null;
+  /**
    * Shown after successful form submission
    */
   successMessage?: string | null;
@@ -1439,6 +1443,7 @@ export interface FormsSelect<T extends boolean = true> {
         checkboxField?: T | CheckboxFieldBlockSelect<T>;
       };
   mailerliteGroupId?: T;
+  notifyAdmin?: T;
   successMessage?: T;
   updatedAt?: T;
   createdAt?: T;

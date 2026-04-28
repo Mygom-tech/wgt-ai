@@ -1,6 +1,7 @@
 import { Resend } from 'resend'
 import { getPayload } from 'payload'
 import config from '@payload-config'
+import type { ServiceResult } from './service-result'
 
 function getResend(): Resend | null {
   const apiKey = process.env.RESEND_API_KEY
@@ -19,7 +20,7 @@ export async function sendConfirmationEmail(params: {
   name?: string
   formTitle: string
   successMessage?: string
-}): Promise<{ success: boolean; error?: string }> {
+}): Promise<ServiceResult> {
   const resend = getResend()
   if (!resend) {
     return { success: false, error: 'RESEND_API_KEY not configured' }
@@ -113,7 +114,7 @@ export async function notifyAdmins(params: {
   submissionData: Array<{ field: string; value: string }>
   email: string
   name?: string
-}): Promise<{ success: boolean; error?: string }> {
+}): Promise<ServiceResult> {
   const resend = getResend()
   if (!resend) {
     return { success: false, error: 'RESEND_API_KEY not configured' }
