@@ -1,10 +1,12 @@
+import type { ServiceResult } from './service-result'
+
 const MAILERLITE_API_URL = 'https://connect.mailerlite.com/api/subscribers'
 
 export async function syncToMailerLite(params: {
   email: string
   fields?: Record<string, string>
   groupId?: string
-}): Promise<{ success: boolean; error?: string }> {
+}): Promise<ServiceResult> {
   const apiKey = process.env.MAILERLITE_API_KEY
   if (!apiKey) {
     return { success: false, error: 'MAILERLITE_API_KEY not configured' }

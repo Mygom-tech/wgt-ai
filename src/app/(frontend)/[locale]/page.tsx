@@ -44,7 +44,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const ogImage = resolveMedia(defaultMeta?.image)
   const ogImages = ogImage?.url
-    ? [{ url: ogImage.url, alt: ogImage.alt || title, width: ogImage.width ?? 1200, height: ogImage.height ?? 630 }]
+    ? [
+        {
+          url: ogImage.url,
+          alt: ogImage.alt || title,
+          width: ogImage.width ?? 1200,
+          height: ogImage.height ?? 630,
+        },
+      ]
     : []
 
   return {
@@ -76,34 +83,35 @@ export default async function HomePage({ params }: Props) {
   const { locale } = await params
   setRequestLocale(locale)
 
-  const [landingData, testimonialsResult, partnersResult, faqResult, newsletterData, settings] = await Promise.all([
-    queryGlobal('landing-page', {
-      locale: locale as LocaleCode,
-      depth: 2,
-    }),
-    queryCollection('testimonials', {
-      where: { featured: { equals: true }, status: { equals: 'published' } },
-      sort: 'order',
-      limit: 6,
-      locale: locale as LocaleCode,
-    }),
-    queryCollection('partners', {
-      where: { status: { equals: 'published' } },
-      sort: 'sortOrder',
-      limit: 30,
-      locale: locale as LocaleCode,
-    }),
-    queryCollection('faq-items', {
-      where: { status: { equals: 'published' }, locales: { contains: locale } },
-      sort: 'sortOrder',
-      limit: 50,
-      locale: locale as LocaleCode,
-    }),
-    queryGlobal('newsletter', {
-      locale: locale as LocaleCode,
-    }),
-    getSiteSettings(locale as LocaleCode),
-  ])
+  const [landingData, testimonialsResult, partnersResult, faqResult, newsletterData, settings] =
+    await Promise.all([
+      queryGlobal('landing-page', {
+        locale: locale as LocaleCode,
+        depth: 2,
+      }),
+      queryCollection('testimonials', {
+        where: { featured: { equals: true }, status: { equals: 'published' } },
+        sort: 'order',
+        limit: 6,
+        locale: locale as LocaleCode,
+      }),
+      queryCollection('partners', {
+        where: { status: { equals: 'published' } },
+        sort: 'sortOrder',
+        limit: 30,
+        locale: locale as LocaleCode,
+      }),
+      queryCollection('faq-items', {
+        where: { status: { equals: 'published' }, locales: { contains: locale } },
+        sort: 'sortOrder',
+        limit: 50,
+        locale: locale as LocaleCode,
+      }),
+      queryGlobal('newsletter', {
+        locale: locale as LocaleCode,
+      }),
+      getSiteSettings(locale as LocaleCode),
+    ])
 
   const hero = landingData?.hero ?? {
     heading: 'Technology\nshould work\nfor everyone.',
@@ -180,8 +188,7 @@ export default async function HomePage({ params }: Props) {
           '@type': 'Course',
           name: 'Google AI Professional Certificate',
           description:
-            hero.subtitle ||
-            'A practical course on Coursera to help you use AI at work.',
+            hero.subtitle || 'A practical course on Coursera to help you use AI at work.',
           provider: {
             '@type': 'Organization',
             name: 'Google',
@@ -208,7 +215,7 @@ export default async function HomePage({ params }: Props) {
               }
             : {}),
         }}
-        />
+      />
       <Hero hero={hero} />
       {problem && <Problem problem={problem} />}
       {skills && <Skills skills={skills} />}
@@ -249,36 +256,35 @@ export default async function HomePage({ params }: Props) {
           items={faqDocs}
         />
       )}
-      {faqDocs.length > 0 && (() => {
-        const faqEntities = faqDocs
-          .map((faq) => {
-            const html = extractHtml(faq.answer)
-            if (!html) return null
-            return {
-              '@type': 'Question' as const,
-              name: faq.question,
-              acceptedAnswer: {
-                '@type': 'Answer' as const,
-                text: html,
-              },
-            }
-          })
-          .filter((item): item is NonNullable<typeof item> => item !== null)
+      {faqDocs.length > 0 &&
+        (() => {
+          const faqEntities = faqDocs
+            .map((faq) => {
+              const html = extractHtml(faq.answer)
+              if (!html) return null
+              return {
+                '@type': 'Question' as const,
+                name: faq.question,
+                acceptedAnswer: {
+                  '@type': 'Answer' as const,
+                  text: html,
+                },
+              }
+            })
+            .filter((item): item is NonNullable<typeof item> => item !== null)
 
-        return faqEntities.length > 0 ? (
-          <JsonLd
-            data={{
-              '@context': 'https://schema.org',
-              '@type': 'FAQPage',
-              inLanguage: locale,
-              mainEntity: faqEntities,
-            }}
-          />
-        ) : null
-      })()}
-      {newsletterData?.heading && (
-        <CTA newsletter={newsletterData} />
-      )}
+          return faqEntities.length > 0 ? (
+            <JsonLd
+              data={{
+                '@context': 'https://schema.org',
+                '@type': 'FAQPage',
+                inLanguage: locale,
+                mainEntity: faqEntities,
+              }}
+            />
+          ) : null
+        })()}
+      {newsletterData?.heading && <CTA newsletter={newsletterData} />}
     </>
   )
 }

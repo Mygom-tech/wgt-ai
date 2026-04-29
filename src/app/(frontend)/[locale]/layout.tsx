@@ -19,7 +19,6 @@ import { SmoothScroll } from '@/components/SmoothScroll'
 import { CookieConsent } from '@/components/CookieConsent'
 import { Footer } from '@/sections/Footer'
 import { StickyMobileBar } from '@/components/StickyMobileBar'
-import { Cursor } from '@/components/Cursor'
 
 const inter = Inter({
   subsets: ['latin', 'latin-ext', 'cyrillic', 'cyrillic-ext'],
@@ -144,7 +143,6 @@ export default async function LocaleLayout({ children, params }: Props) {
         </head>
       ) : null}
       <body className={`${inter.variable} ${jost.variable} font-sans antialiased`} suppressHydrationWarning>
-        <Cursor />
         <a
           href="#main-content"
           className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:bg-background focus:px-4 focus:py-2 focus:rounded-lg focus:shadow-lg focus:text-foreground focus:ring-2 focus:ring-primary-400"

@@ -62,21 +62,29 @@ export function EditorialSection({
         },
       })
 
-      tl.from(imageRef.current, {
-        scale: 1.05,
-        clipPath: 'inset(100% 0% 0% 0%)',
-        duration: 1.4,
-        ease: 'power4.inOut',
-      }, 0)
+      tl.from(
+        imageRef.current,
+        {
+          scale: 1.05,
+          clipPath: 'inset(100% 0% 0% 0%)',
+          duration: 1.4,
+          ease: 'power4.inOut',
+        },
+        0,
+      )
 
       // Content elements rise into place with tight stagger
-      tl.from(container.querySelectorAll('[data-editorial-reveal]'), {
-        y: 30,
-        opacity: 0,
-        stagger: 0.1,
-        duration: 1.0,
-        ease: 'power3.out',
-      }, 0.3)
+      tl.from(
+        container.querySelectorAll('[data-editorial-reveal]'),
+        {
+          y: 30,
+          opacity: 0,
+          stagger: 0.1,
+          duration: 1.0,
+          ease: 'power3.out',
+        },
+        0.3,
+      )
 
       // Single ScrollTrigger for both scrub animations (background text + image parallax)
       ScrollTrigger.create({
@@ -181,17 +189,6 @@ export function EditorialSection({
                 <span className="text-[10px] font-semibold uppercase tracking-[0.35em] text-foreground/20">
                   {sectionIndex}
                 </span>
-                <div className="flex gap-1">
-                  {[1, 2, 3].map((i) => (
-                    <div
-                      key={i}
-                      className={cn(
-                        'w-1 h-1 rounded-full',
-                        i === 1 ? 'bg-primary' : 'bg-foreground/10',
-                      )}
-                    />
-                  ))}
-                </div>
               </div>
             </div>
           </div>

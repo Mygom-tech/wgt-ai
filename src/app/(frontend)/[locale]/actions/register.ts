@@ -5,9 +5,11 @@ import { getPayload } from 'payload'
 import config from '@payload-config'
 import { syncToMailerLite } from '@/lib/mailerlite'
 import { notifyAdmins, sendConfirmationEmail } from '@/lib/resend'
+import type { ServiceResult } from '@/lib/service-result'
 import type { Form, FormSubmission } from '@/payload-types'
 
-type FormField = NonNullable<Form['fields']>[number]
+type FormStep = NonNullable<Form['steps']>[number]
+type FormField = NonNullable<FormStep['fields']>[number]
 
 export async function submitForm(
   formId: string,
@@ -38,7 +40,7 @@ export async function submitForm(
     return { success: false, message: 'Form not found' }
   }
 
-  const fields = form.fields ?? []
+  const fields: FormField[] = (form.steps ?? []).flatMap((step) => step.fields ?? [])
 
   // Build zod schema dynamically from form fields
   const schemaShape: Record<string, z.ZodType> = {}
@@ -135,19 +137,23 @@ export async function submitForm(
   })
 
   // Async integrations - run after submission is saved
+  const shouldNotifyAdmins = form.notifyAdmin === true
+
   const [mailerliteResult, notifyResult, confirmResult] = await Promise.allSettled([
     syncToMailerLite({
       email: extractedEmail,
       fields: { name: extractedName || '', locale, form_source: form.title },
       groupId: form.mailerliteGroupId || undefined,
     }),
-    notifyAdmins({
-      locale,
-      formTitle: form.title,
-      submissionData: submissionDataArray,
-      email: extractedEmail,
-      name: extractedName,
-    }),
+    shouldNotifyAdmins
+      ? notifyAdmins({
+          locale,
+          formTitle: form.title,
+          submissionData: submissionDataArray,
+          email: extractedEmail,
+          name: extractedName,
+        })
+      : Promise.resolve<ServiceResult>({ success: true }),
     sendConfirmationEmail({
       email: extractedEmail,
       name: extractedName,
@@ -169,7 +175,7 @@ export async function submitForm(
     payload.logger.error(`[Form] MailerLite sync failed for ${extractedEmail}: ${err}`)
   }
 
-  if (!notifySuccess) {
+  if (shouldNotifyAdmins && !notifySuccess) {
     const err =
       notifyResult.status === 'fulfilled' ? notifyResult.value.error : notifyResult.reason
     payload.logger.error(`[Form] Admin notification failed for ${extractedEmail}: ${err}`)
@@ -187,7 +193,7 @@ export async function submitForm(
     id: submission.id,
     data: {
       mailerliteSynced: mlSuccess,
-      notificationSent: notifySuccess,
+      notificationSent: shouldNotifyAdmins ? notifySuccess : false,
     },
     overrideAccess: true,
   })

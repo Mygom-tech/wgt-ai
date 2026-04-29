@@ -69,7 +69,10 @@
     "successTitle": "Mulțumim!",
     "errorTitle": "Ceva nu a mers bine",
     "required": "Acest câmp este obligatoriu",
-    "invalidEmail": "Introduceți un email valid"
+    "invalidEmail": "Introduceți un email valid",
+    "previous": "Înapoi",
+    "next": "Continuă",
+    "stepIndicator": "Pasul {current} din {total}"
   },
   "newsletter": {
     "eyebrow": "Newsletter",

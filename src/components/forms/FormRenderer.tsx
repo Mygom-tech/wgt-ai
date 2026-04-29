@@ -6,6 +6,7 @@ import { z } from 'zod'
 import { useTranslations } from 'next-intl'
 import { useState } from 'react'
 import { FormField } from './FormField'
+import { StepIndicator } from './StepIndicator'
 import { inputStyles, labelStyles, errorStyles, type FormVariant } from './styles'
 import type { Form } from '@/payload-types'
 
@@ -21,11 +22,11 @@ type FormRendererProps = {
   variant?: FormVariant
 }
 
-function buildSchema(fields: NonNullable<Form['fields']>, t: ReturnType<typeof useTranslations>) {
-  const shape: Record<string, z.ZodType> = {}
+type FormStep = NonNullable<Form['steps']>[number]
+type FieldBlock = NonNullable<FormStep['fields']>[number]
 
-  // Built-in email field - always required
-  shape['email'] = z.string().email({ message: t('invalidEmail') })
+function buildShape(fields: FieldBlock[], t: ReturnType<typeof useTranslations>) {
+  const shape: Record<string, z.ZodType> = {}
 
   for (const block of fields) {
     switch (block.blockType) {
@@ -43,9 +44,7 @@ function buildSchema(fields: NonNullable<Form['fields']>, t: ReturnType<typeof u
         break
 
       case 'textareaField': {
-        let schema = block.required
-          ? z.string().min(1, { message: t('required') })
-          : z.string()
+        let schema = block.required ? z.string().min(1, { message: t('required') }) : z.string()
         if (block.maxLength) {
           schema = schema.max(block.maxLength)
         }
@@ -61,9 +60,13 @@ function buildSchema(fields: NonNullable<Form['fields']>, t: ReturnType<typeof u
     }
   }
 
-  // Include honeypot field so Zod doesn't strip it
-  shape['_hp'] = z.string().optional()
+  return shape
+}
 
+function buildSchema(fields: FieldBlock[], t: ReturnType<typeof useTranslations>) {
+  const shape = buildShape(fields, t)
+  shape['email'] = z.string().email({ message: t('invalidEmail') })
+  shape['_hp'] = z.string().optional()
   return z.object(shape)
 }
 
@@ -72,17 +75,28 @@ export function FormRenderer({ form, submitAction, variant = 'dark' }: FormRende
   const [isSuccess, setIsSuccess] = useState(false)
   const [successMessage, setSuccessMessage] = useState('')
   const [serverError, setServerError] = useState('')
+  const [currentStepIndex, setCurrentStepIndex] = useState(0)
 
-  const fields = form.fields ?? []
-  const schema = buildSchema(fields, t)
+  const steps: FormStep[] = form.steps ?? []
+  const totalSteps = steps.length
+  const isMultiStep = totalSteps > 1
+  const isFirstStep = currentStepIndex === 0
+  const isLastStep = currentStepIndex === totalSteps - 1
+  const currentStepFields: FieldBlock[] = steps[currentStepIndex]?.fields ?? []
+
+  const allFields: FieldBlock[] = steps.flatMap((s) => s.fields ?? [])
+  const schema = buildSchema(allFields, t)
 
   const {
     register,
     handleSubmit,
     setError,
+    clearErrors,
+    getValues,
     formState: { errors, isSubmitting },
   } = useForm({
     resolver: zodResolver(schema),
+    shouldUnregister: false,
   })
 
   const onSubmit = handleSubmit(async (data) => {
@@ -101,11 +115,65 @@ export function FormRenderer({ form, submitAction, variant = 'dark' }: FormRende
       for (const [field, message] of Object.entries(result.errors)) {
         setError(field, { message })
       }
+
+      const firstErrorField = Object.keys(result.errors)[0]
+
+      if (firstErrorField) {
+        for (let i = 0; i < steps.length; i++) {
+          const stepFields = steps[i]?.fields ?? []
+          const hasField =
+            firstErrorField === 'email'
+              ? i === 0
+              : stepFields.some((b) => b.name === firstErrorField)
+
+          if (hasField) {
+            setCurrentStepIndex(i)
+            break
+          }
+        }
+      }
       return
     }
 
     setServerError(result.message ?? t('errorTitle'))
   })
+
+  function handleNext(event: React.MouseEvent<HTMLButtonElement>) {
+    event.preventDefault()
+
+    const stepShape = buildShape(currentStepFields, t)
+    if (isFirstStep) {
+      stepShape['email'] = z.string().email({ message: t('invalidEmail') })
+    }
+    const stepSchema = z.object(stepShape)
+
+    const allValues = getValues()
+    const stepValues: Record<string, unknown> = {}
+
+    for (const name of Object.keys(stepShape)) {
+      stepValues[name] = allValues[name]
+    }
+
+    for (const name of Object.keys(stepShape)) {
+      clearErrors(name)
+    }
+
+    const result = stepSchema.safeParse(stepValues)
+    if (!result.success) {
+      for (const issue of result.error.issues) {
+        const fieldName = String(issue.path[0])
+        setError(fieldName, { message: issue.message })
+      }
+
+      return
+    }
+
+    setCurrentStepIndex((i) => Math.min(i + 1, totalSteps - 1))
+  }
+
+  function handlePrevious() {
+    setCurrentStepIndex((i) => Math.max(0, i - 1))
+  }
 
   const input = inputStyles[variant]
   const label = labelStyles[variant]
@@ -118,11 +186,19 @@ export function FormRenderer({ form, submitAction, variant = 'dark' }: FormRende
         aria-live="polite"
         className="border border-primary/20 bg-primary/[0.05] p-10 sm:p-12 text-center rounded-[2px]"
       >
-        <h3 className={`text-xl font-heading font-medium uppercase tracking-[-0.02em] mb-3 ${variant === 'dark' ? 'text-white' : 'text-foreground'}`}>
+        <h3
+          className={`text-xl font-heading font-medium uppercase tracking-[-0.02em] mb-3 ${
+            variant === 'dark' ? 'text-white' : 'text-foreground'
+          }`}
+        >
           {t('successTitle')}
         </h3>
         {successMessage && (
-          <p className={`text-sm leading-relaxed ${variant === 'dark' ? 'text-white/50' : 'text-foreground/50'}`}>
+          <p
+            className={`text-sm leading-relaxed ${
+              variant === 'dark' ? 'text-white/50' : 'text-foreground/50'
+            }`}
+          >
             {successMessage}
           </p>
         )}
@@ -132,6 +208,15 @@ export function FormRenderer({ form, submitAction, variant = 'dark' }: FormRende
 
   const emailLabel = form.emailField?.label || 'Email'
   const emailPlaceholder = form.emailField?.placeholder ?? undefined
+
+  const submitButtonClasses =
+    'flex-1 border border-secondary bg-secondary px-8 py-4 text-[11px] font-semibold uppercase tracking-[0.4em] text-foreground transition-all hover:border-primary hover:bg-primary hover:text-white disabled:opacity-40 disabled:cursor-not-allowed rounded-[2px]'
+
+  const previousButtonClasses = cnVariant(
+    variant,
+    'flex-1 border border-white/20 bg-transparent px-8 py-4 text-[11px] font-semibold uppercase tracking-[0.4em] text-white transition-colors hover:border-white hover:bg-white/5 disabled:opacity-30 disabled:cursor-not-allowed rounded-[2px]',
+    'flex-1 border border-foreground/20 bg-transparent px-8 py-4 text-[11px] font-semibold uppercase tracking-[0.4em] text-foreground transition-colors hover:border-foreground hover:bg-foreground/5 disabled:opacity-30 disabled:cursor-not-allowed rounded-[2px]',
+  )
 
   return (
     <form onSubmit={onSubmit} noValidate>
@@ -146,65 +231,108 @@ export function FormRenderer({ form, submitAction, variant = 'dark' }: FormRende
         autoComplete="off"
       />
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-8">
-        {/* Built-in email field - always first, always full width */}
-        <div className="md:col-span-2">
-          <label htmlFor="email" className={label}>
-            {emailLabel}
-            <span className="text-primary ml-1">*</span>
-          </label>
-          <input
-            type="email"
-            id="email"
-            {...register('email')}
-            placeholder={emailPlaceholder}
-            className={input}
-            {...(errors.email
-              ? { 'aria-invalid': true as const, 'aria-describedby': 'email-error' }
-              : {})}
-          />
-          {errors.email && (
-            <p id="email-error" role="alert" className={error}>
-              {errors.email.message as string}
-            </p>
-          )}
-        </div>
+      {isMultiStep && <StepIndicator steps={steps} current={currentStepIndex} variant={variant} />}
 
-        {/* Dynamic fields from CMS */}
-        {fields.map((block) => (
-          <div
-            key={block.id}
-            className={
-              block.blockType === 'textField' && block.width === 'half' ? '' : 'md:col-span-2'
-            }
-          >
-            <FormField
-              block={block}
-              register={register}
-              error={errors[block.name]?.message as string}
-              variant={variant}
-            />
-          </div>
-        ))}
+      <div key={currentStepIndex} className="animate-step-in">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-8">
+          {isFirstStep && (
+            <div className="md:col-span-2">
+              <label htmlFor="email" className={label}>
+                {emailLabel}
+                <span className="text-primary ml-1">*</span>
+              </label>
+              <input
+                type="email"
+                id="email"
+                {...register('email')}
+                placeholder={emailPlaceholder}
+                className={input}
+                {...(errors.email
+                  ? { 'aria-invalid': true as const, 'aria-describedby': 'email-error' }
+                  : {})}
+              />
+              {errors.email && (
+                <p id="email-error" role="alert" className={error}>
+                  {errors.email.message as string}
+                </p>
+              )}
+            </div>
+          )}
+
+          {currentStepFields.map((block) => (
+            <div
+              key={block.id}
+              className={
+                block.blockType === 'textField' && block.width === 'half' ? '' : 'md:col-span-2'
+              }
+            >
+              <FormField
+                block={block}
+                register={register}
+                error={errors[block.name]?.message as string}
+                variant={variant}
+              />
+            </div>
+          ))}
+        </div>
       </div>
 
       {serverError && (
         <p
           role="alert"
           aria-live="assertive"
-          className={`mt-6 border border-red-500/20 bg-red-500/[0.05] px-4 py-3 text-[11px] uppercase tracking-[0.15em] rounded-[2px] ${variant === 'dark' ? 'text-red-400' : 'text-red-600'}`}
+          className={`mt-6 border border-red-500/20 bg-red-500/[0.05] px-4 py-3 text-[11px] uppercase tracking-[0.15em] rounded-[2px] ${
+            variant === 'dark' ? 'text-red-400' : 'text-red-600'
+          }`}
         >
           {serverError}
         </p>
       )}
 
-      <button
-        type="submit"
-        disabled={isSubmitting}
-        className="mt-10 w-full border border-primary bg-primary px-8 py-4 text-[11px] font-semibold uppercase tracking-[0.4em] text-primary-foreground transition-all hover:bg-primary/90 disabled:opacity-40 disabled:cursor-not-allowed rounded-[2px]"
-      >
-        {isSubmitting ? t('submitting') : t('submitButton')}
-      </button>
+      {isMultiStep ? (
+        <div className="mt-10 flex gap-4">
+          <button
+            key="step-prev"
+            type="button"
+            onClick={handlePrevious}
+            disabled={isFirstStep}
+            className={previousButtonClasses}
+          >
+            {t('previous')}
+          </button>
+          {isLastStep ? (
+            <button
+              key="step-submit"
+              type="submit"
+              disabled={isSubmitting}
+              className={submitButtonClasses}
+            >
+              {isSubmitting ? t('submitting') : t('submitButton')}
+            </button>
+          ) : (
+            <button
+              key="step-next"
+              type="button"
+              onClick={handleNext}
+              className={submitButtonClasses}
+            >
+              {t('next')}
+            </button>
+          )}
+        </div>
+      ) : (
+        <button
+          type="submit"
+          disabled={isSubmitting}
+          className="mt-10 w-full border border-secondary bg-secondary px-8 py-4 text-[11px] font-semibold uppercase tracking-[0.4em] text-foreground transition-all hover:border-primary hover:bg-primary hover:text-white disabled:opacity-40 disabled:cursor-not-allowed rounded-[2px]"
+        >
+          {isSubmitting ? t('submitting') : t('submitButton')}
+        </button>
+      )}
     </form>
   )
+}
+
+function cnVariant(variant: FormVariant, dark: string, light: string): string {
+  return variant === 'dark' ? dark : light
 }

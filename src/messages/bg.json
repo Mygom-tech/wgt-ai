@@ -69,7 +69,10 @@
     "successTitle": "Благодарим!",
     "errorTitle": "Нещо се обърка",
     "required": "Това поле е задължително",
-    "invalidEmail": "Въведете валиден имейл"
+    "invalidEmail": "Въведете валиден имейл",
+    "previous": "Назад",
+    "next": "Напред",
+    "stepIndicator": "Стъпка {current} от {total}"
   },
   "newsletter": {
     "eyebrow": "Бюлетин",

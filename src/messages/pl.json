@@ -69,7 +69,10 @@
     "successTitle": "Dziękujemy!",
     "errorTitle": "Coś poszło nie tak",
     "required": "To pole jest wymagane",
-    "invalidEmail": "Podaj prawidłowy adres e-mail"
+    "invalidEmail": "Podaj prawidłowy adres e-mail",
+    "previous": "Wstecz",
+    "next": "Dalej",
+    "stepIndicator": "Krok {current} z {total}"
   },
   "newsletter": {
     "eyebrow": "Newsletter",

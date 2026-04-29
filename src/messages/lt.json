@@ -69,7 +69,10 @@
     "successTitle": "Ačiū!",
     "errorTitle": "Kažkas nutiko",
     "required": "Šis laukas privalomas",
-    "invalidEmail": "Įveskite teisingą el. paštą"
+    "invalidEmail": "Įveskite teisingą el. paštą",
+    "previous": "Atgal",
+    "next": "Toliau",
+    "stepIndicator": "Žingsnis {current} iš {total}"
   },
   "newsletter": {
     "eyebrow": "Naujienlaiškis",
