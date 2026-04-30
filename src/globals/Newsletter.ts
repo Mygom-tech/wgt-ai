@@ -15,7 +15,6 @@ export const Newsletter: GlobalConfig = {
   hooks: {
     afterChange: [createGlobalRevalidationHook('newsletter', {
       revalidateAll: true,
-      revalidatePaths: ['/'],
     })],
   },
   fields: [

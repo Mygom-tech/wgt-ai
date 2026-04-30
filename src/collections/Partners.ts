@@ -3,7 +3,7 @@ import { createCollectionRevalidationHooks } from '@/lib/revalidation'
 import { adminAccess, enforceLocaleAccess } from '@/lib/access'
 
 const revalidation = createCollectionRevalidationHooks('partners', {
-  revalidatePaths: ['/'],
+  revalidatePaths: ['/[locale]'],
 })
 
 export const Partners: CollectionConfig = {

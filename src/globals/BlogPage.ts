@@ -11,7 +11,7 @@ export const BlogPage: GlobalConfig = {
   },
   hooks: {
     afterChange: [
-      createGlobalRevalidationHook('blog-page', { revalidatePaths: ['/blog'] }),
+      createGlobalRevalidationHook('blog-page', { revalidatePaths: ['/[locale]/blog'] }),
     ],
   },
   fields: [

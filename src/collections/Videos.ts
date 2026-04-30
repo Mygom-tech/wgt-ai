@@ -3,7 +3,7 @@ import { createCollectionRevalidationHooks } from '@/lib/revalidation'
 import { publicRead, adminAccess } from '@/lib/access'
 
 const revalidation = createCollectionRevalidationHooks('videos', {
-  revalidatePaths: ['/', '/blog', '/events'],
+  revalidatePaths: ['/[locale]', '/[locale]/blog', '/[locale]/events'],
 })
 
 export const Videos: CollectionConfig = {
