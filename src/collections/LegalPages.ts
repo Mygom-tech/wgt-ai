@@ -3,7 +3,7 @@ import { createCollectionRevalidationHooks } from '@/lib/revalidation'
 import { adminAccess, enforceLocaleAccess } from '@/lib/access'
 
 const revalidation = createCollectionRevalidationHooks('legal-pages', {
-  revalidatePaths: ['/{slug}'],
+  revalidatePaths: ['/[locale]/legal/{slug}'],
 })
 
 export const LegalPages: CollectionConfig = {

@@ -11,7 +11,7 @@ export const EventsPage: GlobalConfig = {
   },
   hooks: {
     afterChange: [
-      createGlobalRevalidationHook('events-page', { revalidatePaths: ['/events'] }),
+      createGlobalRevalidationHook('events-page', { revalidatePaths: ['/[locale]/events'] }),
     ],
   },
   fields: [
