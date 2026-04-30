@@ -9,7 +9,7 @@ export const LandingPage: GlobalConfig = {
     update: superAdminOnly,
   },
   hooks: {
-    afterChange: [createGlobalRevalidationHook('landing-page', { revalidatePaths: ['/[locale]'] })],
+    afterChange: [createGlobalRevalidationHook('landing-page', { revalidatePaths: ['/'] })],
   },
   fields: [
     {

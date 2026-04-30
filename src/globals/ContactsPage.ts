@@ -10,7 +10,7 @@ export const ContactsPage: GlobalConfig = {
   },
   hooks: {
     afterChange: [
-      createGlobalRevalidationHook('contacts-page', { revalidatePaths: ['/[locale]/contacts'] }),
+      createGlobalRevalidationHook('contacts-page', { revalidatePaths: ['/contacts'] }),
     ],
   },
   fields: [

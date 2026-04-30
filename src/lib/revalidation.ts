@@ -11,24 +11,10 @@ import { collectionTag, documentTag, globalTag } from './payload-data'
 interface RevalidationHookOptions {
   /** Additional tags to revalidate (e.g., 'pages-sitemap') */
   additionalTags?: string[]
-  /**
-   * Paths to revalidate. Supports `{slug}` placeholder for the document's slug,
-   * and Next.js dynamic segments like `[locale]` to invalidate every variant
-   * of a route (e.g. `/[locale]/blog` invalidates `/blog`, `/lt/blog`, etc.).
-   */
+  /** Paths to revalidate (e.g., ['/'] for homepage). Supports `{slug}` placeholder. */
   revalidatePaths?: string[]
   /** Revalidate all pages (busts Full Route Cache for entire site). Use for data shown across many pages. */
   revalidateAll?: boolean
-}
-
-// `revalidatePath` requires the `'page'` (or `'layout'`) hint when the path
-// contains a dynamic segment, otherwise it only invalidates the literal URL.
-function revalidateFor(path: string) {
-  if (path.includes('[')) {
-    revalidatePath(path, 'page')
-  } else {
-    revalidatePath(path)
-  }
 }
 
 export function createCollectionRevalidationHooks(
@@ -60,15 +46,15 @@ export function createCollectionRevalidationHooks(
     }
 
     if (revalidateAll) {
-      revalidatePath('/[locale]', 'layout')
+      revalidatePath('/', 'layout')
     }
 
     for (const pathPattern of revalidatePaths) {
       const path = pathPattern.replace('{slug}', doc.slug ?? '')
-      revalidateFor(path)
+      revalidatePath(path)
       if (previousDoc?.slug && previousDoc.slug !== doc.slug) {
         const oldPath = pathPattern.replace('{slug}', previousDoc.slug)
-        revalidateFor(oldPath)
+        revalidatePath(oldPath)
       }
     }
 
@@ -93,12 +79,12 @@ export function createCollectionRevalidationHooks(
     }
 
     if (revalidateAll) {
-      revalidatePath('/[locale]', 'layout')
+      revalidatePath('/', 'layout')
     }
 
     for (const pathPattern of revalidatePaths) {
       const path = pathPattern.replace('{slug}', doc?.slug ?? '')
-      revalidateFor(path)
+      revalidatePath(path)
     }
 
     return doc
@@ -127,11 +113,11 @@ export function createGlobalRevalidationHook(
     }
 
     if (revalidateAll) {
-      revalidatePath('/[locale]', 'layout')
+      revalidatePath('/', 'layout')
     }
 
     for (const path of revalidatePaths) {
-      revalidateFor(path)
+      revalidatePath(path)
     }
 
     return doc

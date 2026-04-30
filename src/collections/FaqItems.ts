@@ -10,7 +10,7 @@ type UserWithRole = {
 }
 
 const revalidation = createCollectionRevalidationHooks('faq-items', {
-  revalidatePaths: ['/[locale]', '/[locale]/faq'],
+  revalidatePaths: ['/'],
 })
 
 export const FaqItems: CollectionConfig = {
