@@ -475,6 +475,7 @@ export interface Event {
         | 'America/Coral_Harbour'
         | 'America/Cordoba'
         | 'America/Costa_Rica'
+        | 'America/Coyhaique'
         | 'America/Creston'
         | 'America/Cuiaba'
         | 'America/Curacao'
