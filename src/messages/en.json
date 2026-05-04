@@ -35,7 +35,7 @@
       "languageSelector": "Select language",
       "currentLanguage": "Current language"
     },
-    "cta": "Start Learning"
+    "cta": "Enroll for free"
   },
   "hero": {
     "partnersLabel": "Partners",
@@ -43,7 +43,7 @@
   },
   "problem": {
     "backgroundWord": "EVOLUTION",
-    "cta": "Start Learning"
+    "cta": "Enroll for free"
   },
   "skills": {
     "eyebrow": "Core Skills",
@@ -55,7 +55,7 @@
   "howItWorks": {
     "eyebrow": "How It Works",
     "phaseLabel": "Phase",
-    "cta": "Get Started"
+    "cta": "Enroll for free"
   },
   "audience": {
     "eyebrow": "Who Can Join",

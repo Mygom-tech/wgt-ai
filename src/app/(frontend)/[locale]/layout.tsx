@@ -8,6 +8,7 @@ import { redirect } from 'next/navigation'
 import { JsonLd } from '@/components/JsonLd'
 import { GoogleTagManager, GoogleTagManagerNoScript } from '@/components/GoogleTagManager'
 import { getSiteSettings, getEnabledLocales } from '@/lib/getSiteSettings'
+import { extractFaviconUrls } from '@/lib/getFavicons'
 import { getSiteUrl, queryGlobal } from '@/lib/payload-data'
 import { buildAlternateLanguages } from '@/lib/generateMeta'
 import { getHtmlLang, type LocaleCode } from '@/i18n/locales'
@@ -58,6 +59,12 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const siteUrl = getSiteUrl(settings)
   const siteName = settings.siteName || 'Jarune'
   const languages = buildAlternateLanguages(enabledLocales, siteUrl, '')
+  const favicons = extractFaviconUrls(settings)
+
+  const browserIcons: Array<{ url: string; sizes?: string; type?: string }> = []
+  if (favicons.svg) browserIcons.push({ url: favicons.svg, type: 'image/svg+xml' })
+  if (favicons.png32) browserIcons.push({ url: favicons.png32, sizes: '32x32', type: 'image/png' })
+  if (favicons.png16) browserIcons.push({ url: favicons.png16, sizes: '16x16', type: 'image/png' })
 
   return {
     metadataBase: new URL(siteUrl),
@@ -75,6 +82,12 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     },
     alternates: {
       languages,
+    },
+    icons: {
+      icon: browserIcons.length > 0 ? browserIcons : undefined,
+      apple: favicons.apple180
+        ? { url: favicons.apple180, sizes: '180x180', type: 'image/png' }
+        : undefined,
     },
     robots: {
       index: true,
@@ -157,6 +170,7 @@ export default async function LocaleLayout({ children, params }: Props) {
             <Header
               enabledLocales={enabledLocales}
               logo={settings.logo as PayloadImage | null | undefined}
+              ctaText={settings.headerCtaText}
             />
             <main id="main-content">{children}</main>
             <Footer
