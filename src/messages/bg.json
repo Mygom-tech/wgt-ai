@@ -35,7 +35,7 @@
       "languageSelector": "Избери език",
       "currentLanguage": "Текущ език"
     },
-    "cta": "Започни да учиш"
+    "cta": "Запиши се безплатно"
   },
   "hero": {
     "partnersLabel": "Партньори",
@@ -43,7 +43,7 @@
   },
   "problem": {
     "backgroundWord": "ЕВОЛЮЦИЯ",
-    "cta": "Започни да учиш"
+    "cta": "Запиши се безплатно"
   },
   "skills": {
     "eyebrow": "Основни умения",
@@ -55,7 +55,7 @@
   "howItWorks": {
     "eyebrow": "Как работи",
     "phaseLabel": "Фаза",
-    "cta": "Започни"
+    "cta": "Запиши се безплатно"
   },
   "audience": {
     "eyebrow": "За кого е",

@@ -35,7 +35,7 @@
       "languageSelector": "Izvēlēties valodu",
       "currentLanguage": "Pašreizējā valoda"
     },
-    "cta": "Sākt mācīties"
+    "cta": "Reģistrējies bez maksas"
   },
   "hero": {
     "partnersLabel": "Partneri",
@@ -43,7 +43,7 @@
   },
   "problem": {
     "backgroundWord": "EVOLŪCIJA",
-    "cta": "Sākt mācīties"
+    "cta": "Reģistrējies bez maksas"
   },
   "skills": {
     "eyebrow": "Pamatprasmes",
@@ -55,7 +55,7 @@
   "howItWorks": {
     "eyebrow": "Kā tas darbojas",
     "phaseLabel": "Fāze",
-    "cta": "Sākt"
+    "cta": "Reģistrējies bez maksas"
   },
   "audience": {
     "eyebrow": "Kam paredzēts",

@@ -8,6 +8,7 @@ import { redirect } from 'next/navigation'
 import { JsonLd } from '@/components/JsonLd'
 import { GoogleTagManager, GoogleTagManagerNoScript } from '@/components/GoogleTagManager'
 import { getSiteSettings, getEnabledLocales } from '@/lib/getSiteSettings'
+import { extractFaviconAssets } from '@/lib/getFavicons'
 import { getSiteUrl, queryGlobal } from '@/lib/payload-data'
 import { buildAlternateLanguages } from '@/lib/generateMeta'
 import { getHtmlLang, type LocaleCode } from '@/i18n/locales'
@@ -58,6 +59,14 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const siteUrl = getSiteUrl(settings)
   const siteName = settings.siteName || 'Jarune'
   const languages = buildAlternateLanguages(enabledLocales, siteUrl, '')
+  const favicons = extractFaviconAssets(settings)
+
+  const browserIcons: Array<{ url: string; sizes?: string; type: string }> = []
+  if (favicons.svg) browserIcons.push({ url: favicons.svg.url, type: favicons.svg.mimeType })
+  if (favicons.png32)
+    browserIcons.push({ url: favicons.png32.url, sizes: '32x32', type: favicons.png32.mimeType })
+  if (favicons.png16)
+    browserIcons.push({ url: favicons.png16.url, sizes: '16x16', type: favicons.png16.mimeType })
 
   return {
     metadataBase: new URL(siteUrl),
@@ -75,6 +84,12 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     },
     alternates: {
       languages,
+    },
+    icons: {
+      icon: browserIcons.length > 0 ? browserIcons : undefined,
+      apple: favicons.apple180
+        ? { url: favicons.apple180.url, sizes: '180x180', type: favicons.apple180.mimeType }
+        : undefined,
     },
     robots: {
       index: true,
@@ -157,6 +172,7 @@ export default async function LocaleLayout({ children, params }: Props) {
             <Header
               enabledLocales={enabledLocales}
               logo={settings.logo as PayloadImage | null | undefined}
+              ctaText={settings.headerCtaText}
             />
             <main id="main-content">{children}</main>
             <Footer
