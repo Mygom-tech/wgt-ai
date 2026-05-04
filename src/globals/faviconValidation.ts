@@ -12,7 +12,8 @@ async function loadImage(value: unknown, req: PayloadRequest) {
       collection: 'images',
       id: value,
       depth: 0,
-      overrideAccess: true,
+      req,
+      overrideAccess: false,
     })
 
     return doc as { mimeType?: string | null; width?: number | null; height?: number | null } | null
