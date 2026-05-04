@@ -1,19 +1,22 @@
 import type { GlobalConfig } from 'payload'
 import { createGlobalRevalidationHook } from '@/lib/revalidation'
-import { superAdminOnly } from '@/lib/access'
+import {
+  globalLocaleRestrictedUpdate,
+  lockNonLocalizedFieldsForCountryAdmins,
+} from '@/lib/access'
 
 export const ContactsPage: GlobalConfig = {
   slug: 'contacts-page',
   access: {
     read: () => true,
-    update: superAdminOnly,
+    update: globalLocaleRestrictedUpdate,
   },
   hooks: {
     afterChange: [
       createGlobalRevalidationHook('contacts-page', { revalidatePaths: ['/contacts'] }),
     ],
   },
-  fields: [
+  fields: lockNonLocalizedFieldsForCountryAdmins([
     {
       name: 'heading',
       type: 'text',
@@ -99,5 +102,5 @@ export const ContactsPage: GlobalConfig = {
         },
       ],
     },
-  ],
+  ]),
 }
