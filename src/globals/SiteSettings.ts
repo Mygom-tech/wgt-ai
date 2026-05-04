@@ -2,6 +2,11 @@ import type { GlobalConfig } from 'payload'
 import { locales } from '@/i18n/locales'
 import { createGlobalRevalidationHook } from '@/lib/revalidation'
 import { superAdminOnly } from '@/lib/access'
+import { validateSvgFavicon, validateRasterFaviconSize } from './faviconValidation'
+import { SVG_MIME } from '@/lib/mimeTypes'
+
+const onlySvg = () => ({ mimeType: { equals: SVG_MIME } })
+const onlyRaster = () => ({ mimeType: { not_equals: SVG_MIME } })
 
 export const SiteSettings: GlobalConfig = {
   slug: 'site-settings',
@@ -224,6 +229,8 @@ export const SiteSettings: GlobalConfig = {
                   type: 'upload',
                   relationTo: 'images',
                   label: 'SVG (any size)',
+                  filterOptions: onlySvg,
+                  validate: validateSvgFavicon,
                   admin: {
                     description:
                       'Modern browsers prefer this — vector, crisp at every size. Recommended.',
@@ -234,6 +241,8 @@ export const SiteSettings: GlobalConfig = {
                   type: 'upload',
                   relationTo: 'images',
                   label: 'PNG 16×16',
+                  filterOptions: onlyRaster,
+                  validate: validateRasterFaviconSize(16, 16),
                   admin: {
                     description: 'Browser tab favicon (small). PNG, exactly 16×16 pixels.',
                   },
@@ -243,6 +252,8 @@ export const SiteSettings: GlobalConfig = {
                   type: 'upload',
                   relationTo: 'images',
                   label: 'PNG 32×32',
+                  filterOptions: onlyRaster,
+                  validate: validateRasterFaviconSize(32, 32),
                   admin: {
                     description: 'Browser tab favicon (standard). PNG, exactly 32×32 pixels.',
                   },
@@ -252,6 +263,8 @@ export const SiteSettings: GlobalConfig = {
                   type: 'upload',
                   relationTo: 'images',
                   label: 'Apple Touch Icon 180×180',
+                  filterOptions: onlyRaster,
+                  validate: validateRasterFaviconSize(180, 180),
                   admin: {
                     description:
                       'Used when iOS users add your site to the home screen. PNG, exactly 180×180 pixels. Should look good on a colored background (no transparency).',
@@ -262,6 +275,8 @@ export const SiteSettings: GlobalConfig = {
                   type: 'upload',
                   relationTo: 'images',
                   label: 'PWA Icon 192×192',
+                  filterOptions: onlyRaster,
+                  validate: validateRasterFaviconSize(192, 192),
                   admin: {
                     description: 'Android home screen / PWA icon. PNG, exactly 192×192 pixels.',
                   },
@@ -271,6 +286,8 @@ export const SiteSettings: GlobalConfig = {
                   type: 'upload',
                   relationTo: 'images',
                   label: 'PWA Icon 512×512',
+                  filterOptions: onlyRaster,
+                  validate: validateRasterFaviconSize(512, 512),
                   admin: {
                     description:
                       'PWA splash screen / large icon. PNG, exactly 512×512 pixels.',

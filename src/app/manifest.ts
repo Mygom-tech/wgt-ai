@@ -1,15 +1,17 @@
 import type { MetadataRoute } from 'next'
 import { getSiteSettings } from '@/lib/getSiteSettings'
-import { extractFaviconUrls } from '@/lib/getFavicons'
+import { extractFaviconAssets } from '@/lib/getFavicons'
 
 export default async function manifest(): Promise<MetadataRoute.Manifest> {
   const settings = await getSiteSettings()
-  const favicons = extractFaviconUrls(settings)
+  const favicons = extractFaviconAssets(settings)
   const siteName = settings.siteName || 'Jarune'
 
   const icons: MetadataRoute.Manifest['icons'] = []
-  if (favicons.pwa192) icons.push({ src: favicons.pwa192, sizes: '192x192', type: 'image/png' })
-  if (favicons.pwa512) icons.push({ src: favicons.pwa512, sizes: '512x512', type: 'image/png' })
+  if (favicons.pwa192)
+    icons.push({ src: favicons.pwa192.url, sizes: '192x192', type: favicons.pwa192.mimeType })
+  if (favicons.pwa512)
+    icons.push({ src: favicons.pwa512.url, sizes: '512x512', type: favicons.pwa512.mimeType })
 
   return {
     name: siteName,

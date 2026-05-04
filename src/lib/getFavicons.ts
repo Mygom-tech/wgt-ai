@@ -1,31 +1,38 @@
 import type { SiteSetting, Image as PayloadImage } from '@/payload-types'
 
-export type FaviconUrls = {
-  svg?: string
-  png16?: string
-  png32?: string
-  apple180?: string
-  pwa192?: string
-  pwa512?: string
+export type FaviconRef = {
+  url: string
+  mimeType: string
 }
 
-function urlOf(value: unknown): string | undefined {
+export type FaviconAssets = {
+  svg?: FaviconRef
+  png16?: FaviconRef
+  png32?: FaviconRef
+  apple180?: FaviconRef
+  pwa192?: FaviconRef
+  pwa512?: FaviconRef
+}
+
+function refOf(value: unknown): FaviconRef | undefined {
   if (!value || typeof value !== 'object') return undefined
 
   const img = value as Partial<PayloadImage>
-  return img.url ?? undefined
+  if (!img.url || !img.mimeType) return undefined
+
+  return { url: img.url, mimeType: img.mimeType }
 }
 
-export function extractFaviconUrls(settings: SiteSetting): FaviconUrls {
+export function extractFaviconAssets(settings: SiteSetting): FaviconAssets {
   const f = settings.favicons
   if (!f) return {}
 
   return {
-    svg: urlOf(f.svg),
-    png16: urlOf(f.png16),
-    png32: urlOf(f.png32),
-    apple180: urlOf(f.apple180),
-    pwa192: urlOf(f.pwa192),
-    pwa512: urlOf(f.pwa512),
+    svg: refOf(f.svg),
+    png16: refOf(f.png16),
+    png32: refOf(f.png32),
+    apple180: refOf(f.apple180),
+    pwa192: refOf(f.pwa192),
+    pwa512: refOf(f.pwa512),
   }
 }

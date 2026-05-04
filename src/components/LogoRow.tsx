@@ -44,14 +44,14 @@ export function LogoRow({
           return (
             <div
               key={item.id || i}
-              className="relative flex h-7 md:h-8 w-18.75 md:w-21.5 shrink-0 items-center justify-center"
+              className="relative h-7 md:h-8 w-18.75 md:w-21.5 shrink-0"
             >
               <Image
                 src={src}
                 alt={alt}
-                width={120}
-                height={32}
-                className="h-full w-full object-contain"
+                fill
+                sizes="(min-width: 768px) 86px, 75px"
+                className="object-contain"
               />
             </div>
           )
