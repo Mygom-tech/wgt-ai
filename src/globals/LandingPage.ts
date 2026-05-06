@@ -1,17 +1,20 @@
 import type { GlobalConfig } from 'payload'
 import { createGlobalRevalidationHook } from '@/lib/revalidation'
-import { superAdminOnly } from '@/lib/access'
+import {
+  globalLocaleRestrictedUpdate,
+  lockNonLocalizedFieldsForCountryAdmins,
+} from '@/lib/access'
 
 export const LandingPage: GlobalConfig = {
   slug: 'landing-page',
   access: {
     read: () => true,
-    update: superAdminOnly,
+    update: globalLocaleRestrictedUpdate,
   },
   hooks: {
     afterChange: [createGlobalRevalidationHook('landing-page', { revalidatePaths: ['/'] })],
   },
-  fields: [
+  fields: lockNonLocalizedFieldsForCountryAdmins([
     {
       type: 'tabs',
       tabs: [
@@ -520,5 +523,5 @@ export const LandingPage: GlobalConfig = {
         },
       ],
     },
-  ],
+  ]),
 }

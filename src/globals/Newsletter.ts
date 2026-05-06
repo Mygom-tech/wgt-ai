@@ -1,6 +1,10 @@
 import type { GlobalConfig } from 'payload'
 import { createGlobalRevalidationHook } from '@/lib/revalidation'
-import { publicRead, superAdminOnly } from '@/lib/access'
+import {
+  globalLocaleRestrictedUpdate,
+  lockNonLocalizedFieldsForCountryAdmins,
+  publicRead,
+} from '@/lib/access'
 
 export const Newsletter: GlobalConfig = {
   slug: 'newsletter',
@@ -10,7 +14,7 @@ export const Newsletter: GlobalConfig = {
   },
   access: {
     read: publicRead,
-    update: superAdminOnly,
+    update: globalLocaleRestrictedUpdate,
   },
   hooks: {
     afterChange: [createGlobalRevalidationHook('newsletter', {
@@ -18,7 +22,7 @@ export const Newsletter: GlobalConfig = {
       revalidatePaths: ['/'],
     })],
   },
-  fields: [
+  fields: lockNonLocalizedFieldsForCountryAdmins([
     {
       name: 'heading',
       type: 'text',
@@ -113,5 +117,5 @@ export const Newsletter: GlobalConfig = {
         },
       ],
     },
-  ],
+  ]),
 }

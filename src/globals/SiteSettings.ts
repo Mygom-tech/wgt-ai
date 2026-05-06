@@ -1,8 +1,11 @@
 import type { GlobalConfig } from 'payload'
 import { locales } from '@/i18n/locales'
 import { createGlobalRevalidationHook } from '@/lib/revalidation'
-import { superAdminOnly } from '@/lib/access'
-import { validateSvgFavicon, validateRasterFaviconSize } from './faviconValidation'
+import {
+  globalLocaleRestrictedUpdate,
+  lockNonLocalizedFieldsForCountryAdmins,
+} from '@/lib/access'
+import { validateSvgFavicon, validateRasterFaviconSize } from '@/lib/faviconValidation'
 import { SVG_MIME } from '@/lib/mimeTypes'
 
 const onlySvg = () => ({ mimeType: { equals: SVG_MIME } })
@@ -12,7 +15,7 @@ export const SiteSettings: GlobalConfig = {
   slug: 'site-settings',
   access: {
     read: () => true,
-    update: superAdminOnly,
+    update: globalLocaleRestrictedUpdate,
   },
   hooks: {
     afterChange: [
@@ -22,7 +25,7 @@ export const SiteSettings: GlobalConfig = {
       }),
     ],
   },
-  fields: [
+  fields: lockNonLocalizedFieldsForCountryAdmins([
     {
       type: 'tabs',
       tabs: [
@@ -299,5 +302,5 @@ export const SiteSettings: GlobalConfig = {
         },
       ],
     },
-  ],
+  ]),
 }

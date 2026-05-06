@@ -1,20 +1,23 @@
 import type { GlobalConfig } from 'payload'
 import { createGlobalRevalidationHook } from '@/lib/revalidation'
-import { superAdminOnly } from '@/lib/access'
+import {
+  globalLocaleRestrictedUpdate,
+  lockNonLocalizedFieldsForCountryAdmins,
+} from '@/lib/access'
 
 export const EventsPage: GlobalConfig = {
   slug: 'events-page',
   label: 'Events Page',
   access: {
     read: () => true,
-    update: superAdminOnly,
+    update: globalLocaleRestrictedUpdate,
   },
   hooks: {
     afterChange: [
       createGlobalRevalidationHook('events-page', { revalidatePaths: ['/events'] }),
     ],
   },
-  fields: [
+  fields: lockNonLocalizedFieldsForCountryAdmins([
     {
       name: 'eyebrow',
       type: 'text',
@@ -51,5 +54,5 @@ export const EventsPage: GlobalConfig = {
         description: 'Large decorative watermark word behind the hero section',
       },
     },
-  ],
+  ]),
 }
