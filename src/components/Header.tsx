@@ -18,14 +18,16 @@ import { gsap, useGSAP } from '@/lib/gsap'
 type HeaderProps = {
   enabledLocales: LocaleCode[]
   logo?: PayloadImage | string | null
+  ctaText?: string | null
 }
 
 function isPopulatedImage(logo: PayloadImage | string | null | undefined): logo is PayloadImage {
   return typeof logo === 'object' && logo !== null && 'url' in logo && !!logo.url
 }
 
-export function Header({ enabledLocales, logo }: HeaderProps) {
+export function Header({ enabledLocales, logo, ctaText }: HeaderProps) {
   const t = useTranslations('header')
+  const ctaLabel = ctaText?.trim() || t('cta')
   const [isScrolled, setIsScrolled] = useState(false)
   const [isDarkHero, setIsDarkHero] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
@@ -205,7 +207,7 @@ export function Header({ enabledLocales, logo }: HeaderProps) {
                     isLight ? 'bg-white' : 'bg-secondary',
                   )}
                 >
-                  {t('cta')}
+                  {ctaLabel}
                 </NavHashLink>
               </MagneticButton>
 
@@ -228,7 +230,7 @@ export function Header({ enabledLocales, logo }: HeaderProps) {
         isOpen={isMobileMenuOpen}
         onClose={closeMobileMenu}
         enabledLocales={enabledLocales}
-        ctaText={t('cta')}
+        ctaText={ctaLabel}
         navLinks={navLinks}
       />
     </>

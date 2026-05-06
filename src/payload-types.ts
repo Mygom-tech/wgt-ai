@@ -1714,6 +1714,35 @@ export interface SiteSetting {
    * Your GTM container ID (looks like GTM-XXXXXXX). Find it at tagmanager.google.com. Tracking is automatically disabled in development.
    */
   gtmId?: string | null;
+  /**
+   * Browser tab icons, iOS home-screen icon and PWA icons. Upload each at the exact pixel size noted. Any field left empty is simply skipped — browsers will pick the best of whatever is provided.
+   */
+  favicons?: {
+    /**
+     * Modern browsers prefer this — vector, crisp at every size. Recommended.
+     */
+    svg?: (string | null) | Image;
+    /**
+     * Browser tab favicon (small). PNG, exactly 16×16 pixels.
+     */
+    png16?: (string | null) | Image;
+    /**
+     * Browser tab favicon (standard). PNG, exactly 32×32 pixels.
+     */
+    png32?: (string | null) | Image;
+    /**
+     * Used when iOS users add your site to the home screen. PNG, exactly 180×180 pixels. Should look good on a colored background (no transparency).
+     */
+    apple180?: (string | null) | Image;
+    /**
+     * Android home screen / PWA icon. PNG, exactly 192×192 pixels.
+     */
+    pwa192?: (string | null) | Image;
+    /**
+     * PWA splash screen / large icon. PNG, exactly 512×512 pixels.
+     */
+    pwa512?: (string | null) | Image;
+  };
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -2078,6 +2107,16 @@ export interface SiteSettingsSelect<T extends boolean = true> {
   partnershipEmail?: T;
   footerText?: T;
   gtmId?: T;
+  favicons?:
+    | T
+    | {
+        svg?: T;
+        png16?: T;
+        png32?: T;
+        apple180?: T;
+        pwa192?: T;
+        pwa512?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

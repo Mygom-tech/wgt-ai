@@ -35,7 +35,7 @@
       "languageSelector": "Pasirinkti kalbą",
       "currentLanguage": "Dabartinė kalba"
     },
-    "cta": "Pradėti mokytis"
+    "cta": "Užsiregistruok nemokamai"
   },
   "hero": {
     "partnersLabel": "Partneriai",
@@ -43,7 +43,7 @@
   },
   "problem": {
     "backgroundWord": "EVOLIUCIJA",
-    "cta": "Pradėti mokytis"
+    "cta": "Užsiregistruok nemokamai"
   },
   "skills": {
     "eyebrow": "Pagrindiniai įgūdžiai",
@@ -55,7 +55,7 @@
   "howItWorks": {
     "eyebrow": "Kaip tai veikia",
     "phaseLabel": "Etapas",
-    "cta": "Pradėti"
+    "cta": "Užsiregistruok nemokamai"
   },
   "audience": {
     "eyebrow": "Kam skirta",
