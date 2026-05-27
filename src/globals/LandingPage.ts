@@ -1,9 +1,6 @@
 import type { GlobalConfig } from 'payload'
 import { createGlobalRevalidationHook } from '@/lib/revalidation'
-import {
-  globalLocaleRestrictedUpdate,
-  lockNonLocalizedFieldsForCountryAdmins,
-} from '@/lib/access'
+import { globalLocaleRestrictedUpdate, lockNonLocalizedFieldsForCountryAdmins } from '@/lib/access'
 
 export const LandingPage: GlobalConfig = {
   slug: 'landing-page',
@@ -85,6 +82,7 @@ export const LandingPage: GlobalConfig = {
                 {
                   name: 'trustLogos',
                   type: 'array',
+                  localized: true,
                   maxRows: 6,
                   labels: {
                     singular: 'Trust Logo',
@@ -423,8 +421,7 @@ export const LandingPage: GlobalConfig = {
                       localized: true,
                       defaultValue: 'Visit website',
                       admin: {
-                        description:
-                          'Screen reader text for partner links, e.g. "Visit website"',
+                        description: 'Screen reader text for partner links, e.g. "Visit website"',
                       },
                     },
                   ],
