@@ -50,6 +50,7 @@ import { seoConfig } from './plugins/seo'
 import { fixSeoSidebar } from './plugins/fixSeoSidebar'
 import { YouTubeBlock } from './blocks/YouTube'
 import { locales, defaultLocale } from './i18n/locales'
+import { isSuperAdmin } from './lib/access'
 import type { LocalizationConfig } from 'payload'
 
 const filename = fileURLToPath(import.meta.url)
@@ -63,7 +64,19 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Users, Images, Videos, LegalPages, BlogPosts, Events, Forms, FormSubmissions, Testimonials, Partners, FaqItems],
+  collections: [
+    Users,
+    Images,
+    Videos,
+    LegalPages,
+    BlogPosts,
+    Events,
+    Forms,
+    FormSubmissions,
+    Testimonials,
+    Partners,
+    FaqItems,
+  ],
   globals: [SiteSettings, LandingPage, Newsletter, ContactsPage, BlogPage, EventsPage],
   editor: lexicalEditor({
     features: [
@@ -105,6 +118,25 @@ export default buildConfig({
     })),
     defaultLocale,
     fallback: true,
+    // Restrict which locales appear in the admin locale selector per user.
+    // Super-admins see everything; country-admins see only their assigned
+    // locales plus the default locale (read-only fallback reference). This is
+    // UI-visibility only — writes are still gated by access control on globals
+    // and collections (see globalLocaleRestrictedUpdate / enforceLocaleAccess).
+    //
+    // IMPORTANT: this also runs on PUBLIC frontend localized queries (e.g.
+    // queryGlobal({ locale }) with no authenticated user). The `!user` branch
+    // MUST return the full locale set — narrowing it would break public
+    // rendering and hreflang/alternate-language SEO. Do not "tighten" it.
+    filterAvailableLocales: ({ req, locales: availableLocales }) => {
+      const user = req?.user
+      if (!user || isSuperAdmin(user)) return availableLocales
+
+      const assignedLocales: string[] = user.assignedLocales ?? []
+      return availableLocales.filter(
+        (locale) => locale.code === defaultLocale || assignedLocales.includes(locale.code),
+      )
+    },
   } satisfies LocalizationConfig,
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),
@@ -122,9 +154,7 @@ export default buildConfig({
           generateFileURL: ({ filename, prefix }) => {
             const publicUrl = process.env.R2_PUBLIC_URL
             if (!publicUrl) return `/images/${filename}`
-            return prefix
-              ? `${publicUrl}/${prefix}/${filename}`
-              : `${publicUrl}/${filename}`
+            return prefix ? `${publicUrl}/${prefix}/${filename}` : `${publicUrl}/${filename}`
           },
           prefix: 'images',
         },
@@ -134,9 +164,7 @@ export default buildConfig({
           generateFileURL: ({ filename, prefix }) => {
             const publicUrl = process.env.R2_PUBLIC_URL
             if (!publicUrl) return `/videos/${filename}`
-            return prefix
-              ? `${publicUrl}/${prefix}/${filename}`
-              : `${publicUrl}/${filename}`
+            return prefix ? `${publicUrl}/${prefix}/${filename}` : `${publicUrl}/${filename}`
           },
           prefix: 'videos',
         },
