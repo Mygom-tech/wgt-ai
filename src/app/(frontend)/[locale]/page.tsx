@@ -132,9 +132,11 @@ export default async function HomePage({ params }: Props) {
 
   const registration = landingData?.registration as LandingPage['registration']
 
-  // Extract form from relationship (populated at depth: 2)
+  // Extract form from relationship (populated at depth: 2). Resolves to null if the
+  // related form was deleted/unpublished, in which case the section is skipped below.
   const registrationForm =
     registration?.form && typeof registration.form === 'object' ? registration.form : null
+  const registrationFormId = registrationForm?.id ?? null
 
   const testimonialsSection = landingData?.testimonials
   const testimonialDocs = testimonialsResult.docs
@@ -147,7 +149,10 @@ export default async function HomePage({ params }: Props) {
 
   async function handleRegistrationSubmit(rawData: Record<string, string | boolean>) {
     'use server'
-    return submitForm(registrationForm!.id, locale, rawData)
+    if (!registrationFormId) {
+      return { success: false, message: 'This form is currently unavailable.' }
+    }
+    return submitForm(registrationFormId, locale, rawData)
   }
 
   const siteUrl = getSiteUrl(settings)
