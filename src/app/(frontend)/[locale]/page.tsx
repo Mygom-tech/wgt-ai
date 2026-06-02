@@ -216,38 +216,44 @@ export default async function HomePage({ params }: Props) {
             : {}),
         }}
       />
-      <Hero hero={hero} />
-      {problem && <Problem problem={problem} />}
-      {skills && <Skills skills={skills} />}
-      {howItWorks && <HowItWorks howItWorks={howItWorks} />}
-      {audience && <Audience audience={audience} />}
-      {registration && registrationForm && (
+      {landingData?.sections?.hero !== false && <Hero hero={hero} />}
+      {landingData?.sections?.problem !== false && problem && <Problem problem={problem} />}
+      {landingData?.sections?.skills !== false && skills && <Skills skills={skills} />}
+      {landingData?.sections?.howItWorks !== false && howItWorks && (
+        <HowItWorks howItWorks={howItWorks} />
+      )}
+      {landingData?.sections?.audience !== false && audience && <Audience audience={audience} />}
+      {landingData?.sections?.registration !== false && registration && registrationForm && (
         <Registration
           registration={registration}
           form={registrationForm}
           submitAction={handleRegistrationSubmit}
         />
       )}
-      {testimonialsSection?.heading && testimonialDocs.length > 0 && (
-        <Testimonials
-          eyebrow={testimonialsSection.eyebrow}
-          heading={testimonialsSection.heading}
-          subtitle={testimonialsSection.subtitle}
-          backgroundWord={testimonialsSection.backgroundWord}
-          testimonials={testimonialDocs}
-        />
-      )}
-      {partnersSection?.heading && partnerDocs.length > 0 && (
-        <Partners
-          eyebrow={partnersSection.eyebrow}
-          heading={partnersSection.heading}
-          subtitle={partnersSection.subtitle}
-          backgroundWord={partnersSection.backgroundWord}
-          visitWebsiteLabel={partnersSection.visitWebsiteLabel}
-          partners={partnerDocs}
-        />
-      )}
-      {faqSection?.heading && faqDocs.length > 0 && (
+      {landingData?.sections?.testimonials !== false &&
+        testimonialsSection?.heading &&
+        testimonialDocs.length > 0 && (
+          <Testimonials
+            eyebrow={testimonialsSection.eyebrow}
+            heading={testimonialsSection.heading}
+            subtitle={testimonialsSection.subtitle}
+            backgroundWord={testimonialsSection.backgroundWord}
+            testimonials={testimonialDocs}
+          />
+        )}
+      {landingData?.sections?.partners !== false &&
+        partnersSection?.heading &&
+        partnerDocs.length > 0 && (
+          <Partners
+            eyebrow={partnersSection.eyebrow}
+            heading={partnersSection.heading}
+            subtitle={partnersSection.subtitle}
+            backgroundWord={partnersSection.backgroundWord}
+            visitWebsiteLabel={partnersSection.visitWebsiteLabel}
+            partners={partnerDocs}
+          />
+        )}
+      {landingData?.sections?.faq !== false && faqSection?.heading && faqDocs.length > 0 && (
         <FAQ
           eyebrow={faqSection.eyebrow}
           heading={faqSection.heading}
@@ -256,7 +262,8 @@ export default async function HomePage({ params }: Props) {
           items={faqDocs}
         />
       )}
-      {faqDocs.length > 0 &&
+      {landingData?.sections?.faq !== false &&
+        faqDocs.length > 0 &&
         (() => {
           const faqEntities = faqDocs
             .map((faq) => {
@@ -284,7 +291,9 @@ export default async function HomePage({ params }: Props) {
             />
           ) : null
         })()}
-      {newsletterData?.heading && <CTA newsletter={newsletterData} />}
+      {landingData?.sections?.newsletter !== false && newsletterData?.heading && (
+        <CTA newsletter={newsletterData} />
+      )}
     </>
   )
 }

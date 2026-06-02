@@ -475,7 +475,6 @@ export interface Event {
         | 'America/Coral_Harbour'
         | 'America/Cordoba'
         | 'America/Costa_Rica'
-        | 'America/Coyhaique'
         | 'America/Creston'
         | 'America/Cuiaba'
         | 'America/Curacao'
@@ -1775,6 +1774,10 @@ export interface LandingPage {
      */
     ctaText: string;
     /**
+     * Primary CTA button URL, e.g. "#register" or external link like "https://example.com/apply"
+     */
+    ctaUrl?: string | null;
+    /**
      * Optional hero background image. If empty, subtle gradient is used. Recommended: WebP, max 200KB.
      */
     backgroundImage?: (string | null) | Image;
@@ -1929,6 +1932,21 @@ export interface LandingPage {
      * Large decorative watermark word behind the section
      */
     backgroundWord?: string | null;
+  };
+  /**
+   * Ability to enable/disable entire sections of the landing page. This does not delete any content, just hides it from the frontend.
+   */
+  sections?: {
+    hero?: boolean | null;
+    problem?: boolean | null;
+    skills?: boolean | null;
+    howItWorks?: boolean | null;
+    audience?: boolean | null;
+    registration?: boolean | null;
+    testimonials?: boolean | null;
+    partners?: boolean | null;
+    faq?: boolean | null;
+    newsletter?: boolean | null;
   };
   updatedAt?: string | null;
   createdAt?: string | null;
@@ -2135,6 +2153,7 @@ export interface LandingPageSelect<T extends boolean = true> {
         eyebrow?: T;
         subtitle?: T;
         ctaText?: T;
+        ctaUrl?: T;
         backgroundImage?: T;
         trustLogos?:
           | T
@@ -2229,6 +2248,20 @@ export interface LandingPageSelect<T extends boolean = true> {
         heading?: T;
         subtitle?: T;
         backgroundWord?: T;
+      };
+  sections?:
+    | T
+    | {
+        hero?: T;
+        problem?: T;
+        skills?: T;
+        howItWorks?: T;
+        audience?: T;
+        registration?: T;
+        testimonials?: T;
+        partners?: T;
+        faq?: T;
+        newsletter?: T;
       };
   updatedAt?: T;
   createdAt?: T;

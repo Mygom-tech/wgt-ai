@@ -348,7 +348,7 @@ export function Hero({ hero }: HeroProps) {
 
               <MagneticButton strength={0.06}>
                 <a
-                  href="#register"
+                  href={hero?.ctaUrl || '#register'}
                   aria-label={ctaText}
                   className="group relative inline-flex items-center gap-3 md:gap-4 px-6 md:px-8 py-3.5 md:py-4 bg-secondary text-foreground hover:text-white rounded-full transition-transform duration-700 hover:scale-[1.03] shadow-[0_20px_40px_-10px_rgba(0,0,0,0.25)] isolate overflow-hidden"
                 >

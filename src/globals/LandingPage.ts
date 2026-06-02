@@ -71,6 +71,15 @@ export const LandingPage: GlobalConfig = {
                   },
                 },
                 {
+                  name: 'ctaUrl',
+                  type: 'text',
+                  localized: true,
+                  admin: {
+                    description:
+                      'Primary CTA button URL, e.g. "#register" or external link like "https://example.com/apply"',
+                  },
+                },
+                {
                   name: 'backgroundImage',
                   type: 'upload',
                   relationTo: 'images',
@@ -515,6 +524,86 @@ export const LandingPage: GlobalConfig = {
                   ],
                 },
               ],
+            },
+          ],
+        },
+        {
+          label: 'Sections',
+          name: 'sections',
+          admin: {
+            description:
+              'Ability to enable/disable entire sections of the landing page. This does not delete any content, just hides it from the frontend.',
+          },
+          fields: [
+            {
+              name: 'hero',
+              type: 'checkbox',
+              label: 'Hero',
+              defaultValue: true,
+              localized: true,
+            },
+            {
+              name: 'problem',
+              type: 'checkbox',
+              label: 'Problem',
+              defaultValue: true,
+              localized: true,
+            },
+            {
+              name: 'skills',
+              type: 'checkbox',
+              label: 'Skills',
+              defaultValue: true,
+              localized: true,
+            },
+            {
+              name: 'howItWorks',
+              type: 'checkbox',
+              label: 'How It Works',
+              defaultValue: true,
+              localized: true,
+            },
+            {
+              name: 'audience',
+              type: 'checkbox',
+              label: 'Audience',
+              defaultValue: true,
+              localized: true,
+            },
+            {
+              name: 'registration',
+              type: 'checkbox',
+              label: 'Registration',
+              defaultValue: true,
+              localized: true,
+            },
+            {
+              name: 'testimonials',
+              type: 'checkbox',
+              label: 'Testimonials',
+              defaultValue: true,
+              localized: true,
+            },
+            {
+              name: 'partners',
+              type: 'checkbox',
+              label: 'Partners',
+              defaultValue: true,
+              localized: true,
+            },
+            {
+              name: 'faq',
+              type: 'checkbox',
+              label: 'FAQ',
+              defaultValue: true,
+              localized: true,
+            },
+            {
+              name: 'newsletter',
+              type: 'checkbox',
+              label: 'Newsletter Signup',
+              defaultValue: true,
+              localized: true,
             },
           ],
         },
