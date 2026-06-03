@@ -153,6 +153,10 @@ export const LandingPage: GlobalConfig = {
                       name: 'ctaUrl',
                       type: 'text',
                       localized: true,
+                      admin: {
+                        description:
+                          'Primary CTA button URL, e.g. "#register" or external link like "https://example.com/apply"',
+                      },
                     },
                     {
                       name: 'image',
@@ -226,6 +230,10 @@ export const LandingPage: GlobalConfig = {
                       name: 'ctaUrl',
                       type: 'text',
                       localized: true,
+                      admin: {
+                        description:
+                          'Primary CTA button URL, e.g. "#register" or external link like "https://example.com/apply"',
+                      },
                     },
                     {
                       name: 'benefits',
@@ -265,6 +273,10 @@ export const LandingPage: GlobalConfig = {
                       name: 'ctaUrl',
                       type: 'text',
                       localized: true,
+                      admin: {
+                        description:
+                          'Primary CTA button URL, e.g. "#register" or external link like "https://example.com/apply"',
+                      },
                     },
                     {
                       name: 'steps',

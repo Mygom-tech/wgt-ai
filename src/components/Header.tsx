@@ -202,7 +202,7 @@ export function Header({ enabledLocales, logo, ctaText, ctaUrl }: HeaderProps) {
 
               <MagneticButton strength={0.15}>
                 <NavHashLink
-                  hash={ctaUrl || '#register'}
+                  hash={ctaUrl?.trim() || '#register'}
                   className={cn(
                     'hidden lg:inline-flex rounded-full px-7 py-3 text-xs font-bold uppercase tracking-[0.15em] transition-all duration-700 hover:scale-[1.02] shadow-lg text-foreground hover:bg-primary hover:text-white',
                     isLight ? 'bg-white' : 'bg-secondary',

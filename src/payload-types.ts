@@ -1827,6 +1827,9 @@ export interface LandingPage {
       };
       [k: string]: unknown;
     };
+    /**
+     * Primary CTA button URL, e.g. "#register" or external link like "https://example.com/apply"
+     */
     ctaUrl?: string | null;
     /**
      * Conceptual image for the problem section. Recommended: WebP, 16:9 or 3:4 aspect ratio.
@@ -1848,6 +1851,9 @@ export interface LandingPage {
      * Heading for the benefits section at the bottom of Skills
      */
     benefitsHeading?: string | null;
+    /**
+     * Primary CTA button URL, e.g. "#register" or external link like "https://example.com/apply"
+     */
     ctaUrl?: string | null;
     benefits?:
       | {
@@ -1858,6 +1864,9 @@ export interface LandingPage {
   };
   howItWorks: {
     heading: string;
+    /**
+     * Primary CTA button URL, e.g. "#register" or external link like "https://example.com/apply"
+     */
     ctaUrl?: string | null;
     steps?:
       | {

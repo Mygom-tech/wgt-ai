@@ -219,6 +219,7 @@ export const SiteSettings: GlobalConfig = {
               name: 'cookiePolicyPage',
               type: 'relationship',
               relationTo: 'legal-pages',
+              maxDepth: 1,
               label: 'Cookie Policy Page',
               admin: {
                 description:
