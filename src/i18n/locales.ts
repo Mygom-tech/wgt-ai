@@ -2,13 +2,13 @@ export const defaultLocale = 'en'
 
 export const locales = [
   { code: 'en', htmlLang: 'en', label: 'English' },
-  { code: 'lt', htmlLang: 'lt', label: 'Lithuanian' },
-  { code: 'lv', htmlLang: 'lv', label: 'Latvian' },
-  { code: 'cs', htmlLang: 'cs', label: 'Czech' },
-  { code: 'ro', htmlLang: 'ro', label: 'Romanian' },
-  { code: 'bg', htmlLang: 'bg', label: 'Bulgarian' },
-  { code: 'md', htmlLang: 'ro-MD', label: 'Moldovan' },
-  { code: 'pl', htmlLang: 'pl', label: 'Polish' },
+  { code: 'bg', htmlLang: 'bg', label: 'Bulgaria' },
+  { code: 'cs', htmlLang: 'cs', label: 'Czechia' },
+  { code: 'lv', htmlLang: 'lv', label: 'Latvia' },
+  { code: 'lt', htmlLang: 'lt', label: 'Lithuania' },
+  // { code: 'md', htmlLang: 'ro-MD', label: 'Moldova' },
+  { code: 'pl', htmlLang: 'pl', label: 'Poland' },
+  { code: 'ro', htmlLang: 'ro', label: 'Romania' },
 ] as const
 
 export type LocaleCode = (typeof locales)[number]['code']

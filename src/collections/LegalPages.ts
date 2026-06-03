@@ -2,8 +2,11 @@ import type { CollectionConfig } from 'payload'
 import { createCollectionRevalidationHooks } from '@/lib/revalidation'
 import { adminAccess, enforceLocaleAccess } from '@/lib/access'
 
+// Legal links now render in the site-wide footer (layout), so any change must
+// bust the whole route cache, not just the page's own URL. revalidateAll busts
+// the root layout, which also covers the legal detail page itself.
 const revalidation = createCollectionRevalidationHooks('legal-pages', {
-  revalidatePaths: ['/{slug}'],
+  revalidateAll: true,
 })
 
 export const LegalPages: CollectionConfig = {
@@ -63,6 +66,26 @@ export const LegalPages: CollectionConfig = {
         { label: 'Published', value: 'published' },
       ],
       admin: { position: 'sidebar' },
+    },
+    {
+      name: 'hideFromFooter',
+      type: 'checkbox',
+      defaultValue: false,
+      label: 'Hide from footer',
+      admin: {
+        position: 'sidebar',
+        description:
+          'When checked, this page is not listed in the site footer. The page itself stays live at its URL.',
+      },
+    },
+    {
+      name: 'footerOrder',
+      type: 'number',
+      defaultValue: 0,
+      admin: {
+        position: 'sidebar',
+        description: 'Order in the footer list. Lower numbers appear first.',
+      },
     },
   ],
   hooks: {

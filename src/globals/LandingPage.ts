@@ -150,6 +150,11 @@ export const LandingPage: GlobalConfig = {
                       required: true,
                     },
                     {
+                      name: 'ctaUrl',
+                      type: 'text',
+                      localized: true,
+                    },
+                    {
                       name: 'image',
                       type: 'upload',
                       relationTo: 'images',
@@ -218,6 +223,11 @@ export const LandingPage: GlobalConfig = {
                       },
                     },
                     {
+                      name: 'ctaUrl',
+                      type: 'text',
+                      localized: true,
+                    },
+                    {
                       name: 'benefits',
                       type: 'array',
                       maxRows: 3,
@@ -250,6 +260,11 @@ export const LandingPage: GlobalConfig = {
                       localized: true,
                       required: true,
                       defaultValue: 'How It Works',
+                    },
+                    {
+                      name: 'ctaUrl',
+                      type: 'text',
+                      localized: true,
                     },
                     {
                       name: 'steps',

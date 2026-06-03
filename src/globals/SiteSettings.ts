@@ -1,10 +1,7 @@
 import type { GlobalConfig } from 'payload'
 import { locales } from '@/i18n/locales'
 import { createGlobalRevalidationHook } from '@/lib/revalidation'
-import {
-  globalLocaleRestrictedUpdate,
-  lockNonLocalizedFieldsForCountryAdmins,
-} from '@/lib/access'
+import { globalLocaleRestrictedUpdate, lockNonLocalizedFieldsForCountryAdmins } from '@/lib/access'
 import { validateSvgFavicon, validateRasterFaviconSize } from '@/lib/faviconValidation'
 import { SVG_MIME } from '@/lib/mimeTypes'
 
@@ -81,6 +78,11 @@ export const SiteSettings: GlobalConfig = {
                 description:
                   'Optional override for the header CTA button text. Leave empty to use the default translation for each language.',
               },
+            },
+            {
+              name: 'headerCtaUrl',
+              type: 'text',
+              localized: true,
             },
           ],
         },
@@ -213,6 +215,16 @@ export const SiteSettings: GlobalConfig = {
                 placeholder: 'GTM-XXXXXXX',
               },
             },
+            {
+              name: 'cookiePolicyPage',
+              type: 'relationship',
+              relationTo: 'legal-pages',
+              label: 'Cookie Policy Page',
+              admin: {
+                description:
+                  'The legal page the cookie consent banner links to. Pick any legal page. The link only shows if the selected page is published; leave empty to hide it.',
+              },
+            },
           ],
         },
         {
@@ -292,8 +304,7 @@ export const SiteSettings: GlobalConfig = {
                   filterOptions: onlyRaster,
                   validate: validateRasterFaviconSize(512, 512),
                   admin: {
-                    description:
-                      'PWA splash screen / large icon. PNG, exactly 512×512 pixels.',
+                    description: 'PWA splash screen / large icon. PNG, exactly 512×512 pixels.',
                   },
                 },
               ],

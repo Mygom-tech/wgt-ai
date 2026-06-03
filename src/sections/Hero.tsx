@@ -10,6 +10,7 @@ import { LogoRow } from '@/components/LogoRow'
 import { GridLines } from '@/components/ui/GridLines'
 import { gsap, useGSAP } from '@/lib/gsap'
 import { cn } from '@/lib/utils'
+import { useFitText } from '@/lib/useFitText'
 import type { LandingPage } from '@/payload-types'
 
 type HeroProps = {
@@ -22,6 +23,8 @@ export function Hero({ hero }: HeroProps) {
   const infoCardRef = useRef<HTMLDivElement>(null)
   const textContainerRef = useRef<HTMLDivElement>(null)
   const imageRef = useRef<HTMLImageElement>(null)
+
+  useFitText(textContainerRef, 0.5)
 
   const [fontsLoaded, setFontsLoaded] = useState(false)
 
@@ -276,7 +279,8 @@ export function Hero({ hero }: HeroProps) {
           <h1
             id="hero-heading"
             ref={textContainerRef}
-            className="relative z-40 flex flex-col mb-6 md:mb-10 lg:mb-14 select-none perspective-2000 pointer-events-none font-heading text-[clamp(2.25rem,9vw,7.5rem)] md:text-[clamp(3rem,7vw,7.5rem)] font-medium tracking-[-0.04em] uppercase leading-[0.95]"
+            style={{ fontSize: 'calc(var(--fit-base) * var(--fit-scale, 1))' }}
+            className="relative z-40 flex flex-col mb-6 md:mb-10 lg:mb-14 select-none perspective-2000 pointer-events-none font-heading [--fit-base:clamp(2.25rem,9vw,7.5rem)] md:[--fit-base:clamp(3rem,7vw,7.5rem)] font-medium tracking-[-0.04em] uppercase leading-[0.95]"
           >
             {lines.map((line, i) => (
               <span
