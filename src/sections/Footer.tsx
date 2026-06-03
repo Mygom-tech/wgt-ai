@@ -20,6 +20,7 @@ type FooterProps = {
   partnershipEmail?: string | null
   footerText?: string | null
   socialLinks?: SiteSetting['socialLinks']
+  legalPages?: { id: string; slug: string; title: string }[]
 }
 
 function isPopulatedImage(logo: PayloadImage | string | null | undefined): logo is PayloadImage {
@@ -33,12 +34,6 @@ const quickLinks = [
   { key: 'blog', href: '/blog' },
   { key: 'faq', href: '/faq' },
   { key: 'contact', href: '/contacts' },
-] as const
-
-const legalLinks = [
-  { key: 'terms', href: '/legal/terms' },
-  { key: 'privacy', href: '/legal/privacy-policy' },
-  { key: 'cookies', href: '/legal/cookie-policy' },
 ] as const
 
 function SocialIcon({ platform }: { platform: string }) {
@@ -118,6 +113,7 @@ export function Footer({
   partnershipEmail,
   footerText,
   socialLinks,
+  legalPages = [],
 }: FooterProps) {
   const t = useTranslations('footer')
   const sectionRef = useRef<HTMLElement>(null)
@@ -205,21 +201,23 @@ export function Footer({
               </nav>
             </div>
 
-            {/* Col 3: Legal Links */}
-            <div data-footer-col>
-              <nav aria-label={t('aria.legalLinks')}>
-                <h3 className={headingClasses}>{t('legalHeading')}</h3>
-                <ul role="list">
-                  {legalLinks.map(({ key, href }) => (
-                    <li key={key}>
-                      <Link href={href} className={linkClasses}>
-                        {t(`legal.${key}`)}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </nav>
-            </div>
+            {/* Col 3: Legal Links (driven by the legal-pages CMS collection) */}
+            {legalPages.length > 0 && (
+              <div data-footer-col>
+                <nav aria-label={t('aria.legalLinks')}>
+                  <h3 className={headingClasses}>{t('legalHeading')}</h3>
+                  <ul role="list">
+                    {legalPages.map((page) => (
+                      <li key={page.id}>
+                        <Link href={`/legal/${page.slug}`} className={linkClasses}>
+                          {page.title}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </nav>
+              </div>
+            )}
 
             {/* Col 4: Contact + Social */}
             <div data-footer-col>

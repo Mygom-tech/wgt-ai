@@ -48,31 +48,44 @@ export function Skills({ skills }: SkillsProps) {
 
       // Character cascade - starts immediately
       if (chars.length) {
-        tl.from(chars, {
-          yPercent: 100,   // Characters start 100% below baseline
-          rotateX: -60,    // Characters rotate in from behind
-          opacity: 0,
-          stagger: 0.015,  // 15ms between each character
-          duration: 1.2,
-          ease: 'expo.out',
-        }, 0)
+        tl.from(
+          chars,
+          {
+            yPercent: 100, // Characters start 100% below baseline
+            rotateX: -60, // Characters rotate in from behind
+            opacity: 0,
+            stagger: 0.015, // 15ms between each character
+            duration: 1.2,
+            ease: 'expo.out',
+          },
+          0,
+        )
       }
 
       // Card stagger - starts after characters begin
-      tl.from(cards, {
-        y: 30,
-        opacity: 0,
-        stagger: 0.1,
-        duration: 1.0,
-        ease: 'power3.out',
-      }, 0.3)
+      tl.from(
+        cards,
+        {
+          y: 30,
+          opacity: 0,
+          stagger: 0.1,
+          duration: 1.0,
+          ease: 'power3.out',
+        },
+        0.3,
+      )
     },
     { scope: sectionRef },
   )
 
   return (
     <Section ref={sectionRef} id="skills" aria-labelledby="skills-heading" variant="dark">
-      <GridLines columns={16} rows={12} className="opacity-[0.02]" lineColor="rgba(255,255,255,0.12)" />
+      <GridLines
+        columns={16}
+        rows={12}
+        className="opacity-[0.02]"
+        lineColor="rgba(255,255,255,0.12)"
+      />
 
       {/* Background watermark - positioned at section level for full width */}
       <div
@@ -94,7 +107,10 @@ export function Skills({ skills }: SkillsProps) {
           <div className="flex flex-col gap-5 lg:gap-6 max-w-3xl">
             <Eyebrow label={t('eyebrow')} />
 
-            <h2 id="skills-heading" className="text-[clamp(2.5rem,6vw,7.5rem)] font-medium uppercase leading-[0.95] tracking-[-0.04em] font-heading text-white flex flex-wrap gap-x-[0.2em] perspective-2000">
+            <h2
+              id="skills-heading"
+              className="text-[clamp(2.5rem,6vw,7.5rem)] font-medium uppercase leading-[0.95] tracking-[-0.04em] font-heading text-white flex flex-wrap gap-x-[0.2em] perspective-2000"
+            >
               {heading.split(' ').map((word, i) => (
                 <span key={i} className="overflow-hidden inline-flex gap-[0.1em] pb-1">
                   {word.split('').map((char, j) => (
@@ -126,9 +142,7 @@ export function Skills({ skills }: SkillsProps) {
         >
           {items.map((item, i) => {
             const img =
-              item.image && typeof item.image === 'object'
-                ? (item.image as PayloadImage)
-                : null
+              item.image && typeof item.image === 'object' ? (item.image as PayloadImage) : null
 
             return (
               <SkillCard
@@ -179,13 +193,11 @@ export function Skills({ skills }: SkillsProps) {
             </ul>
 
             <div className="mt-12 lg:mt-16">
-              <Button
-                href="#register"
-                variant="light"
-                size="lg"
-              >
+              <Button href={skills.ctaUrl || '#register'} variant="light" size="lg">
                 {t('cta')}
-                <span aria-hidden="true" className="ml-2">&rarr;</span>
+                <span aria-hidden="true" className="ml-2">
+                  &rarr;
+                </span>
               </Button>
             </div>
           </section>

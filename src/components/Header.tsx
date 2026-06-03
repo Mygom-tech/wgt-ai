@@ -19,13 +19,14 @@ type HeaderProps = {
   enabledLocales: LocaleCode[]
   logo?: PayloadImage | string | null
   ctaText?: string | null
+  ctaUrl?: string | null
 }
 
 function isPopulatedImage(logo: PayloadImage | string | null | undefined): logo is PayloadImage {
   return typeof logo === 'object' && logo !== null && 'url' in logo && !!logo.url
 }
 
-export function Header({ enabledLocales, logo, ctaText }: HeaderProps) {
+export function Header({ enabledLocales, logo, ctaText, ctaUrl }: HeaderProps) {
   const t = useTranslations('header')
   const ctaLabel = ctaText?.trim() || t('cta')
   const [isScrolled, setIsScrolled] = useState(false)
@@ -201,7 +202,7 @@ export function Header({ enabledLocales, logo, ctaText }: HeaderProps) {
 
               <MagneticButton strength={0.15}>
                 <NavHashLink
-                  hash="#register"
+                  hash={ctaUrl?.trim() || '#register'}
                   className={cn(
                     'hidden lg:inline-flex rounded-full px-7 py-3 text-xs font-bold uppercase tracking-[0.15em] transition-all duration-700 hover:scale-[1.02] shadow-lg text-foreground hover:bg-primary hover:text-white',
                     isLight ? 'bg-white' : 'bg-secondary',
