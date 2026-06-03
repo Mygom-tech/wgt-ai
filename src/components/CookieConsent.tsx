@@ -12,9 +12,7 @@ type Consent = {
 
 function getStoredConsent(): Consent | null {
   if (typeof document === 'undefined') return null
-  const cookie = document.cookie
-    .split(';')
-    .find((c) => c.trim().startsWith('cookie_consent='))
+  const cookie = document.cookie.split(';').find((c) => c.trim().startsWith('cookie_consent='))
   if (!cookie) return null
   try {
     return JSON.parse(decodeURIComponent(cookie.split('=').slice(1).join('=')))
@@ -29,7 +27,11 @@ function setConsentCookie(consent: Consent) {
   window.dispatchEvent(new Event('cookieConsentChanged'))
 }
 
-export function CookieConsent() {
+type CookieConsentProps = {
+  cookiePolicyHref?: string | null
+}
+
+export function CookieConsent({ cookiePolicyHref }: CookieConsentProps) {
   const t = useTranslations('cookieConsent')
   const [visible, setVisible] = useState(false)
   const [showCustomize, setShowCustomize] = useState(false)
@@ -95,12 +97,7 @@ export function CookieConsent() {
               opacity: 0.7,
             }}
           >
-            <input
-              type="checkbox"
-              checked
-              disabled
-              style={{ marginTop: '2px' }}
-            />
+            <input type="checkbox" checked disabled style={{ marginTop: '2px' }} />
             <span>
               <strong>{t('necessary')}</strong>
               <br />
@@ -234,14 +231,16 @@ export function CookieConsent() {
         )}
       </div>
 
-      <div style={{ marginTop: '0.75rem', textAlign: 'center' }}>
-        <Link
-          href="/legal/cookie-policy"
-          style={{ color: '#6b7280', fontSize: '13px', textDecoration: 'underline' }}
-        >
-          {t('cookiePolicy')}
-        </Link>
-      </div>
+      {cookiePolicyHref && (
+        <div style={{ marginTop: '0.75rem', textAlign: 'center' }}>
+          <Link
+            href={cookiePolicyHref}
+            style={{ color: '#6b7280', fontSize: '13px', textDecoration: 'underline' }}
+          >
+            {t('cookiePolicy')}
+          </Link>
+        </div>
+      )}
     </div>
   )
 }

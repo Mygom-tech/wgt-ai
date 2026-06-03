@@ -9,7 +9,7 @@ import { JsonLd } from '@/components/JsonLd'
 import { GoogleTagManager, GoogleTagManagerNoScript } from '@/components/GoogleTagManager'
 import { getSiteSettings, getEnabledLocales } from '@/lib/getSiteSettings'
 import { extractFaviconAssets } from '@/lib/getFavicons'
-import { getSiteUrl, queryGlobal } from '@/lib/payload-data'
+import { getSiteUrl, queryGlobal, queryCollection } from '@/lib/payload-data'
 import { buildAlternateLanguages } from '@/lib/generateMeta'
 import { getHtmlLang, type LocaleCode } from '@/i18n/locales'
 import { getTwitterHandle } from '@/lib/socialUtils'
@@ -50,7 +50,11 @@ export async function generateStaticParams() {
   return enabled.map((locale) => ({ locale }))
 }
 
-export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>
+}): Promise<Metadata> {
   const { locale } = await params
   const [settings, enabledLocales] = await Promise.all([
     getSiteSettings(locale as LocaleCode),
@@ -116,11 +120,29 @@ export default async function LocaleLayout({ children, params }: Props) {
 
   setRequestLocale(locale)
 
-  const [settings, newsletterData, messages] = await Promise.all([
+  const [settings, newsletterData, legalPagesResult, messages] = await Promise.all([
     getSiteSettings(locale as LocaleCode),
     queryGlobal('newsletter', { locale: locale as LocaleCode }),
+    queryCollection('legal-pages', {
+      where: { status: { equals: 'published' } },
+      sort: 'footerOrder',
+      limit: 50,
+      locale: locale as LocaleCode,
+    }),
     getMessages(),
   ])
+  const legalPages = legalPagesResult.docs
+    .filter((page) => !page.hideFromFooter)
+    .map((page) => ({ id: page.id, slug: page.slug, title: page.title }))
+
+  const selectedCookiePageId =
+    settings.cookiePolicyPage && typeof settings.cookiePolicyPage === 'object'
+      ? settings.cookiePolicyPage.id
+      : (settings.cookiePolicyPage ?? null)
+  const cookiePolicyPage = selectedCookiePageId
+    ? legalPagesResult.docs.find((page) => page.id === selectedCookiePageId)
+    : undefined
+  const cookiePolicyHref = cookiePolicyPage ? `/legal/${cookiePolicyPage.slug}` : null
   const siteUrl = getSiteUrl(settings)
   const siteName = settings.siteName || 'Jarune'
   const gtmId = settings.gtmId || ''
@@ -135,9 +157,7 @@ export default async function LocaleLayout({ children, params }: Props) {
       : {}),
     ...(settings.socialLinks?.length
       ? {
-          sameAs: settings.socialLinks
-            .map((link: { url: string }) => link.url)
-            .filter(Boolean),
+          sameAs: settings.socialLinks.map((link: { url: string }) => link.url).filter(Boolean),
         }
       : {}),
   }
@@ -157,7 +177,10 @@ export default async function LocaleLayout({ children, params }: Props) {
           <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
         </head>
       ) : null}
-      <body className={`${inter.variable} ${jost.variable} font-sans antialiased`} suppressHydrationWarning>
+      <body
+        className={`${inter.variable} ${jost.variable} font-sans antialiased`}
+        suppressHydrationWarning
+      >
         <a
           href="#main-content"
           className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:bg-background focus:px-4 focus:py-2 focus:rounded-lg focus:shadow-lg focus:text-foreground focus:ring-2 focus:ring-primary-400"
@@ -173,6 +196,7 @@ export default async function LocaleLayout({ children, params }: Props) {
               enabledLocales={enabledLocales}
               logo={settings.logo as PayloadImage | null | undefined}
               ctaText={settings.headerCtaText}
+              ctaUrl={settings.headerCtaUrl}
             />
             <main id="main-content">{children}</main>
             <Footer
@@ -182,13 +206,14 @@ export default async function LocaleLayout({ children, params }: Props) {
               partnershipEmail={settings.partnershipEmail}
               footerText={settings.footerText}
               socialLinks={settings.socialLinks}
+              legalPages={legalPages}
             />
             <StickyMobileBar
               text={newsletterData?.stickyBar?.text}
               ctaText={newsletterData?.stickyBar?.ctaText}
               enabled={newsletterData?.stickyBar?.enabled}
             />
-            <CookieConsent />
+            <CookieConsent cookiePolicyHref={cookiePolicyHref} />
             <GoogleTagManager gtmId={gtmId} />
             <GoogleTagManagerNoScript gtmId={gtmId} />
           </NextIntlClientProvider>

@@ -150,6 +150,15 @@ export const LandingPage: GlobalConfig = {
                       required: true,
                     },
                     {
+                      name: 'ctaUrl',
+                      type: 'text',
+                      localized: true,
+                      admin: {
+                        description:
+                          'Primary CTA button URL, e.g. "#register" or external link like "https://example.com/apply"',
+                      },
+                    },
+                    {
                       name: 'image',
                       type: 'upload',
                       relationTo: 'images',
@@ -218,6 +227,15 @@ export const LandingPage: GlobalConfig = {
                       },
                     },
                     {
+                      name: 'ctaUrl',
+                      type: 'text',
+                      localized: true,
+                      admin: {
+                        description:
+                          'Primary CTA button URL, e.g. "#register" or external link like "https://example.com/apply"',
+                      },
+                    },
+                    {
                       name: 'benefits',
                       type: 'array',
                       maxRows: 3,
@@ -250,6 +268,15 @@ export const LandingPage: GlobalConfig = {
                       localized: true,
                       required: true,
                       defaultValue: 'How It Works',
+                    },
+                    {
+                      name: 'ctaUrl',
+                      type: 'text',
+                      localized: true,
+                      admin: {
+                        description:
+                          'Primary CTA button URL, e.g. "#register" or external link like "https://example.com/apply"',
+                      },
                     },
                     {
                       name: 'steps',

@@ -44,42 +44,55 @@ export function HowItWorks({ howItWorks }: HowItWorksProps) {
 
       // Character cascade - starts immediately
       if (chars.length) {
-        tl.from(chars, {
-          yPercent: 100,   // Characters start 100% below baseline
-          rotateX: -60,    // Characters rotate in from behind
-          opacity: 0,
-          stagger: 0.015,  // 15ms between each character
-          duration: 1.2,
-          ease: 'expo.out',
-        }, 0)
+        tl.from(
+          chars,
+          {
+            yPercent: 100, // Characters start 100% below baseline
+            rotateX: -60, // Characters rotate in from behind
+            opacity: 0,
+            stagger: 0.015, // 15ms between each character
+            duration: 1.2,
+            ease: 'expo.out',
+          },
+          0,
+        )
       }
 
       // Step card stagger - starts after characters begin
       if (stepEls.length) {
-        tl.from(stepEls, {
-          y: 30,
-          opacity: 0,
-          stagger: 0.1,
-          duration: 1.0,
-          ease: 'power3.out',
-        }, 0.3)
+        tl.from(
+          stepEls,
+          {
+            y: 30,
+            opacity: 0,
+            stagger: 0.1,
+            duration: 1.0,
+            ease: 'power3.out',
+          },
+          0.3,
+        )
       }
     },
     { scope: sectionRef },
   )
 
   return (
-    <Section ref={sectionRef} id="how-it-works" aria-labelledby="how-it-works-heading" variant="light">
+    <Section
+      ref={sectionRef}
+      id="how-it-works"
+      aria-labelledby="how-it-works-heading"
+      variant="light"
+    >
       <GridLines columns={16} rows={12} className="opacity-40" />
 
       <Container size="xl" className="relative z-10">
-        <header
-          ref={headerRef}
-          className="flex flex-col gap-5 lg:gap-6 mb-16 lg:mb-24 max-w-3xl"
-        >
+        <header ref={headerRef} className="flex flex-col gap-5 lg:gap-6 mb-16 lg:mb-24 max-w-3xl">
           <Eyebrow label={t('eyebrow')} />
 
-          <h2 id="how-it-works-heading" className="text-[clamp(2.5rem,6vw,7.5rem)] font-medium uppercase leading-[0.95] tracking-[-0.04em] font-heading flex flex-wrap gap-x-[0.2em] perspective-2000">
+          <h2
+            id="how-it-works-heading"
+            className="text-[clamp(2.5rem,6vw,7.5rem)] font-medium uppercase leading-[0.95] tracking-[-0.04em] font-heading flex flex-wrap gap-x-[0.2em] perspective-2000"
+          >
             {heading.split(' ').map((word, i) => (
               <span key={i} className="overflow-hidden inline-flex gap-[0.1em] pb-1">
                 {word.split('').map((char, j) => (
@@ -119,9 +132,7 @@ export function HowItWorks({ howItWorks }: HowItWorksProps) {
 
                   <div className="w-8 h-px bg-primary/50" />
 
-                  <p className="text-body text-foreground/60 leading-relaxed">
-                    {step.description}
-                  </p>
+                  <p className="text-body text-foreground/60 leading-relaxed">{step.description}</p>
                 </div>
 
                 <span
@@ -136,9 +147,11 @@ export function HowItWorks({ howItWorks }: HowItWorksProps) {
         </ol>
 
         <div className="mt-12 lg:mt-16 flex justify-center">
-          <Button href="#register" variant="cta" size="lg">
+          <Button href={howItWorks.ctaUrl || '#register'} variant="cta" size="lg">
             {t('cta')}
-            <span aria-hidden="true" className="ml-2">&rarr;</span>
+            <span aria-hidden="true" className="ml-2">
+              &rarr;
+            </span>
           </Button>
         </div>
       </Container>

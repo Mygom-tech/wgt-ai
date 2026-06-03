@@ -108,8 +108,8 @@ export interface Config {
     | ('false' | 'none' | 'null')
     | false
     | null
-    | ('en' | 'lt' | 'lv' | 'cs' | 'ro' | 'bg' | 'md' | 'pl')
-    | ('en' | 'lt' | 'lv' | 'cs' | 'ro' | 'bg' | 'md' | 'pl')[];
+    | ('en' | 'bg' | 'cs' | 'lv' | 'lt' | 'pl' | 'ro')
+    | ('en' | 'bg' | 'cs' | 'lv' | 'lt' | 'pl' | 'ro')[];
   globals: {
     'site-settings': SiteSetting;
     'landing-page': LandingPage;
@@ -126,7 +126,7 @@ export interface Config {
     'blog-page': BlogPageSelect<false> | BlogPageSelect<true>;
     'events-page': EventsPageSelect<false> | EventsPageSelect<true>;
   };
-  locale: 'en' | 'lt' | 'lv' | 'cs' | 'ro' | 'bg' | 'md' | 'pl';
+  locale: 'en' | 'bg' | 'cs' | 'lv' | 'lt' | 'pl' | 'ro';
   user: User;
   jobs: {
     tasks: unknown;
@@ -164,7 +164,7 @@ export interface User {
   /**
    * Which countries/languages this admin can manage. Only applies to Country Admins.
    */
-  assignedLocales?: ('en' | 'lt' | 'lv' | 'cs' | 'ro' | 'bg' | 'md' | 'pl')[] | null;
+  assignedLocales?: ('en' | 'bg' | 'cs' | 'lv' | 'lt' | 'pl' | 'ro')[] | null;
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -299,6 +299,14 @@ export interface LegalPage {
     [k: string]: unknown;
   } | null;
   status?: ('draft' | 'published') | null;
+  /**
+   * When checked, this page is not listed in the site footer. The page itself stays live at its URL.
+   */
+  hideFromFooter?: boolean | null;
+  /**
+   * Order in the footer list. Lower numbers appear first.
+   */
+  footerOrder?: number | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -315,7 +323,7 @@ export interface BlogPost {
   /**
    * Which countries this post belongs to.
    */
-  locales: ('en' | 'lt' | 'lv' | 'cs' | 'ro' | 'bg' | 'md' | 'pl')[];
+  locales: ('en' | 'bg' | 'cs' | 'lv' | 'lt' | 'pl' | 'ro')[];
   status?: ('draft' | 'published') | null;
   title: string;
   /**
@@ -809,7 +817,7 @@ export interface Event {
   /**
    * Which countries this event belongs to.
    */
-  locales: ('en' | 'lt' | 'lv' | 'cs' | 'ro' | 'bg' | 'md' | 'pl')[];
+  locales: ('en' | 'bg' | 'cs' | 'lv' | 'lt' | 'pl' | 'ro')[];
   status?: ('draft' | 'published') | null;
   title: string;
   /**
@@ -1042,7 +1050,7 @@ export interface CheckboxFieldBlock {
 export interface FormSubmission {
   id: string;
   form: string | Form;
-  locale: 'en' | 'lt' | 'lv' | 'cs' | 'ro' | 'bg' | 'md' | 'pl';
+  locale: 'en' | 'bg' | 'cs' | 'lv' | 'lt' | 'pl' | 'ro';
   submissionData:
     | {
         [k: string]: unknown;
@@ -1137,7 +1145,7 @@ export interface FaqItem {
   /**
    * Which countries this FAQ item belongs to.
    */
-  locales: ('en' | 'lt' | 'lv' | 'cs' | 'ro' | 'bg' | 'md' | 'pl')[];
+  locales: ('en' | 'bg' | 'cs' | 'lv' | 'lt' | 'pl' | 'ro')[];
   /**
    * Lower numbers display first
    */
@@ -1365,6 +1373,8 @@ export interface LegalPagesSelect<T extends boolean = true> {
   pageType?: T;
   content?: T;
   status?: T;
+  hideFromFooter?: T;
+  footerOrder?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -1662,7 +1672,7 @@ export interface SiteSetting {
   /**
    * Choose which languages are available on your website. English is always included.
    */
-  enabledLocales?: ('en' | 'lt' | 'lv' | 'cs' | 'ro' | 'bg' | 'md' | 'pl')[] | null;
+  enabledLocales?: ('en' | 'bg' | 'cs' | 'lv' | 'lt' | 'pl' | 'ro')[] | null;
   /**
    * Site logo displayed in the header. Recommended: SVG or PNG with transparent background, max height 40px.
    */
@@ -1671,6 +1681,7 @@ export interface SiteSetting {
    * Optional override for the header CTA button text. Leave empty to use the default translation for each language.
    */
   headerCtaText?: string | null;
+  headerCtaUrl?: string | null;
   /**
    * These are fallback values used when a page doesn't have its own SEO settings.
    */
@@ -1714,6 +1725,10 @@ export interface SiteSetting {
    * Your GTM container ID (looks like GTM-XXXXXXX). Find it at tagmanager.google.com. Tracking is automatically disabled in development.
    */
   gtmId?: string | null;
+  /**
+   * The legal page the cookie consent banner links to. Pick any legal page. The link only shows if the selected page is published; leave empty to hide it.
+   */
+  cookiePolicyPage?: (string | null) | LegalPage;
   /**
    * Browser tab icons, iOS home-screen icon and PWA icons. Upload each at the exact pixel size noted. Any field left empty is simply skipped — browsers will pick the best of whatever is provided.
    */
@@ -1813,6 +1828,10 @@ export interface LandingPage {
       [k: string]: unknown;
     };
     /**
+     * Primary CTA button URL, e.g. "#register" or external link like "https://example.com/apply"
+     */
+    ctaUrl?: string | null;
+    /**
      * Conceptual image for the problem section. Recommended: WebP, 16:9 or 3:4 aspect ratio.
      */
     image?: (string | null) | Image;
@@ -1832,6 +1851,10 @@ export interface LandingPage {
      * Heading for the benefits section at the bottom of Skills
      */
     benefitsHeading?: string | null;
+    /**
+     * Primary CTA button URL, e.g. "#register" or external link like "https://example.com/apply"
+     */
+    ctaUrl?: string | null;
     benefits?:
       | {
           text: string;
@@ -1841,6 +1864,10 @@ export interface LandingPage {
   };
   howItWorks: {
     heading: string;
+    /**
+     * Primary CTA button URL, e.g. "#register" or external link like "https://example.com/apply"
+     */
+    ctaUrl?: string | null;
     steps?:
       | {
           title: string;
@@ -2108,6 +2135,7 @@ export interface SiteSettingsSelect<T extends boolean = true> {
   enabledLocales?: T;
   logo?: T;
   headerCtaText?: T;
+  headerCtaUrl?: T;
   defaultMeta?:
     | T
     | {
@@ -2126,6 +2154,7 @@ export interface SiteSettingsSelect<T extends boolean = true> {
   partnershipEmail?: T;
   footerText?: T;
   gtmId?: T;
+  cookiePolicyPage?: T;
   favicons?:
     | T
     | {
@@ -2168,6 +2197,7 @@ export interface LandingPageSelect<T extends boolean = true> {
         eyebrow?: T;
         heading?: T;
         body?: T;
+        ctaUrl?: T;
         image?: T;
       };
   skills?:
@@ -2184,6 +2214,7 @@ export interface LandingPageSelect<T extends boolean = true> {
               id?: T;
             };
         benefitsHeading?: T;
+        ctaUrl?: T;
         benefits?:
           | T
           | {
@@ -2195,6 +2226,7 @@ export interface LandingPageSelect<T extends boolean = true> {
     | T
     | {
         heading?: T;
+        ctaUrl?: T;
         steps?:
           | T
           | {
