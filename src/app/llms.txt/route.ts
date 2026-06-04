@@ -43,7 +43,7 @@ export async function GET() {
   const lines = [
     `# ${siteName}`,
     '',
-    `> ${siteName} is a free AI education platform offering the Google AI Professional Certificate course across Central and Eastern Europe. The program teaches practical AI skills — prompt engineering, automation, data analysis — to professionals, students, career changers, and public sector workers. Available in 7 languages: English, Bulgarian, Czech, Latvian, Lithuanian, Polish, and Romanian.`,
+    `> ${siteName} is a free AI education platform offering the Google AI Professional Certificate course across Central and Eastern Europe. The program teaches practical AI skills — prompt engineering, automation, data analysis — to professionals, students, career changers, and public sector workers. Available in 7 languages (English, Bulgarian, Czech, Latvian, Lithuanian, Polish, and Romanian) across seven markets: Bulgaria, Czechia, Latvia, Lithuania, Moldova, Poland, and Romania.`,
     '',
     `The platform is operated in partnership with Google and Coursera. All courses are free of charge. Participants receive an official Google certificate upon completion.`,
     '',

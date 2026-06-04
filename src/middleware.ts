@@ -13,7 +13,7 @@ const intlMiddleware = createMiddleware(routing)
 const countryToLocale: Record<string, string> = {
   lt: 'lt', // Lithuania
   lv: 'lv', // Latvia
-  cz: 'cs', // Czech Republic (ISO 3166: CZ → locale: cs)
+  cz: 'cz', // Czech Republic (ISO 3166: CZ → locale: cz)
   ro: 'ro', // Romania
   bg: 'bg', // Bulgaria
   md: 'md', // Moldova

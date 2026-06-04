@@ -3,10 +3,10 @@ export const defaultLocale = 'en'
 export const locales = [
   { code: 'en', htmlLang: 'en', label: 'English' },
   { code: 'bg', htmlLang: 'bg', label: 'Bulgaria' },
-  { code: 'cs', htmlLang: 'cs', label: 'Czechia' },
+  { code: 'cz', htmlLang: 'cs', label: 'Czechia' },
   { code: 'lv', htmlLang: 'lv', label: 'Latvia' },
   { code: 'lt', htmlLang: 'lt', label: 'Lithuania' },
-  // { code: 'md', htmlLang: 'ro-MD', label: 'Moldova' },
+  { code: 'md', htmlLang: 'ro-MD', label: 'Moldova' },
   { code: 'pl', htmlLang: 'pl', label: 'Poland' },
   { code: 'ro', htmlLang: 'ro', label: 'Romania' },
 ] as const
