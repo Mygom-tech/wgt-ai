@@ -3,11 +3,12 @@
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
-import { useTranslations } from 'next-intl'
-import { useState } from 'react'
+import { useTranslations, useLocale } from 'next-intl'
+import { useRef, useState } from 'react'
 import { FormField } from './FormField'
 import { StepIndicator } from './StepIndicator'
 import { inputStyles, labelStyles, errorStyles, type FormVariant } from './styles'
+import { pushToDataLayer } from '@/lib/gtm'
 import type { Form } from '@/payload-types'
 
 type SubmitResult = {
@@ -72,6 +73,8 @@ function buildSchema(fields: FieldBlock[], t: ReturnType<typeof useTranslations>
 
 export function FormRenderer({ form, submitAction, variant = 'dark' }: FormRendererProps) {
   const t = useTranslations('registration')
+  const locale = useLocale()
+  const hasTrackedRef = useRef(false)
   const [isSuccess, setIsSuccess] = useState(false)
   const [successMessage, setSuccessMessage] = useState('')
   const [serverError, setServerError] = useState('')
@@ -106,6 +109,11 @@ export function FormRenderer({ form, submitAction, variant = 'dark' }: FormRende
     const result = await submitAction(rawData)
 
     if (result.success) {
+      if (form.gtmEventName && !rawData._hp && !hasTrackedRef.current) {
+        hasTrackedRef.current = true
+        pushToDataLayer({ event: form.gtmEventName, language: locale })
+      }
+
       setIsSuccess(true)
       setSuccessMessage(result.message ?? '')
       return

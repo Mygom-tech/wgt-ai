@@ -1,12 +1,12 @@
 'use server'
 
 import { z } from 'zod'
-import { syncToMailerLite } from '@/lib/mailerlite'
+import { syncToOmnisend, OMNISEND_SOURCE_TAG } from '@/lib/omnisend'
 
 export async function subscribeToNewsletter(
   locale: string,
   email: string,
-  mailerliteGroupId?: string,
+  omnisendTag?: string,
   honeypot?: string,
 ): Promise<{ success: boolean; message?: string; error?: string }> {
   if (honeypot) return { success: true }
@@ -17,14 +17,19 @@ export async function subscribeToNewsletter(
     return { success: false, error: 'INVALID_EMAIL' }
   }
 
-  const result = await syncToMailerLite({
+  const tags = [OMNISEND_SOURCE_TAG.newsletter, omnisendTag].filter((tag): tag is string =>
+    Boolean(tag),
+  )
+
+  const result = await syncToOmnisend({
     email: validation.data,
-    fields: { locale },
-    groupId: mailerliteGroupId || undefined,
+    status: 'subscribed',
+    tags,
+    customProperties: { locale },
   })
 
   if (!result.success) {
-    console.error(`[Newsletter] MailerLite sync failed for ${email}: ${result.error}`)
+    console.error(`[Newsletter] Omnisend sync failed for ${email}: ${result.error}`)
     return { success: false, error: 'SUBSCRIPTION_FAILED' }
   }
 

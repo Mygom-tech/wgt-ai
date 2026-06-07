@@ -3,7 +3,7 @@
 import { z } from 'zod'
 import { getPayload } from 'payload'
 import config from '@payload-config'
-import { syncToMailerLite } from '@/lib/mailerlite'
+import { syncToOmnisend, OMNISEND_SOURCE_TAG } from '@/lib/omnisend'
 import { notifyAdmins, sendConfirmationEmail } from '@/lib/resend'
 import type { ServiceResult } from '@/lib/service-result'
 import type { Form, FormSubmission } from '@/payload-types'
@@ -139,11 +139,17 @@ export async function submitForm(
   // Async integrations - run after submission is saved
   const shouldNotifyAdmins = form.notifyAdmin === true
 
-  const [mailerliteResult, notifyResult, confirmResult] = await Promise.allSettled([
-    syncToMailerLite({
+  const tags = [OMNISEND_SOURCE_TAG.form, form.omnisendTag].filter((tag): tag is string =>
+    Boolean(tag),
+  )
+
+  const [omnisendResult, notifyResult, confirmResult] = await Promise.allSettled([
+    syncToOmnisend({
       email: extractedEmail,
-      fields: { name: extractedName || '', locale, form_source: form.title },
-      groupId: form.mailerliteGroupId || undefined,
+      status: form.subscribeOnSubmit ? 'subscribed' : undefined,
+      firstName: extractedName || undefined,
+      tags,
+      customProperties: { locale, form_source: form.title },
     }),
     shouldNotifyAdmins
       ? notifyAdmins({
@@ -163,21 +169,18 @@ export async function submitForm(
   ])
 
   // Log integration errors for debugging
-  const mlSuccess = mailerliteResult.status === 'fulfilled' && mailerliteResult.value.success
+  const omnisendSuccess = omnisendResult.status === 'fulfilled' && omnisendResult.value.success
   const notifySuccess = notifyResult.status === 'fulfilled' && notifyResult.value.success
   const confirmSuccess = confirmResult.status === 'fulfilled' && confirmResult.value.success
 
-  if (!mlSuccess) {
+  if (!omnisendSuccess) {
     const err =
-      mailerliteResult.status === 'fulfilled'
-        ? mailerliteResult.value.error
-        : mailerliteResult.reason
-    payload.logger.error(`[Form] MailerLite sync failed for ${extractedEmail}: ${err}`)
+      omnisendResult.status === 'fulfilled' ? omnisendResult.value.error : omnisendResult.reason
+    payload.logger.error(`[Form] Omnisend sync failed for ${extractedEmail}: ${err}`)
   }
 
   if (shouldNotifyAdmins && !notifySuccess) {
-    const err =
-      notifyResult.status === 'fulfilled' ? notifyResult.value.error : notifyResult.reason
+    const err = notifyResult.status === 'fulfilled' ? notifyResult.value.error : notifyResult.reason
     payload.logger.error(`[Form] Admin notification failed for ${extractedEmail}: ${err}`)
   }
 
@@ -192,7 +195,7 @@ export async function submitForm(
     collection: 'form-submissions',
     id: submission.id,
     data: {
-      mailerliteSynced: mlSuccess,
+      omnisendSynced: omnisendSuccess,
       notificationSent: shouldNotifyAdmins ? notifySuccess : false,
     },
     overrideAccess: true,

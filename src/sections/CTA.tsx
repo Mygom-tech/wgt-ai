@@ -8,6 +8,7 @@ import { GridLines } from '@/components/ui/GridLines'
 import { Eyebrow } from '@/components/ui/Eyebrow'
 import { gsap, useGSAP } from '@/lib/gsap'
 import { subscribeToNewsletter } from '@/app/(frontend)/[locale]/actions/subscribe'
+import { pushToDataLayer } from '@/lib/gtm'
 import type { Newsletter } from '@/payload-types'
 
 type CTAProps = {
@@ -20,6 +21,7 @@ export function CTA({ newsletter }: CTAProps) {
   const cardRef = useRef<HTMLDivElement>(null)
   const statusRef = useRef<HTMLDivElement>(null)
   const isSubmittingRef = useRef(false)
+  const hasTrackedRef = useRef(false)
   const t = useTranslations('newsletter')
 
   const [email, setEmail] = useState('')
@@ -62,44 +64,60 @@ export function CTA({ newsletter }: CTAProps) {
 
       // Character cascade
       if (chars.length) {
-        tl.from(chars, {
-          yPercent: 100,
-          rotateX: -60,
-          opacity: 0,
-          stagger: 0.015,
-          duration: 1.2,
-          ease: 'expo.out',
-        }, 0)
+        tl.from(
+          chars,
+          {
+            yPercent: 100,
+            rotateX: -60,
+            opacity: 0,
+            stagger: 0.015,
+            duration: 1.2,
+            ease: 'expo.out',
+          },
+          0,
+        )
       }
 
       // Divider line grow
       if (divider) {
-        tl.from(divider, {
-          scaleX: 0,
-          opacity: 0,
-          duration: 0.8,
-          ease: 'power2.out',
-        }, 0.3)
+        tl.from(
+          divider,
+          {
+            scaleX: 0,
+            opacity: 0,
+            duration: 0.8,
+            ease: 'power2.out',
+          },
+          0.3,
+        )
       }
 
       // Subtitle fade
       if (subtitleEl) {
-        tl.from(subtitleEl, {
-          y: 30,
-          opacity: 0,
-          duration: 1.0,
-          ease: 'power3.out',
-        }, 0.4)
+        tl.from(
+          subtitleEl,
+          {
+            y: 30,
+            opacity: 0,
+            duration: 1.0,
+            ease: 'power3.out',
+          },
+          0.4,
+        )
       }
 
       // Form fade-in with rise
       if (formEl) {
-        tl.from(formEl, {
-          y: 30,
-          opacity: 0,
-          duration: 1.0,
-          ease: 'power3.out',
-        }, 0.5)
+        tl.from(
+          formEl,
+          {
+            y: 30,
+            opacity: 0,
+            duration: 1.0,
+            ease: 'power3.out',
+          },
+          0.5,
+        )
       }
     },
     { scope: sectionRef, dependencies: [] },
@@ -125,11 +143,15 @@ export function CTA({ newsletter }: CTAProps) {
       const result = await subscribeToNewsletter(
         locale,
         trimmed,
-        newsletter.mailerliteGroupId ?? undefined,
+        newsletter.omnisendTag ?? undefined,
         honeypot,
       )
 
       if (result.success) {
+        if (newsletter.gtmEventName && !honeypot && !hasTrackedRef.current) {
+          hasTrackedRef.current = true
+          pushToDataLayer({ event: newsletter.gtmEventName, language: locale })
+        }
         setIsSuccess(true)
       } else {
         setError(result.error === 'INVALID_EMAIL' ? t('invalidEmail') : t('errorTitle'))
@@ -143,7 +165,12 @@ export function CTA({ newsletter }: CTAProps) {
   }
 
   return (
-    <Section ref={sectionRef} id="newsletter" aria-labelledby={heading ? 'newsletter-heading' : undefined} variant="light">
+    <Section
+      ref={sectionRef}
+      id="newsletter"
+      aria-labelledby={heading ? 'newsletter-heading' : undefined}
+      variant="light"
+    >
       <GridLines columns={16} rows={8} className="opacity-40" />
 
       <Container size="xl" className="relative z-10">
@@ -235,7 +262,10 @@ export function CTA({ newsletter }: CTAProps) {
                         autoComplete="email"
                         className="w-full border border-foreground/[0.08] bg-background px-4 py-3.5 text-[0.95rem] text-foreground placeholder:text-foreground/50 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary/50 transition-colors rounded-[2px]"
                         {...(error
-                          ? { 'aria-invalid': true as const, 'aria-describedby': 'newsletter-error' }
+                          ? {
+                              'aria-invalid': true as const,
+                              'aria-describedby': 'newsletter-error',
+                            }
                           : {})}
                       />
                     </div>

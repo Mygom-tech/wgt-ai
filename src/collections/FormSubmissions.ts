@@ -6,7 +6,7 @@ export const FormSubmissions: CollectionConfig = {
   slug: 'form-submissions',
   admin: {
     useAsTitle: 'email',
-    defaultColumns: ['email', 'name', 'locale', 'form', 'mailerliteSynced', 'createdAt'],
+    defaultColumns: ['email', 'name', 'locale', 'form', 'omnisendSynced', 'createdAt'],
     group: 'Submissions',
   },
   access: {
@@ -52,7 +52,7 @@ export const FormSubmissions: CollectionConfig = {
       },
     },
     {
-      name: 'mailerliteSynced',
+      name: 'omnisendSynced',
       type: 'checkbox',
       defaultValue: false,
       admin: {
