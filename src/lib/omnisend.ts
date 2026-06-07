@@ -1,6 +1,7 @@
 import type { ServiceResult } from './service-result'
 
 const OMNISEND_API_URL = 'https://api.omnisend.com/v3/contacts'
+const OMNISEND_TIMEOUT_MS = 10_000
 
 /**
  * Omnisend email channel subscribe status.
@@ -45,6 +46,7 @@ async function fetchContact(apiKey: string, email: string): Promise<ExistingCont
       Accept: 'application/json',
       'X-API-KEY': apiKey,
     },
+    signal: AbortSignal.timeout(OMNISEND_TIMEOUT_MS),
   })
 
   if (!res.ok) {
@@ -147,6 +149,7 @@ export async function syncToOmnisend(params: {
         'X-API-KEY': apiKey,
       },
       body: JSON.stringify(body),
+      signal: AbortSignal.timeout(OMNISEND_TIMEOUT_MS),
     })
 
     if (!response.ok) {

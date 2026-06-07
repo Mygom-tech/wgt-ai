@@ -176,18 +176,18 @@ export async function submitForm(
   if (!omnisendSuccess) {
     const err =
       omnisendResult.status === 'fulfilled' ? omnisendResult.value.error : omnisendResult.reason
-    payload.logger.error(`[Form] Omnisend sync failed for ${extractedEmail}: ${err}`)
+    payload.logger.error(`[Form] Omnisend sync failed (submission ${submission.id}): ${err}`)
   }
 
   if (shouldNotifyAdmins && !notifySuccess) {
     const err = notifyResult.status === 'fulfilled' ? notifyResult.value.error : notifyResult.reason
-    payload.logger.error(`[Form] Admin notification failed for ${extractedEmail}: ${err}`)
+    payload.logger.error(`[Form] Admin notification failed (submission ${submission.id}): ${err}`)
   }
 
   if (!confirmSuccess) {
     const err =
       confirmResult.status === 'fulfilled' ? confirmResult.value.error : confirmResult.reason
-    payload.logger.error(`[Form] Confirmation email failed for ${extractedEmail}: ${err}`)
+    payload.logger.error(`[Form] Confirmation email failed (submission ${submission.id}): ${err}`)
   }
 
   // Update submission flags

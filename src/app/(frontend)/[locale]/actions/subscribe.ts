@@ -29,7 +29,7 @@ export async function subscribeToNewsletter(
   })
 
   if (!result.success) {
-    console.error(`[Newsletter] Omnisend sync failed for ${email}: ${result.error}`)
+    console.error(`[Newsletter] Omnisend sync failed: ${result.error}`)
     return { success: false, error: 'SUBSCRIPTION_FAILED' }
   }
 
