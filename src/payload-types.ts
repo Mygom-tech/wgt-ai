@@ -950,6 +950,10 @@ export interface Form {
    */
   subscribeOnSubmit?: boolean | null;
   /**
+   * ON (default): every submitted field is sent to Omnisend as contact data. OFF: only email, first name and last name are sent (plus locale and form source). Turn OFF to minimise personal data shared with Omnisend (GDPR) — e.g. forms with free-text comment fields.
+   */
+  sendAllFieldsToOmnisend?: boolean | null;
+  /**
    * Optional. dataLayer event pushed to GTM when this form is submitted successfully (e.g. "registration_success"). Must EXACTLY match the Custom Event trigger configured in GTM, or nothing fires. Leave empty for no event. Avoid reusing the same name across forms unless you want them counted together.
    */
   gtmEventName?: string | null;
@@ -1493,6 +1497,7 @@ export interface FormsSelect<T extends boolean = true> {
       };
   omnisendTag?: T;
   subscribeOnSubmit?: T;
+  sendAllFieldsToOmnisend?: T;
   gtmEventName?: T;
   notifyAdmin?: T;
   successMessage?: T;

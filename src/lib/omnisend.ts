@@ -89,8 +89,9 @@ export async function syncToOmnisend(params: {
   email: string
   status?: OmnisendStatus
   tags?: string[]
-  customProperties?: Record<string, string>
+  customProperties?: Record<string, string | number | boolean>
   firstName?: string
+  lastName?: string
 }): Promise<ServiceResult> {
   const apiKey = process.env.OMNISEND_API_KEY
   if (!apiKey) {
@@ -131,6 +132,10 @@ export async function syncToOmnisend(params: {
 
     if (params.firstName) {
       body.firstName = params.firstName
+    }
+
+    if (params.lastName) {
+      body.lastName = params.lastName
     }
 
     if (tags.length) {

@@ -133,6 +133,16 @@ export const Forms: CollectionConfig = {
       },
     },
     {
+      name: 'sendAllFieldsToOmnisend',
+      type: 'checkbox',
+      defaultValue: true,
+      admin: {
+        position: 'sidebar',
+        description:
+          'ON (default): every submitted field is sent to Omnisend as contact data. OFF: only email, first name and last name are sent (plus locale and form source). Turn OFF to minimise personal data shared with Omnisend (GDPR) — e.g. forms with free-text comment fields.',
+      },
+    },
+    {
       name: 'gtmEventName',
       type: 'text',
       validate: validateGtmEventName,

@@ -11,6 +11,63 @@ import type { Form, FormSubmission } from '@/payload-types'
 type FormStep = NonNullable<Form['steps']>[number]
 type FormField = NonNullable<FormStep['fields']>[number]
 
+// Match a form field by its KEY (not position) to Omnisend's native name fields. Normalised
+// to ignore case/separators, so `first_name`, `firstName`, `FName` all match.
+const FIRST_NAME_KEYS = new Set(['name', 'firstname', 'fname', 'givenname'])
+const LAST_NAME_KEYS = new Set(['surname', 'lastname', 'lname', 'familyname'])
+
+const normalizeKey = (key: string): string => key.toLowerCase().replace(/[^a-z0-9]/g, '')
+
+type ContactFields = {
+  firstName?: string
+  lastName?: string
+  displayName: string
+  customProperties: Record<string, string | number | boolean>
+}
+
+function buildContactFields(
+  fields: FormField[],
+  rawData: Record<string, string | boolean>,
+  locale: string,
+  formSource: string,
+  sendAllFields: boolean,
+): ContactFields {
+  const customProperties: Record<string, string | number | boolean> = {}
+  let firstName: string | undefined
+  let lastName: string | undefined
+  let firstTextFallback = ''
+
+  for (const block of fields) {
+    const value = rawData[block.name]
+    if (value === undefined || value === '') continue
+
+    if (typeof value === 'string' && block.blockType === 'textField' && !firstTextFallback) {
+      firstTextFallback = value
+    }
+
+    const key = normalizeKey(block.name)
+    if (!firstName && typeof value === 'string' && FIRST_NAME_KEYS.has(key)) {
+      firstName = value
+      continue
+    }
+    if (!lastName && typeof value === 'string' && LAST_NAME_KEYS.has(key)) {
+      lastName = value
+      continue
+    }
+    if (sendAllFields) {
+      customProperties[block.name] = value
+    }
+  }
+
+  // Reserved keys set last so a form field can't clobber them.
+  customProperties.locale = locale
+  customProperties.form_source = formSource
+
+  const displayName = [firstName, lastName].filter(Boolean).join(' ').trim() || firstTextFallback
+
+  return { firstName, lastName, displayName, customProperties }
+}
+
 export async function submitForm(
   formId: string,
   locale: string,
@@ -106,13 +163,14 @@ export async function submitForm(
   // Email always comes from the built-in email field
   const extractedEmail = String(rawData.email || '')
 
-  // Extract name from first textField
-  let extractedName = ''
-  for (const block of fields) {
-    if (block.blockType === 'textField' && !extractedName) {
-      extractedName = String(rawData[block.name] || '')
-    }
-  }
+  // Map fields → Omnisend contact data (first/last name by key, everything else as properties).
+  const { firstName, lastName, displayName, customProperties } = buildContactFields(
+    fields,
+    rawData,
+    locale,
+    form.title,
+    form.sendAllFieldsToOmnisend !== false,
+  )
 
   // Build submission data array (include built-in email + all block fields)
   const submissionDataArray = [
@@ -131,7 +189,7 @@ export async function submitForm(
       locale: locale as FormSubmission['locale'],
       submissionData: submissionDataArray,
       email: extractedEmail,
-      name: extractedName,
+      name: displayName,
     },
     overrideAccess: true,
   })
@@ -147,9 +205,10 @@ export async function submitForm(
     syncToOmnisend({
       email: extractedEmail,
       status: form.subscribeOnSubmit ? 'subscribed' : undefined,
-      firstName: extractedName || undefined,
+      firstName,
+      lastName,
       tags,
-      customProperties: { locale, form_source: form.title },
+      customProperties,
     }),
     shouldNotifyAdmins
       ? notifyAdmins({
@@ -157,12 +216,12 @@ export async function submitForm(
           formTitle: form.title,
           submissionData: submissionDataArray,
           email: extractedEmail,
-          name: extractedName,
+          name: displayName,
         })
       : Promise.resolve<ServiceResult>({ success: true }),
     sendConfirmationEmail({
       email: extractedEmail,
-      name: extractedName,
+      name: displayName,
       formTitle: form.title,
       successMessage: form.successMessage || undefined,
     }),
