@@ -8,6 +8,7 @@ import {
   SelectField,
   CheckboxField,
 } from '@/blocks/form-fields'
+import { validateGtmEventName } from '@/lib/gtm'
 
 const revalidation = createCollectionRevalidationHooks('forms', { revalidateAll: true })
 
@@ -113,11 +114,42 @@ export const Forms: CollectionConfig = {
       ],
     },
     {
-      name: 'mailerliteGroupId',
+      name: 'omnisendTag',
       type: 'text',
       admin: {
-        description: 'MailerLite group ID for subscriber syncing',
+        description:
+          'Optional Omnisend tag applied to contacts from this form (e.g. "registration"). All submissions also get a "source:form-submission" tag automatically. Leave empty to use only the source tag.',
         position: 'sidebar',
+      },
+    },
+    {
+      name: 'subscribeOnSubmit',
+      type: 'checkbox',
+      defaultValue: false,
+      admin: {
+        position: 'sidebar',
+        description:
+          'When ON, every submission of this form adds the contact to the Omnisend marketing list (subscribed). When OFF, the contact is still saved and tagged in Omnisend, but their subscribe status is left untouched — an already-subscribed person stays subscribed, a new contact is not opted in. Leave OFF unless this form is an explicit marketing opt-in.',
+      },
+    },
+    {
+      name: 'sendAllFieldsToOmnisend',
+      type: 'checkbox',
+      defaultValue: true,
+      admin: {
+        position: 'sidebar',
+        description:
+          'ON (default): every submitted field is sent to Omnisend as contact data. OFF: only email, first name and last name are sent (plus locale and form source). Turn OFF to minimise personal data shared with Omnisend (GDPR) — e.g. forms with free-text comment fields.',
+      },
+    },
+    {
+      name: 'gtmEventName',
+      type: 'text',
+      validate: validateGtmEventName,
+      admin: {
+        position: 'sidebar',
+        description:
+          'Optional. dataLayer event pushed to GTM when this form is submitted successfully (e.g. "registration_success"). Must EXACTLY match the Custom Event trigger configured in GTM, or nothing fires. Leave empty for no event. Avoid reusing the same name across forms unless you want them counted together.',
       },
     },
     {

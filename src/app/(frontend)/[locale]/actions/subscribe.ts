@@ -1,15 +1,21 @@
 'use server'
 
 import { z } from 'zod'
-import { syncToMailerLite } from '@/lib/mailerlite'
+import { getPayload } from 'payload'
+import config from '@payload-config'
+import { syncToOmnisend, OMNISEND_SOURCE_TAG } from '@/lib/omnisend'
+import { isValidLocale } from '@/i18n/locales'
 
 export async function subscribeToNewsletter(
   locale: string,
   email: string,
-  mailerliteGroupId?: string,
   honeypot?: string,
 ): Promise<{ success: boolean; message?: string; error?: string }> {
   if (honeypot) return { success: true }
+
+  if (!isValidLocale(locale)) {
+    return { success: false, error: 'INVALID_LOCALE' }
+  }
 
   const validation = z.string().email().safeParse(email)
 
@@ -17,14 +23,24 @@ export async function subscribeToNewsletter(
     return { success: false, error: 'INVALID_EMAIL' }
   }
 
-  const result = await syncToMailerLite({
+  const payload = await getPayload({ config })
+  const newsletter = await payload.findGlobal({ slug: 'newsletter' })
+
+  const tags = [OMNISEND_SOURCE_TAG.newsletter, newsletter.omnisendTag].filter(
+    (tag): tag is string => Boolean(tag),
+  )
+
+  const result = await syncToOmnisend({
     email: validation.data,
-    fields: { locale },
-    groupId: mailerliteGroupId || undefined,
+    status: 'subscribed',
+    tags,
+    customProperties: { locale },
   })
 
   if (!result.success) {
-    console.error(`[Newsletter] MailerLite sync failed for ${email}: ${result.error}`)
+    payload.logger.error(
+      `[subscribeToNewsletter] Failed to sync newsletter contact to Omnisend. ${result.error}`,
+    )
     return { success: false, error: 'SUBSCRIPTION_FAILED' }
   }
 

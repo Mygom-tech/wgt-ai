@@ -108,8 +108,8 @@ export interface Config {
     | ('false' | 'none' | 'null')
     | false
     | null
-    | ('en' | 'bg' | 'cs' | 'lv' | 'lt' | 'pl' | 'ro')
-    | ('en' | 'bg' | 'cs' | 'lv' | 'lt' | 'pl' | 'ro')[];
+    | ('en' | 'bg' | 'cz' | 'lv' | 'lt' | 'md' | 'pl' | 'ro')
+    | ('en' | 'bg' | 'cz' | 'lv' | 'lt' | 'md' | 'pl' | 'ro')[];
   globals: {
     'site-settings': SiteSetting;
     'landing-page': LandingPage;
@@ -126,7 +126,7 @@ export interface Config {
     'blog-page': BlogPageSelect<false> | BlogPageSelect<true>;
     'events-page': EventsPageSelect<false> | EventsPageSelect<true>;
   };
-  locale: 'en' | 'bg' | 'cs' | 'lv' | 'lt' | 'pl' | 'ro';
+  locale: 'en' | 'bg' | 'cz' | 'lv' | 'lt' | 'md' | 'pl' | 'ro';
   user: User;
   jobs: {
     tasks: unknown;
@@ -164,7 +164,7 @@ export interface User {
   /**
    * Which countries/languages this admin can manage. Only applies to Country Admins.
    */
-  assignedLocales?: ('en' | 'bg' | 'cs' | 'lv' | 'lt' | 'pl' | 'ro')[] | null;
+  assignedLocales?: ('en' | 'bg' | 'cz' | 'lv' | 'lt' | 'md' | 'pl' | 'ro')[] | null;
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -323,7 +323,7 @@ export interface BlogPost {
   /**
    * Which countries this post belongs to.
    */
-  locales: ('en' | 'bg' | 'cs' | 'lv' | 'lt' | 'pl' | 'ro')[];
+  locales: ('en' | 'bg' | 'cz' | 'lv' | 'lt' | 'md' | 'pl' | 'ro')[];
   status?: ('draft' | 'published') | null;
   title: string;
   /**
@@ -817,7 +817,7 @@ export interface Event {
   /**
    * Which countries this event belongs to.
    */
-  locales: ('en' | 'bg' | 'cs' | 'lv' | 'lt' | 'pl' | 'ro')[];
+  locales: ('en' | 'bg' | 'cz' | 'lv' | 'lt' | 'md' | 'pl' | 'ro')[];
   status?: ('draft' | 'published') | null;
   title: string;
   /**
@@ -942,9 +942,21 @@ export interface Form {
     id?: string | null;
   }[];
   /**
-   * MailerLite group ID for subscriber syncing
+   * Optional Omnisend tag applied to contacts from this form (e.g. "registration"). All submissions also get a "source:form-submission" tag automatically. Leave empty to use only the source tag.
    */
-  mailerliteGroupId?: string | null;
+  omnisendTag?: string | null;
+  /**
+   * When ON, every submission of this form adds the contact to the Omnisend marketing list (subscribed). When OFF, the contact is still saved and tagged in Omnisend, but their subscribe status is left untouched — an already-subscribed person stays subscribed, a new contact is not opted in. Leave OFF unless this form is an explicit marketing opt-in.
+   */
+  subscribeOnSubmit?: boolean | null;
+  /**
+   * ON (default): every submitted field is sent to Omnisend as contact data. OFF: only email, first name and last name are sent (plus locale and form source). Turn OFF to minimise personal data shared with Omnisend (GDPR) — e.g. forms with free-text comment fields.
+   */
+  sendAllFieldsToOmnisend?: boolean | null;
+  /**
+   * Optional. dataLayer event pushed to GTM when this form is submitted successfully (e.g. "registration_success"). Must EXACTLY match the Custom Event trigger configured in GTM, or nothing fires. Leave empty for no event. Avoid reusing the same name across forms unless you want them counted together.
+   */
+  gtmEventName?: string | null;
   /**
    * Email country/super admins on each submission. Submissions are always saved in the CMS regardless.
    */
@@ -1050,7 +1062,7 @@ export interface CheckboxFieldBlock {
 export interface FormSubmission {
   id: string;
   form: string | Form;
-  locale: 'en' | 'bg' | 'cs' | 'lv' | 'lt' | 'pl' | 'ro';
+  locale: 'en' | 'bg' | 'cz' | 'lv' | 'lt' | 'md' | 'pl' | 'ro';
   submissionData:
     | {
         [k: string]: unknown;
@@ -1068,7 +1080,7 @@ export interface FormSubmission {
    * Extracted from submission for display
    */
   name?: string | null;
-  mailerliteSynced?: boolean | null;
+  omnisendSynced?: boolean | null;
   notificationSent?: boolean | null;
   updatedAt: string;
   createdAt: string;
@@ -1145,7 +1157,7 @@ export interface FaqItem {
   /**
    * Which countries this FAQ item belongs to.
    */
-  locales: ('en' | 'bg' | 'cs' | 'lv' | 'lt' | 'pl' | 'ro')[];
+  locales: ('en' | 'bg' | 'cz' | 'lv' | 'lt' | 'md' | 'pl' | 'ro')[];
   /**
    * Lower numbers display first
    */
@@ -1483,7 +1495,10 @@ export interface FormsSelect<T extends boolean = true> {
             };
         id?: T;
       };
-  mailerliteGroupId?: T;
+  omnisendTag?: T;
+  subscribeOnSubmit?: T;
+  sendAllFieldsToOmnisend?: T;
+  gtmEventName?: T;
   notifyAdmin?: T;
   successMessage?: T;
   updatedAt?: T;
@@ -1566,7 +1581,7 @@ export interface FormSubmissionsSelect<T extends boolean = true> {
   submissionData?: T;
   email?: T;
   name?: T;
-  mailerliteSynced?: T;
+  omnisendSynced?: T;
   notificationSent?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -1672,7 +1687,7 @@ export interface SiteSetting {
   /**
    * Choose which languages are available on your website. English is always included.
    */
-  enabledLocales?: ('en' | 'bg' | 'cs' | 'lv' | 'lt' | 'pl' | 'ro')[] | null;
+  enabledLocales?: ('en' | 'bg' | 'cz' | 'lv' | 'lt' | 'md' | 'pl' | 'ro')[] | null;
   /**
    * Site logo displayed in the header. Recommended: SVG or PNG with transparent background, max height 40px.
    */
@@ -2005,9 +2020,13 @@ export interface Newsletter {
    */
   successMessage?: string | null;
   /**
-   * MailerLite group ID to add subscribers to. Find it in MailerLite dashboard.
+   * Optional Omnisend tag applied to newsletter subscribers (e.g. "newsletter"). All sign-ups also get a "source:newsletter" tag automatically. Leave empty to use only the source tag.
    */
-  mailerliteGroupId?: string | null;
+  omnisendTag?: string | null;
+  /**
+   * Optional. dataLayer event pushed to GTM when the newsletter is subscribed successfully (e.g. "newsletter_signup"). Must EXACTLY match the Custom Event trigger configured in GTM, or nothing fires. Leave empty for no event.
+   */
+  gtmEventName?: string | null;
   /**
    * Large watermark word displayed in the section background
    */
@@ -2309,7 +2328,8 @@ export interface NewsletterSelect<T extends boolean = true> {
   ctaText?: T;
   placeholder?: T;
   successMessage?: T;
-  mailerliteGroupId?: T;
+  omnisendTag?: T;
+  gtmEventName?: T;
   backgroundWord?: T;
   stickyBar?:
     | T
