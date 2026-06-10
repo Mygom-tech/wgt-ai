@@ -140,12 +140,7 @@ export function CTA({ newsletter }: CTAProps) {
     isSubmittingRef.current = true
     setIsSubmitting(true)
     try {
-      const result = await subscribeToNewsletter(
-        locale,
-        trimmed,
-        newsletter.omnisendTag ?? undefined,
-        honeypot,
-      )
+      const result = await subscribeToNewsletter(locale, trimmed, honeypot)
 
       if (result.success) {
         if (newsletter.gtmEventName && !honeypot && !hasTrackedRef.current) {

@@ -14,6 +14,10 @@ export const locales = [
 export type LocaleCode = (typeof locales)[number]['code']
 export const localeCodes = locales.map((l) => l.code)
 
+export function isValidLocale(code: string): code is LocaleCode {
+  return (localeCodes as readonly string[]).includes(code)
+}
+
 export function getHtmlLang(code: string): string {
   return locales.find((l) => l.code === code)?.htmlLang ?? code
 }

@@ -115,17 +115,19 @@ export async function syncToOmnisend(params: {
 
     const status = params.status ?? existing?.status ?? 'nonSubscribed'
     const tags = Array.from(new Set([...(existing?.tags ?? []), ...(params.tags ?? [])]))
+    const statusChanged = !existing || existing.status !== status
+    const emailChannel: Record<string, unknown> = { status }
+
+    if (statusChanged) {
+      emailChannel.statusDate = new Date().toISOString()
+    }
+
     const body: Record<string, unknown> = {
       identifiers: [
         {
           type: 'email',
           id: params.email,
-          channels: {
-            email: {
-              status,
-              statusDate: new Date().toISOString(),
-            },
-          },
+          channels: { email: emailChannel },
         },
       ],
     }

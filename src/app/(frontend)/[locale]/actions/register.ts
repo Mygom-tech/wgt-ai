@@ -5,8 +5,9 @@ import { getPayload } from 'payload'
 import config from '@payload-config'
 import { syncToOmnisend, OMNISEND_SOURCE_TAG } from '@/lib/omnisend'
 import { notifyAdmins, sendConfirmationEmail } from '@/lib/resend'
+import { isValidLocale } from '@/i18n/locales'
 import type { ServiceResult } from '@/lib/service-result'
-import type { Form, FormSubmission } from '@/payload-types'
+import type { Form } from '@/payload-types'
 
 type FormStep = NonNullable<Form['steps']>[number]
 type FormField = NonNullable<FormStep['fields']>[number]
@@ -76,6 +77,10 @@ export async function submitForm(
   // Honeypot check - silently reject bots
   if (rawData._hp) {
     return { success: true, message: '' }
+  }
+
+  if (!isValidLocale(locale)) {
+    return { success: false, message: 'Invalid locale' }
   }
 
   const payload = await getPayload({ config })
@@ -186,7 +191,7 @@ export async function submitForm(
     collection: 'form-submissions',
     data: {
       form: form.id,
-      locale: locale as FormSubmission['locale'],
+      locale,
       submissionData: submissionDataArray,
       email: extractedEmail,
       name: displayName,
@@ -235,18 +240,24 @@ export async function submitForm(
   if (!omnisendSuccess) {
     const err =
       omnisendResult.status === 'fulfilled' ? omnisendResult.value.error : omnisendResult.reason
-    payload.logger.error(`[Form] Omnisend sync failed (submission ${submission.id}): ${err}`)
+    payload.logger.error(
+      `[submitForm] Failed to sync contact to Omnisend (submission ${submission.id}). ${err}`,
+    )
   }
 
   if (shouldNotifyAdmins && !notifySuccess) {
     const err = notifyResult.status === 'fulfilled' ? notifyResult.value.error : notifyResult.reason
-    payload.logger.error(`[Form] Admin notification failed (submission ${submission.id}): ${err}`)
+    payload.logger.error(
+      `[submitForm] Failed to send admin notification (submission ${submission.id}). ${err}`,
+    )
   }
 
   if (!confirmSuccess) {
     const err =
       confirmResult.status === 'fulfilled' ? confirmResult.value.error : confirmResult.reason
-    payload.logger.error(`[Form] Confirmation email failed (submission ${submission.id}): ${err}`)
+    payload.logger.error(
+      `[submitForm] Failed to send confirmation email (submission ${submission.id}). ${err}`,
+    )
   }
 
   // Update submission flags
