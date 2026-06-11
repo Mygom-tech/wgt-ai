@@ -942,9 +942,21 @@ export interface Form {
     id?: string | null;
   }[];
   /**
-   * MailerLite group ID for subscriber syncing
+   * Optional Omnisend tag applied to contacts from this form (e.g. "registration"). All submissions also get a "source:form-submission" tag automatically. Leave empty to use only the source tag.
    */
-  mailerliteGroupId?: string | null;
+  omnisendTag?: string | null;
+  /**
+   * When ON, every submission of this form adds the contact to the Omnisend marketing list (subscribed). When OFF, the contact is still saved and tagged in Omnisend, but their subscribe status is left untouched — an already-subscribed person stays subscribed, a new contact is not opted in. Leave OFF unless this form is an explicit marketing opt-in.
+   */
+  subscribeOnSubmit?: boolean | null;
+  /**
+   * ON (default): every submitted field is sent to Omnisend as contact data. OFF: only email, first name and last name are sent (plus locale and form source). Turn OFF to minimise personal data shared with Omnisend (GDPR) — e.g. forms with free-text comment fields.
+   */
+  sendAllFieldsToOmnisend?: boolean | null;
+  /**
+   * Optional. dataLayer event pushed to GTM when this form is submitted successfully (e.g. "registration_success"). Must EXACTLY match the Custom Event trigger configured in GTM, or nothing fires. Leave empty for no event. Avoid reusing the same name across forms unless you want them counted together.
+   */
+  gtmEventName?: string | null;
   /**
    * Email country/super admins on each submission. Submissions are always saved in the CMS regardless.
    */
@@ -1068,7 +1080,7 @@ export interface FormSubmission {
    * Extracted from submission for display
    */
   name?: string | null;
-  mailerliteSynced?: boolean | null;
+  omnisendSynced?: boolean | null;
   notificationSent?: boolean | null;
   updatedAt: string;
   createdAt: string;
@@ -1483,7 +1495,10 @@ export interface FormsSelect<T extends boolean = true> {
             };
         id?: T;
       };
-  mailerliteGroupId?: T;
+  omnisendTag?: T;
+  subscribeOnSubmit?: T;
+  sendAllFieldsToOmnisend?: T;
+  gtmEventName?: T;
   notifyAdmin?: T;
   successMessage?: T;
   updatedAt?: T;
@@ -1566,7 +1581,7 @@ export interface FormSubmissionsSelect<T extends boolean = true> {
   submissionData?: T;
   email?: T;
   name?: T;
-  mailerliteSynced?: T;
+  omnisendSynced?: T;
   notificationSent?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -2005,9 +2020,13 @@ export interface Newsletter {
    */
   successMessage?: string | null;
   /**
-   * MailerLite group ID to add subscribers to. Find it in MailerLite dashboard.
+   * Optional Omnisend tag applied to newsletter subscribers (e.g. "newsletter"). All sign-ups also get a "source:newsletter" tag automatically. Leave empty to use only the source tag.
    */
-  mailerliteGroupId?: string | null;
+  omnisendTag?: string | null;
+  /**
+   * Optional. dataLayer event pushed to GTM when the newsletter is subscribed successfully (e.g. "newsletter_signup"). Must EXACTLY match the Custom Event trigger configured in GTM, or nothing fires. Leave empty for no event.
+   */
+  gtmEventName?: string | null;
   /**
    * Large watermark word displayed in the section background
    */
@@ -2309,7 +2328,8 @@ export interface NewsletterSelect<T extends boolean = true> {
   ctaText?: T;
   placeholder?: T;
   successMessage?: T;
-  mailerliteGroupId?: T;
+  omnisendTag?: T;
+  gtmEventName?: T;
   backgroundWord?: T;
   stickyBar?:
     | T

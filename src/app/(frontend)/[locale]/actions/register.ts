@@ -3,13 +3,71 @@
 import { z } from 'zod'
 import { getPayload } from 'payload'
 import config from '@payload-config'
-import { syncToMailerLite } from '@/lib/mailerlite'
+import { syncToOmnisend, OMNISEND_SOURCE_TAG } from '@/lib/omnisend'
 import { notifyAdmins, sendConfirmationEmail } from '@/lib/resend'
+import { isValidLocale } from '@/i18n/locales'
 import type { ServiceResult } from '@/lib/service-result'
-import type { Form, FormSubmission } from '@/payload-types'
+import type { Form } from '@/payload-types'
 
 type FormStep = NonNullable<Form['steps']>[number]
 type FormField = NonNullable<FormStep['fields']>[number]
+
+// Match a form field by its KEY (not position) to Omnisend's native name fields. Normalised
+// to ignore case/separators, so `first_name`, `firstName`, `FName` all match.
+const FIRST_NAME_KEYS = new Set(['name', 'firstname', 'fname', 'givenname'])
+const LAST_NAME_KEYS = new Set(['surname', 'lastname', 'lname', 'familyname'])
+
+const normalizeKey = (key: string): string => key.toLowerCase().replace(/[^a-z0-9]/g, '')
+
+type ContactFields = {
+  firstName?: string
+  lastName?: string
+  displayName: string
+  customProperties: Record<string, string | number | boolean>
+}
+
+function buildContactFields(
+  fields: FormField[],
+  rawData: Record<string, string | boolean>,
+  locale: string,
+  formSource: string,
+  sendAllFields: boolean,
+): ContactFields {
+  const customProperties: Record<string, string | number | boolean> = {}
+  let firstName: string | undefined
+  let lastName: string | undefined
+  let firstTextFallback = ''
+
+  for (const block of fields) {
+    const value = rawData[block.name]
+    if (value === undefined || value === '') continue
+
+    if (typeof value === 'string' && block.blockType === 'textField' && !firstTextFallback) {
+      firstTextFallback = value
+    }
+
+    const key = normalizeKey(block.name)
+    if (!firstName && typeof value === 'string' && FIRST_NAME_KEYS.has(key)) {
+      firstName = value
+      continue
+    }
+    if (!lastName && typeof value === 'string' && LAST_NAME_KEYS.has(key)) {
+      lastName = value
+      continue
+    }
+    if (sendAllFields) {
+      customProperties[block.name] = value
+    }
+  }
+
+  // Reserved keys set last so a form field can't clobber them.
+  customProperties.locale = locale
+  customProperties.form_source = formSource
+
+  const displayName = [firstName, lastName].filter(Boolean).join(' ').trim() || firstTextFallback
+
+  return { firstName, lastName, displayName, customProperties }
+}
 
 export async function submitForm(
   formId: string,
@@ -19,6 +77,10 @@ export async function submitForm(
   // Honeypot check - silently reject bots
   if (rawData._hp) {
     return { success: true, message: '' }
+  }
+
+  if (!isValidLocale(locale)) {
+    return { success: false, message: 'Invalid locale' }
   }
 
   const payload = await getPayload({ config })
@@ -106,13 +168,14 @@ export async function submitForm(
   // Email always comes from the built-in email field
   const extractedEmail = String(rawData.email || '')
 
-  // Extract name from first textField
-  let extractedName = ''
-  for (const block of fields) {
-    if (block.blockType === 'textField' && !extractedName) {
-      extractedName = String(rawData[block.name] || '')
-    }
-  }
+  // Map fields → Omnisend contact data (first/last name by key, everything else as properties).
+  const { firstName, lastName, displayName, customProperties } = buildContactFields(
+    fields,
+    rawData,
+    locale,
+    form.title,
+    form.sendAllFieldsToOmnisend !== false,
+  )
 
   // Build submission data array (include built-in email + all block fields)
   const submissionDataArray = [
@@ -128,10 +191,10 @@ export async function submitForm(
     collection: 'form-submissions',
     data: {
       form: form.id,
-      locale: locale as FormSubmission['locale'],
+      locale,
       submissionData: submissionDataArray,
       email: extractedEmail,
-      name: extractedName,
+      name: displayName,
     },
     overrideAccess: true,
   })
@@ -139,11 +202,18 @@ export async function submitForm(
   // Async integrations - run after submission is saved
   const shouldNotifyAdmins = form.notifyAdmin === true
 
-  const [mailerliteResult, notifyResult, confirmResult] = await Promise.allSettled([
-    syncToMailerLite({
+  const tags = [OMNISEND_SOURCE_TAG.form, form.omnisendTag].filter((tag): tag is string =>
+    Boolean(tag),
+  )
+
+  const [omnisendResult, notifyResult, confirmResult] = await Promise.allSettled([
+    syncToOmnisend({
       email: extractedEmail,
-      fields: { name: extractedName || '', locale, form_source: form.title },
-      groupId: form.mailerliteGroupId || undefined,
+      status: form.subscribeOnSubmit ? 'subscribed' : undefined,
+      firstName,
+      lastName,
+      tags,
+      customProperties,
     }),
     shouldNotifyAdmins
       ? notifyAdmins({
@@ -151,40 +221,43 @@ export async function submitForm(
           formTitle: form.title,
           submissionData: submissionDataArray,
           email: extractedEmail,
-          name: extractedName,
+          name: displayName,
         })
       : Promise.resolve<ServiceResult>({ success: true }),
     sendConfirmationEmail({
       email: extractedEmail,
-      name: extractedName,
+      name: displayName,
       formTitle: form.title,
       successMessage: form.successMessage || undefined,
     }),
   ])
 
   // Log integration errors for debugging
-  const mlSuccess = mailerliteResult.status === 'fulfilled' && mailerliteResult.value.success
+  const omnisendSuccess = omnisendResult.status === 'fulfilled' && omnisendResult.value.success
   const notifySuccess = notifyResult.status === 'fulfilled' && notifyResult.value.success
   const confirmSuccess = confirmResult.status === 'fulfilled' && confirmResult.value.success
 
-  if (!mlSuccess) {
+  if (!omnisendSuccess) {
     const err =
-      mailerliteResult.status === 'fulfilled'
-        ? mailerliteResult.value.error
-        : mailerliteResult.reason
-    payload.logger.error(`[Form] MailerLite sync failed for ${extractedEmail}: ${err}`)
+      omnisendResult.status === 'fulfilled' ? omnisendResult.value.error : omnisendResult.reason
+    payload.logger.error(
+      `[submitForm] Failed to sync contact to Omnisend (submission ${submission.id}). ${err}`,
+    )
   }
 
   if (shouldNotifyAdmins && !notifySuccess) {
-    const err =
-      notifyResult.status === 'fulfilled' ? notifyResult.value.error : notifyResult.reason
-    payload.logger.error(`[Form] Admin notification failed for ${extractedEmail}: ${err}`)
+    const err = notifyResult.status === 'fulfilled' ? notifyResult.value.error : notifyResult.reason
+    payload.logger.error(
+      `[submitForm] Failed to send admin notification (submission ${submission.id}). ${err}`,
+    )
   }
 
   if (!confirmSuccess) {
     const err =
       confirmResult.status === 'fulfilled' ? confirmResult.value.error : confirmResult.reason
-    payload.logger.error(`[Form] Confirmation email failed for ${extractedEmail}: ${err}`)
+    payload.logger.error(
+      `[submitForm] Failed to send confirmation email (submission ${submission.id}). ${err}`,
+    )
   }
 
   // Update submission flags
@@ -192,7 +265,7 @@ export async function submitForm(
     collection: 'form-submissions',
     id: submission.id,
     data: {
-      mailerliteSynced: mlSuccess,
+      omnisendSynced: omnisendSuccess,
       notificationSent: shouldNotifyAdmins ? notifySuccess : false,
     },
     overrideAccess: true,

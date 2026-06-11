@@ -5,6 +5,7 @@ import {
   lockNonLocalizedFieldsForCountryAdmins,
   publicRead,
 } from '@/lib/access'
+import { validateGtmEventName } from '@/lib/gtm'
 
 export const Newsletter: GlobalConfig = {
   slug: 'newsletter',
@@ -68,11 +69,22 @@ export const Newsletter: GlobalConfig = {
       },
     },
     {
-      name: 'mailerliteGroupId',
+      name: 'omnisendTag',
       type: 'text',
       admin: {
         position: 'sidebar',
-        description: 'MailerLite group ID to add subscribers to. Find it in MailerLite dashboard.',
+        description:
+          'Optional Omnisend tag applied to newsletter subscribers (e.g. "newsletter"). All sign-ups also get a "source:newsletter" tag automatically. Leave empty to use only the source tag.',
+      },
+    },
+    {
+      name: 'gtmEventName',
+      type: 'text',
+      validate: validateGtmEventName,
+      admin: {
+        position: 'sidebar',
+        description:
+          'Optional. dataLayer event pushed to GTM when the newsletter is subscribed successfully (e.g. "newsletter_signup"). Must EXACTLY match the Custom Event trigger configured in GTM, or nothing fires. Leave empty for no event.',
       },
     },
     {
