@@ -1,9 +1,6 @@
 import type { GlobalConfig } from 'payload'
 import { createGlobalRevalidationHook } from '@/lib/revalidation'
-import {
-  globalLocaleRestrictedUpdate,
-  lockNonLocalizedFieldsForCountryAdmins,
-} from '@/lib/access'
+import { globalLocaleRestrictedUpdate, lockNonLocalizedFieldsForCountryAdmins } from '@/lib/access'
 
 export const ContactsPage: GlobalConfig = {
   slug: 'contacts-page',
@@ -48,6 +45,7 @@ export const ContactsPage: GlobalConfig = {
       name: 'form',
       type: 'relationship',
       relationTo: 'forms',
+      localized: true,
       admin: {
         description: 'Select which form to display on the contacts page',
       },
