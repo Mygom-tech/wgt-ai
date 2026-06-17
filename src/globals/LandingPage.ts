@@ -499,6 +499,7 @@ export const LandingPage: GlobalConfig = {
                       name: 'form',
                       type: 'relationship',
                       relationTo: 'forms',
+                      localized: true,
                       admin: {
                         description: 'Select which form to display in this section',
                       },

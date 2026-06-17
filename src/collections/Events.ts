@@ -4,9 +4,10 @@ import { isSuperAdmin } from '@/lib/access'
 import { locales } from '@/i18n/locales'
 
 const timezoneOptions = Intl.supportedValuesOf('timeZone').map((tz) => {
-  const offset = new Intl.DateTimeFormat('en', { timeZone: tz, timeZoneName: 'shortOffset' })
-    .formatToParts(new Date(2025, 0, 1))
-    .find((p) => p.type === 'timeZoneName')?.value ?? ''
+  const offset =
+    new Intl.DateTimeFormat('en', { timeZone: tz, timeZoneName: 'shortOffset' })
+      .formatToParts(new Date(2025, 0, 1))
+      .find((p) => p.type === 'timeZoneName')?.value ?? ''
   return { label: `${tz.replace(/_/g, ' ')} (${offset})`, value: tz }
 })
 
@@ -220,6 +221,7 @@ export const Events: CollectionConfig = {
       name: 'registrationForm',
       type: 'relationship',
       relationTo: 'forms',
+      localized: true,
       admin: {
         description: 'Optional Payload form for in-house registration',
       },
