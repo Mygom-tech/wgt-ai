@@ -45,19 +45,24 @@ export function Audience({ audience }: AudienceProps) {
 
       // Character cascade - starts immediately
       if (chars.length) {
-        tl.from(chars, {
-          yPercent: 100,   // Characters start 100% below baseline
-          rotateX: -60,    // Characters rotate in from behind
-          opacity: 0,
-          stagger: 0.015,  // 15ms between each character
-          duration: 1.2,
-          ease: 'expo.out',
-        }, 0)
+        tl.from(
+          chars,
+          {
+            yPercent: 100, // Characters start 100% below baseline
+            rotateX: -60, // Characters rotate in from behind
+            opacity: 0,
+            stagger: 0.015, // 15ms between each character
+            duration: 1.2,
+            ease: 'expo.out',
+          },
+          0,
+        )
       }
 
       // Card reveal - curtain wipe with slight zoom (fromTo needed for clipPath)
       if (cards.length) {
-        tl.fromTo(cards,
+        tl.fromTo(
+          cards,
           { clipPath: 'inset(100% 0% 0% 0%)', scale: 1.05 }, // Hidden: clipped from bottom, slightly enlarged
           {
             clipPath: 'inset(0% 0% 0% 0%)',
@@ -66,7 +71,7 @@ export function Audience({ audience }: AudienceProps) {
             duration: 1.2,
             ease: 'power4.inOut',
           },
-          0.3,                 // 300ms offset from character animation start
+          0.3, // 300ms offset from character animation start
         )
       }
     },
@@ -90,15 +95,15 @@ export function Audience({ audience }: AudienceProps) {
 
       <Container size="xl" className="relative z-10">
         {/* ─── Header ─── */}
-        <header
-          ref={headerRef}
-          className="flex flex-col gap-6 lg:gap-8 mb-10 lg:mb-14"
-        >
+        <header ref={headerRef} className="flex flex-col gap-6 lg:gap-8 mb-10 lg:mb-14">
           <Eyebrow label={t('eyebrow')} />
 
-          <h2 id="audience-heading" className="text-[clamp(2.5rem,6vw,7.5rem)] font-medium uppercase leading-[0.95] tracking-[-0.04em] font-heading flex flex-wrap gap-x-[0.2em] perspective-2000">
+          <h2
+            id="audience-heading"
+            className="text-[clamp(2.5rem,6vw,7.5rem)] font-medium uppercase leading-[0.95] tracking-[-0.04em] font-heading flex flex-wrap gap-x-[0.2em] perspective-2000"
+          >
             {heading.split(' ').map((word, i) => (
-              <span key={i} className="overflow-hidden inline-flex gap-[0.1em] pb-1">
+              <span key={i} className="heading-reveal-mask inline-flex gap-[0.1em] pb-1">
                 {word.split('').map((char, j) => (
                   <span key={j} data-aud-char className="inline-block origin-top">
                     {char}
@@ -127,9 +132,7 @@ export function Audience({ audience }: AudienceProps) {
         >
           {groups.map((group, i) => {
             const img =
-              group.image && typeof group.image === 'object'
-                ? (group.image as PayloadImage)
-                : null
+              group.image && typeof group.image === 'object' ? (group.image as PayloadImage) : null
             const label = String(i + 1).padStart(2, '0')
 
             return (

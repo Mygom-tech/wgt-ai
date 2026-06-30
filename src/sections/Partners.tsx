@@ -18,7 +18,14 @@ type PartnersProps = {
   partners: Partner[]
 }
 
-export function Partners({ eyebrow, heading, subtitle, backgroundWord, visitWebsiteLabel, partners }: PartnersProps) {
+export function Partners({
+  eyebrow,
+  heading,
+  subtitle,
+  backgroundWord,
+  visitWebsiteLabel,
+  partners,
+}: PartnersProps) {
   const sectionRef = useRef<HTMLElement>(null)
   const headerRef = useRef<HTMLDivElement>(null)
 
@@ -42,24 +49,32 @@ export function Partners({ eyebrow, heading, subtitle, backgroundWord, visitWebs
       })
 
       if (chars.length) {
-        tl.from(chars, {
-          yPercent: 100,
-          rotateX: -60,
-          opacity: 0,
-          stagger: 0.015,
-          duration: 1.2,
-          ease: 'expo.out',
-        }, 0)
+        tl.from(
+          chars,
+          {
+            yPercent: 100,
+            rotateX: -60,
+            opacity: 0,
+            stagger: 0.015,
+            duration: 1.2,
+            ease: 'expo.out',
+          },
+          0,
+        )
       }
 
       if (logos.length) {
-        tl.from(logos, {
-          y: 20,
-          opacity: 0,
-          stagger: 0.06,
-          duration: 0.8,
-          ease: 'power3.out',
-        }, 0.3)
+        tl.from(
+          logos,
+          {
+            y: 20,
+            opacity: 0,
+            stagger: 0.06,
+            duration: 0.8,
+            ease: 'power3.out',
+          },
+          0.3,
+        )
       }
     },
     { scope: sectionRef },
@@ -69,7 +84,12 @@ export function Partners({ eyebrow, heading, subtitle, backgroundWord, visitWebs
 
   return (
     <Section ref={sectionRef} id="partners" aria-labelledby="partners-heading" variant="dark">
-      <GridLines columns={16} rows={12} className="opacity-[0.02]" lineColor="rgba(255,255,255,0.12)" />
+      <GridLines
+        columns={16}
+        rows={12}
+        className="opacity-[0.02]"
+        lineColor="rgba(255,255,255,0.12)"
+      />
 
       {/* Background watermark */}
       <div
@@ -92,7 +112,7 @@ export function Partners({ eyebrow, heading, subtitle, backgroundWord, visitWebs
             className="text-[clamp(2.5rem,6vw,7.5rem)] font-medium uppercase leading-[0.95] tracking-[-0.04em] font-heading text-white flex flex-wrap gap-x-[0.2em] perspective-2000"
           >
             {heading.split(' ').map((word, i) => (
-              <span key={i} className="overflow-hidden inline-flex gap-[0.1em] pb-1">
+              <span key={i} className="heading-reveal-mask inline-flex gap-[0.1em] pb-1">
                 {word.split('').map((char, j) => (
                   <span key={j} data-ptr-char className="inline-block origin-top">
                     {char}
@@ -114,7 +134,10 @@ export function Partners({ eyebrow, heading, subtitle, backgroundWord, visitWebs
         </header>
 
         {/* Logo grid */}
-        <ul role="list" className="flex flex-wrap justify-center gap-x-10 gap-y-8 lg:gap-x-14 lg:gap-y-10">
+        <ul
+          role="list"
+          className="flex flex-wrap justify-center gap-x-10 gap-y-8 lg:gap-x-14 lg:gap-y-10"
+        >
           {partners.map((partner) => {
             const logo = typeof partner.logo === 'string' ? null : (partner.logo as PayloadImage)
             if (!logo?.url) return null
@@ -143,7 +166,11 @@ export function Partners({ eyebrow, heading, subtitle, backgroundWord, visitWebs
                     {inner}
                   </a>
                 ) : (
-                  <span role="img" aria-label={partner.organizationName} className="flex items-center justify-center h-10 lg:h-12 px-4 opacity-50">
+                  <span
+                    role="img"
+                    aria-label={partner.organizationName}
+                    className="flex items-center justify-center h-10 lg:h-12 px-4 opacity-50"
+                  >
                     {inner}
                   </span>
                 )}

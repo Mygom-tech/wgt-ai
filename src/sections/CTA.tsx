@@ -183,7 +183,7 @@ export function CTA({ newsletter }: CTAProps) {
                 className="mt-6 text-[clamp(2rem,5vw,4.5rem)] font-medium uppercase leading-[0.95] tracking-[-0.04em] font-heading text-foreground flex flex-wrap justify-center gap-x-[0.2em] perspective-2000"
               >
                 {heading.split(' ').map((word, i) => (
-                  <span key={i} className="overflow-hidden inline-flex gap-[0.1em] pb-1">
+                  <span key={i} className="heading-reveal-mask inline-flex gap-[0.1em] pb-1">
                     {word.split('').map((char, j) => (
                       <span key={j} data-cta-char className="inline-block origin-top">
                         {char}

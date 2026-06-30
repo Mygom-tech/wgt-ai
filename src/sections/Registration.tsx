@@ -50,24 +50,32 @@ export function Registration({ registration, form, submitAction }: RegistrationP
 
       // Character cascade
       if (chars.length) {
-        tl.from(chars, {
-          yPercent: 100,
-          rotateX: -60,
-          opacity: 0,
-          stagger: 0.015,
-          duration: 1.2,
-          ease: 'expo.out',
-        }, 0)
+        tl.from(
+          chars,
+          {
+            yPercent: 100,
+            rotateX: -60,
+            opacity: 0,
+            stagger: 0.015,
+            duration: 1.2,
+            ease: 'expo.out',
+          },
+          0,
+        )
       }
 
       // Form fade-in with rise
       if (formEl) {
-        tl.from(formEl, {
-          y: 30,
-          opacity: 0,
-          duration: 1.0,
-          ease: 'power3.out',
-        }, 0.3)
+        tl.from(
+          formEl,
+          {
+            y: 30,
+            opacity: 0,
+            duration: 1.0,
+            ease: 'power3.out',
+          },
+          0.3,
+        )
       }
     },
     { scope: sectionRef },
@@ -93,7 +101,7 @@ export function Registration({ registration, form, submitAction }: RegistrationP
               className="text-[clamp(2.5rem,6vw,7.5rem)] font-medium uppercase leading-[0.95] tracking-[-0.04em] font-heading text-white flex flex-wrap gap-x-[0.2em] perspective-2000"
             >
               {heading.split(' ').map((word, i) => (
-                <span key={i} className="overflow-hidden inline-flex gap-[0.1em] pb-1">
+                <span key={i} className="heading-reveal-mask inline-flex gap-[0.1em] pb-1">
                   {word.split('').map((char, j) => (
                     <span key={j} data-reg-char className="inline-block origin-top">
                       {char}
