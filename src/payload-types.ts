@@ -483,6 +483,7 @@ export interface Event {
         | 'America/Coral_Harbour'
         | 'America/Cordoba'
         | 'America/Costa_Rica'
+        | 'America/Coyhaique'
         | 'America/Creston'
         | 'America/Cuiaba'
         | 'America/Curacao'
@@ -1698,6 +1699,17 @@ export interface SiteSetting {
   headerCtaText?: string | null;
   headerCtaUrl?: string | null;
   /**
+   * Optional overrides for the menu bar links. Leave a field empty to use the default translation for each language.
+   */
+  headerNav?: {
+    about?: string | null;
+    course?: string | null;
+    howItWorks?: string | null;
+    events?: string | null;
+    blog?: string | null;
+    contact?: string | null;
+  };
+  /**
    * These are fallback values used when a page doesn't have its own SEO settings.
    */
   defaultMeta?: {
@@ -1715,7 +1727,7 @@ export interface SiteSetting {
     image?: (string | null) | Image;
   };
   /**
-   * Add your social media profiles. These will appear in the website footer.
+   * Add your social media profiles. These will appear in the website footer. Edited per language — switch the locale selector to set them for each country.
    */
   socialLinks?:
     | {
@@ -2155,6 +2167,16 @@ export interface SiteSettingsSelect<T extends boolean = true> {
   logo?: T;
   headerCtaText?: T;
   headerCtaUrl?: T;
+  headerNav?:
+    | T
+    | {
+        about?: T;
+        course?: T;
+        howItWorks?: T;
+        events?: T;
+        blog?: T;
+        contact?: T;
+      };
   defaultMeta?:
     | T
     | {

@@ -1,5 +1,11 @@
 @import 'tailwindcss';
 
+@utility heading-reveal-mask {
+  /* Headroom so the GSAP reveal mask doesn't clip diacritics: top for
+     carons/macrons (Č Š Ū Ě ř), bottom for ogoneks (Ą Ę Į Ų). */
+  clip-path: inset(-0.4em 0 -0.3em 0);
+}
+
 @theme inline {
   /* Typography */
   --font-sans: var(--font-inter);

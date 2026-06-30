@@ -16,7 +16,13 @@ type TestimonialsProps = {
   testimonials: Testimonial[]
 }
 
-export function Testimonials({ eyebrow, heading, subtitle, backgroundWord, testimonials }: TestimonialsProps) {
+export function Testimonials({
+  eyebrow,
+  heading,
+  subtitle,
+  backgroundWord,
+  testimonials,
+}: TestimonialsProps) {
   const sectionRef = useRef<HTMLElement>(null)
   const headerRef = useRef<HTMLDivElement>(null)
 
@@ -46,35 +52,47 @@ export function Testimonials({ eyebrow, heading, subtitle, backgroundWord, testi
 
       // Character cascade
       if (chars.length) {
-        tl.from(chars, {
-          yPercent: 100,
-          rotateX: -60,
-          opacity: 0,
-          stagger: 0.015,
-          duration: 1.2,
-          ease: 'expo.out',
-        }, 0)
+        tl.from(
+          chars,
+          {
+            yPercent: 100,
+            rotateX: -60,
+            opacity: 0,
+            stagger: 0.015,
+            duration: 1.2,
+            ease: 'expo.out',
+          },
+          0,
+        )
       }
 
       // Featured quote
       if (quote) {
-        tl.from(quote, {
-          y: 30,
-          opacity: 0,
-          duration: 1.0,
-          ease: 'power3.out',
-        }, 0.3)
+        tl.from(
+          quote,
+          {
+            y: 30,
+            opacity: 0,
+            duration: 1.0,
+            ease: 'power3.out',
+          },
+          0.3,
+        )
       }
 
       // Supporting cards
       if (cards.length) {
-        tl.from(cards, {
-          y: 30,
-          opacity: 0,
-          stagger: 0.1,
-          duration: 1.0,
-          ease: 'power3.out',
-        }, 0.5)
+        tl.from(
+          cards,
+          {
+            y: 30,
+            opacity: 0,
+            stagger: 0.1,
+            duration: 1.0,
+            ease: 'power3.out',
+          },
+          0.5,
+        )
       }
     },
     { scope: sectionRef },
@@ -83,7 +101,12 @@ export function Testimonials({ eyebrow, heading, subtitle, backgroundWord, testi
   if (!featured) return null
 
   return (
-    <Section ref={sectionRef} id="testimonials" aria-labelledby="testimonials-heading" variant="light">
+    <Section
+      ref={sectionRef}
+      id="testimonials"
+      aria-labelledby="testimonials-heading"
+      variant="light"
+    >
       <GridLines columns={16} rows={12} className="opacity-40" />
 
       {/* Background watermark - positioned at section level for full width */}
@@ -107,7 +130,7 @@ export function Testimonials({ eyebrow, heading, subtitle, backgroundWord, testi
             className="text-[clamp(2.5rem,6vw,7.5rem)] font-medium uppercase leading-[0.95] tracking-[-0.04em] font-heading text-foreground flex flex-wrap gap-x-[0.2em] perspective-2000"
           >
             {heading.split(' ').map((word, i) => (
-              <span key={i} className="overflow-hidden inline-flex gap-[0.1em] pb-1">
+              <span key={i} className="heading-reveal-mask inline-flex gap-[0.1em] pb-1">
                 {word.split('').map((char, j) => (
                   <span key={j} data-tst-char className="inline-block origin-top">
                     {char}

@@ -12,7 +12,7 @@ import { NavHashLink } from '@/components/header/NavHashLink'
 import { Link } from '@/i18n/navigation'
 import Image from 'next/image'
 import type { LocaleCode } from '@/i18n/locales'
-import type { Image as PayloadImage } from '@/payload-types'
+import type { Image as PayloadImage, SiteSetting } from '@/payload-types'
 import { gsap, useGSAP } from '@/lib/gsap'
 
 type HeaderProps = {
@@ -20,13 +20,14 @@ type HeaderProps = {
   logo?: PayloadImage | string | null
   ctaText?: string | null
   ctaUrl?: string | null
+  navOverrides?: SiteSetting['headerNav'] | null
 }
 
 function isPopulatedImage(logo: PayloadImage | string | null | undefined): logo is PayloadImage {
   return typeof logo === 'object' && logo !== null && 'url' in logo && !!logo.url
 }
 
-export function Header({ enabledLocales, logo, ctaText, ctaUrl }: HeaderProps) {
+export function Header({ enabledLocales, logo, ctaText, ctaUrl, navOverrides }: HeaderProps) {
   const t = useTranslations('header')
   const ctaLabel = ctaText?.trim() || t('cta')
   const [isScrolled, setIsScrolled] = useState(false)
@@ -40,14 +41,14 @@ export function Header({ enabledLocales, logo, ctaText, ctaUrl }: HeaderProps) {
 
   const navLinks = useMemo(
     () => [
-      { href: '#problem', label: t('nav.about') },
-      { href: '#skills', label: t('nav.course') },
-      { href: '#how-it-works', label: t('nav.howItWorks') },
-      { href: '/events', label: t('nav.events') },
-      { href: '/blog', label: t('nav.blog') },
-      { href: '/contacts', label: t('nav.contact') },
+      { href: '#problem', label: navOverrides?.about?.trim() || t('nav.about') },
+      { href: '#skills', label: navOverrides?.course?.trim() || t('nav.course') },
+      { href: '#how-it-works', label: navOverrides?.howItWorks?.trim() || t('nav.howItWorks') },
+      { href: '/events', label: navOverrides?.events?.trim() || t('nav.events') },
+      { href: '/blog', label: navOverrides?.blog?.trim() || t('nav.blog') },
+      { href: '/contacts', label: navOverrides?.contact?.trim() || t('nav.contact') },
     ],
-    [t],
+    [t, navOverrides],
   )
 
   useEffect(() => {

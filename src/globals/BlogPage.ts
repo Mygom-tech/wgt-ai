@@ -1,9 +1,6 @@
 import type { GlobalConfig } from 'payload'
 import { createGlobalRevalidationHook } from '@/lib/revalidation'
-import {
-  globalLocaleRestrictedUpdate,
-  lockNonLocalizedFieldsForCountryAdmins,
-} from '@/lib/access'
+import { globalLocaleRestrictedUpdate, prepareGlobalFields } from '@/lib/access'
 
 export const BlogPage: GlobalConfig = {
   slug: 'blog-page',
@@ -13,11 +10,9 @@ export const BlogPage: GlobalConfig = {
     update: globalLocaleRestrictedUpdate,
   },
   hooks: {
-    afterChange: [
-      createGlobalRevalidationHook('blog-page', { revalidatePaths: ['/blog'] }),
-    ],
+    afterChange: [createGlobalRevalidationHook('blog-page', { revalidatePaths: ['/blog'] })],
   },
-  fields: lockNonLocalizedFieldsForCountryAdmins([
+  fields: prepareGlobalFields([
     {
       name: 'eyebrow',
       type: 'text',

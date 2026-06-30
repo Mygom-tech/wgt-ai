@@ -94,7 +94,7 @@ export function HowItWorks({ howItWorks }: HowItWorksProps) {
             className="text-[clamp(2.5rem,6vw,7.5rem)] font-medium uppercase leading-[0.95] tracking-[-0.04em] font-heading flex flex-wrap gap-x-[0.2em] perspective-2000"
           >
             {heading.split(' ').map((word, i) => (
-              <span key={i} className="overflow-hidden inline-flex gap-[0.1em] pb-1">
+              <span key={i} className="heading-reveal-mask inline-flex gap-[0.1em] pb-1">
                 {word.split('').map((char, j) => (
                   <span key={j} data-how-char className="inline-block origin-top">
                     {char}

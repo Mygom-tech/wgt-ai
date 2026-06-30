@@ -130,11 +130,9 @@ export function ContactsHero({
           <Eyebrow label={t('eyebrow')} color="primary" />
 
           {heading && (
-            <h1
-              className="text-[clamp(2.5rem,6vw,5rem)] font-medium uppercase leading-[0.95] tracking-[-0.04em] font-heading text-foreground flex flex-wrap gap-x-[0.2em] perspective-2000"
-            >
+            <h1 className="text-[clamp(2.5rem,6vw,5rem)] font-medium uppercase leading-[0.95] tracking-[-0.04em] font-heading text-foreground flex flex-wrap gap-x-[0.2em] perspective-2000">
               {heading.split(' ').map((word, i) => (
-                <span key={i} className="overflow-hidden inline-flex gap-[0.1em] pb-1">
+                <span key={i} className="heading-reveal-mask inline-flex gap-[0.1em] pb-1">
                   {word.split('').map((char, j) => (
                     <span key={j} data-contact-char className="inline-block origin-top">
                       {char}
@@ -176,7 +174,17 @@ export function ContactsHero({
               >
                 <div className="flex items-start gap-4">
                   <div className="shrink-0 w-10 h-10 flex items-center justify-center border border-foreground/10 text-primary rounded-[2px]">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                    <svg
+                      width="20"
+                      height="20"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      aria-hidden="true"
+                    >
                       <rect x="2" y="4" width="20" height="16" rx="2" />
                       <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
                     </svg>
@@ -201,7 +209,17 @@ export function ContactsHero({
               >
                 <div className="flex items-start gap-4">
                   <div className="shrink-0 w-10 h-10 flex items-center justify-center border border-foreground/10 text-primary rounded-[2px]">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                    <svg
+                      width="20"
+                      height="20"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      aria-hidden="true"
+                    >
                       <rect x="2" y="4" width="20" height="16" rx="2" />
                       <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
                     </svg>
