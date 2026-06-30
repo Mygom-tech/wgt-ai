@@ -7,7 +7,7 @@ import { getMessages, setRequestLocale } from 'next-intl/server'
 import { redirect } from 'next/navigation'
 import { JsonLd } from '@/components/JsonLd'
 import { GoogleTagManager, GoogleTagManagerNoScript } from '@/components/GoogleTagManager'
-import { getSiteSettings, getEnabledLocales } from '@/lib/getSiteSettings'
+import { getSiteSettings, getEnabledLocales, getHeaderOverrides } from '@/lib/getSiteSettings'
 import { extractFaviconAssets } from '@/lib/getFavicons'
 import { getSiteUrl, queryGlobal, queryCollection } from '@/lib/payload-data'
 import { buildAlternateLanguages } from '@/lib/generateMeta'
@@ -120,17 +120,20 @@ export default async function LocaleLayout({ children, params }: Props) {
 
   setRequestLocale(locale)
 
-  const [settings, newsletterData, legalPagesResult, messages] = await Promise.all([
-    getSiteSettings(locale as LocaleCode),
-    queryGlobal('newsletter', { locale: locale as LocaleCode }),
-    queryCollection('legal-pages', {
-      where: { status: { equals: 'published' } },
-      sort: 'footerOrder',
-      limit: 50,
-      locale: locale as LocaleCode,
-    }),
-    getMessages(),
-  ])
+  const [settings, headerOverrides, newsletterData, legalPagesResult, messages] = await Promise.all(
+    [
+      getSiteSettings(locale as LocaleCode),
+      getHeaderOverrides(locale as LocaleCode),
+      queryGlobal('newsletter', { locale: locale as LocaleCode }),
+      queryCollection('legal-pages', {
+        where: { status: { equals: 'published' } },
+        sort: 'footerOrder',
+        limit: 50,
+        locale: locale as LocaleCode,
+      }),
+      getMessages(),
+    ],
+  )
   const legalPages = legalPagesResult.docs
     .filter((page) => !page.hideFromFooter)
     .map((page) => ({ id: page.id, slug: page.slug, title: page.title }))
@@ -195,8 +198,9 @@ export default async function LocaleLayout({ children, params }: Props) {
             <Header
               enabledLocales={enabledLocales}
               logo={settings.logo as PayloadImage | null | undefined}
-              ctaText={settings.headerCtaText}
+              ctaText={headerOverrides.headerCtaText}
               ctaUrl={settings.headerCtaUrl}
+              navOverrides={headerOverrides.headerNav}
             />
             <main id="main-content">{children}</main>
             <Footer

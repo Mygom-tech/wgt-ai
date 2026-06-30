@@ -1,7 +1,8 @@
 import type { GlobalConfig } from 'payload'
 import { locales } from '@/i18n/locales'
 import { createGlobalRevalidationHook } from '@/lib/revalidation'
-import { globalLocaleRestrictedUpdate, lockNonLocalizedFieldsForCountryAdmins } from '@/lib/access'
+import { globalLocaleRestrictedUpdate, prepareGlobalFields } from '@/lib/access'
+import { HEADER_NAV_KEYS } from '@/lib/headerNav'
 import { validateSvgFavicon, validateRasterFaviconSize } from '@/lib/faviconValidation'
 import { SVG_MIME } from '@/lib/mimeTypes'
 
@@ -22,7 +23,7 @@ export const SiteSettings: GlobalConfig = {
       }),
     ],
   },
-  fields: lockNonLocalizedFieldsForCountryAdmins([
+  fields: prepareGlobalFields([
     {
       type: 'tabs',
       tabs: [
@@ -84,6 +85,20 @@ export const SiteSettings: GlobalConfig = {
               type: 'text',
               localized: true,
             },
+            {
+              name: 'headerNav',
+              type: 'group',
+              label: 'Navigation labels',
+              admin: {
+                description:
+                  'Optional overrides for the menu bar links. Leave a field empty to use the default translation for each language.',
+              },
+              fields: HEADER_NAV_KEYS.map((key) => ({
+                name: key,
+                type: 'text',
+                localized: true,
+              })),
+            },
           ],
         },
         {
@@ -137,13 +152,14 @@ export const SiteSettings: GlobalConfig = {
               name: 'socialLinks',
               type: 'array',
               label: 'Social Links',
+              localized: true,
               labels: {
                 singular: 'Social Link',
                 plural: 'Social Links',
               },
               admin: {
                 description:
-                  'Add your social media profiles. These will appear in the website footer.',
+                  'Add your social media profiles. These will appear in the website footer. Edited per language — switch the locale selector to set them for each country.',
               },
               fields: [
                 {

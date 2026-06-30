@@ -126,16 +126,14 @@ export function EventHero({
     text.split(' ').map((word, wi) => (
       <span key={wi} className="inline-block whitespace-nowrap">
         {word.split('').map((char, ci) => (
-          <span
-            key={ci}
-            data-event-char
-            className="inline-block origin-top opacity-0"
-          >
+          <span key={ci} data-event-char className="inline-block origin-top opacity-0">
             {char}
           </span>
         ))}
         {wi < text.split(' ').length - 1 && (
-          <span data-event-char className="inline-block origin-top opacity-0">{'\u00A0'}</span>
+          <span data-event-char className="inline-block origin-top opacity-0">
+            {'\u00A0'}
+          </span>
         )}
       </span>
     ))
@@ -191,7 +189,7 @@ export function EventHero({
             className="font-heading font-medium uppercase tracking-[-0.02em] leading-[1.05] perspective-2000 select-none max-w-[50rem] text-white"
             style={{ fontSize: 'clamp(2rem, 5vw, 4rem)' }}
           >
-            <span className="block whitespace-normal overflow-hidden pb-1">
+            <span className="block whitespace-normal heading-reveal-mask pb-1">
               {renderChars(title)}
             </span>
           </h1>
@@ -285,7 +283,17 @@ export function EventHero({
 
               {isPast ? (
                 <span className="inline-flex items-center gap-1.5 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.15em] rounded-full bg-white/10 text-white/70">
-                  <svg aria-hidden="true" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <svg
+                    aria-hidden="true"
+                    width="12"
+                    height="12"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
                     <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
                     <polyline points="22 4 12 14.01 9 11.01" />
                   </svg>

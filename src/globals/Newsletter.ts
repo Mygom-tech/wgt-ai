@@ -1,10 +1,6 @@
 import type { GlobalConfig } from 'payload'
 import { createGlobalRevalidationHook } from '@/lib/revalidation'
-import {
-  globalLocaleRestrictedUpdate,
-  lockNonLocalizedFieldsForCountryAdmins,
-  publicRead,
-} from '@/lib/access'
+import { globalLocaleRestrictedUpdate, prepareGlobalFields, publicRead } from '@/lib/access'
 import { validateGtmEventName } from '@/lib/gtm'
 
 export const Newsletter: GlobalConfig = {
@@ -18,12 +14,14 @@ export const Newsletter: GlobalConfig = {
     update: globalLocaleRestrictedUpdate,
   },
   hooks: {
-    afterChange: [createGlobalRevalidationHook('newsletter', {
-      revalidateAll: true,
-      revalidatePaths: ['/'],
-    })],
+    afterChange: [
+      createGlobalRevalidationHook('newsletter', {
+        revalidateAll: true,
+        revalidatePaths: ['/'],
+      }),
+    ],
   },
-  fields: lockNonLocalizedFieldsForCountryAdmins([
+  fields: prepareGlobalFields([
     {
       name: 'heading',
       type: 'text',

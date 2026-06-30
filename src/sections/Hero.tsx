@@ -286,7 +286,7 @@ export function Hero({ hero }: HeroProps) {
               <span
                 key={i}
                 className={cn(
-                  'block whitespace-nowrap [clip-path:inset(-0.35em_0_0_0)] pb-1 mb-[0.3vw] md:mb-[0.5vw] lg:mb-[0.6vw]',
+                  'block whitespace-nowrap heading-reveal-mask pb-1 mb-[0.3vw] md:mb-[0.5vw] lg:mb-[0.6vw]',
                   i === 0 ? 'text-foreground/70' : 'text-foreground',
                 )}
               >

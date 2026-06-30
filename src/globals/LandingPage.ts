@@ -1,6 +1,6 @@
 import type { GlobalConfig } from 'payload'
 import { createGlobalRevalidationHook } from '@/lib/revalidation'
-import { globalLocaleRestrictedUpdate, lockNonLocalizedFieldsForCountryAdmins } from '@/lib/access'
+import { globalLocaleRestrictedUpdate, prepareGlobalFields } from '@/lib/access'
 
 export const LandingPage: GlobalConfig = {
   slug: 'landing-page',
@@ -11,7 +11,7 @@ export const LandingPage: GlobalConfig = {
   hooks: {
     afterChange: [createGlobalRevalidationHook('landing-page', { revalidatePaths: ['/'] })],
   },
-  fields: lockNonLocalizedFieldsForCountryAdmins([
+  fields: prepareGlobalFields([
     {
       type: 'tabs',
       tabs: [

@@ -92,6 +92,33 @@ export const globalLocaleRestrictedUpdate: Access = ({ req: { user, locale } }) 
   return true
 }
 
+// ─── Read-only locale banner (admin UX) ─────────────────────────────────────
+
+/**
+ * A non-data `ui` field rendering a banner that warns country-admins when they
+ * are viewing a global in a locale they cannot edit (e.g. the default-locale
+ * view the admin opens by default). Component: LocaleReadOnlyBanner.
+ */
+const localeEditHintField: Field = {
+  name: 'localeEditHint',
+  type: 'ui',
+  admin: {
+    components: {
+      Field: '@/components/admin/LocaleReadOnlyBanner#LocaleReadOnlyBanner',
+    },
+  },
+}
+
+/**
+ * Prepare a locale-restricted global's `fields`: prepend the read-only locale
+ * banner, then apply the non-localized field lock. Use this in place of
+ * `lockNonLocalizedFieldsForCountryAdmins` on every global that uses
+ * `globalLocaleRestrictedUpdate`.
+ */
+export function prepareGlobalFields(fields: Field[]): Field[] {
+  return [localeEditHintField, ...lockNonLocalizedFieldsForCountryAdmins(fields)]
+}
+
 // ─── Field Locker for Country-Admins ────────────────────────────────────────
 
 /**

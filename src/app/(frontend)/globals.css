@@ -1,5 +1,10 @@
 @import 'tailwindcss';
 
+@utility heading-reveal-mask {
+  /* Masks the GSAP slide-up reveal while leaving top headroom for diacritics (Č Š Ū Ě ř) */
+  clip-path: inset(-0.4em 0 0 0);
+}
+
 @theme inline {
   /* Typography */
   --font-sans: var(--font-inter);

@@ -119,7 +119,7 @@ export function NotFoundHero({ eyebrow, heading, subtitle, cta }: NotFoundHeroPr
             style={{ fontSize: 'clamp(8rem, 22vw, 16rem)' }}
           >
             {'404'.split('').map((char, i) => (
-              <span key={i} className="overflow-hidden inline-flex pb-2">
+              <span key={i} className="heading-reveal-mask inline-flex pb-2">
                 <span data-nf-char className="inline-block origin-top">
                   {char}
                 </span>
@@ -151,12 +151,7 @@ export function NotFoundHero({ eyebrow, heading, subtitle, cta }: NotFoundHeroPr
 
           {/* CTA */}
           <div data-nf-cta className="mt-10">
-            <Button
-              href="/"
-              variant="primary"
-              size="lg"
-              className="bg-primary hover:bg-primary/90"
-            >
+            <Button href="/" variant="primary" size="lg" className="bg-primary hover:bg-primary/90">
               {cta}
             </Button>
           </div>

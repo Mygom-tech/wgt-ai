@@ -27,6 +27,7 @@ import { MetaTitleComponent as MetaTitleComponent_a8a977ebc872c5d5ea7ee689724c08
 import { MetaDescriptionComponent as MetaDescriptionComponent_a8a977ebc872c5d5ea7ee689724c0860 } from '@payloadcms/plugin-seo/client'
 import { MetaImageComponent as MetaImageComponent_a8a977ebc872c5d5ea7ee689724c0860 } from '@payloadcms/plugin-seo/client'
 import { SeoPreview as SeoPreview_4c7afb572ddc29943378234c0fe6a0ae } from '@/components/admin/SeoPreview'
+import { LocaleReadOnlyBanner as LocaleReadOnlyBanner_dce9548c732b0eeba5562a81cf5676f2 } from '@/components/admin/LocaleReadOnlyBanner'
 import { S3ClientUploadHandler as S3ClientUploadHandler_f97aa6c64367fa259c5bc0567239ef24 } from '@payloadcms/storage-s3/client'
 import { CollectionCards as CollectionCards_f9c02e79a4aed9a3924487c0cd4cafb1 } from '@payloadcms/next/rsc'
 
@@ -60,6 +61,7 @@ export const importMap = {
   "@payloadcms/plugin-seo/client#MetaDescriptionComponent": MetaDescriptionComponent_a8a977ebc872c5d5ea7ee689724c0860,
   "@payloadcms/plugin-seo/client#MetaImageComponent": MetaImageComponent_a8a977ebc872c5d5ea7ee689724c0860,
   "@/components/admin/SeoPreview#SeoPreview": SeoPreview_4c7afb572ddc29943378234c0fe6a0ae,
+  "@/components/admin/LocaleReadOnlyBanner#LocaleReadOnlyBanner": LocaleReadOnlyBanner_dce9548c732b0eeba5562a81cf5676f2,
   "@payloadcms/storage-s3/client#S3ClientUploadHandler": S3ClientUploadHandler_f97aa6c64367fa259c5bc0567239ef24,
   "@payloadcms/next/rsc#CollectionCards": CollectionCards_f9c02e79a4aed9a3924487c0cd4cafb1
 }

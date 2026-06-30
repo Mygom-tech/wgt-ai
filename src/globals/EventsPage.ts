@@ -1,9 +1,6 @@
 import type { GlobalConfig } from 'payload'
 import { createGlobalRevalidationHook } from '@/lib/revalidation'
-import {
-  globalLocaleRestrictedUpdate,
-  lockNonLocalizedFieldsForCountryAdmins,
-} from '@/lib/access'
+import { globalLocaleRestrictedUpdate, prepareGlobalFields } from '@/lib/access'
 
 export const EventsPage: GlobalConfig = {
   slug: 'events-page',
@@ -13,11 +10,9 @@ export const EventsPage: GlobalConfig = {
     update: globalLocaleRestrictedUpdate,
   },
   hooks: {
-    afterChange: [
-      createGlobalRevalidationHook('events-page', { revalidatePaths: ['/events'] }),
-    ],
+    afterChange: [createGlobalRevalidationHook('events-page', { revalidatePaths: ['/events'] })],
   },
-  fields: lockNonLocalizedFieldsForCountryAdmins([
+  fields: prepareGlobalFields([
     {
       name: 'eyebrow',
       type: 'text',
