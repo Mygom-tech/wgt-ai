@@ -21,6 +21,7 @@ const nextConfig = {
   },
   images: {
     formats: ['image/avif', 'image/webp'],
+    unoptimized: true,
     remotePatterns: [
       // Cloudflare R2 CDN - add your custom domain here
       ...(process.env.R2_PUBLIC_URL
