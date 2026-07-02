@@ -6,68 +6,9 @@ import config from '@payload-config'
 import { syncToOmnisend, OMNISEND_SOURCE_TAG } from '@/lib/omnisend'
 import { notifyAdmins, sendConfirmationEmail } from '@/lib/resend'
 import { isValidLocale } from '@/i18n/locales'
+import { buildContactFields, type FormField } from '@/lib/omnisend-contact'
 import type { ServiceResult } from '@/lib/service-result'
 import type { Form } from '@/payload-types'
-
-type FormStep = NonNullable<Form['steps']>[number]
-type FormField = NonNullable<FormStep['fields']>[number]
-
-// Match a form field by its KEY (not position) to Omnisend's native name fields. Normalised
-// to ignore case/separators, so `first_name`, `firstName`, `FName` all match.
-const FIRST_NAME_KEYS = new Set(['name', 'firstname', 'fname', 'givenname'])
-const LAST_NAME_KEYS = new Set(['surname', 'lastname', 'lname', 'familyname'])
-
-const normalizeKey = (key: string): string => key.toLowerCase().replace(/[^a-z0-9]/g, '')
-
-type ContactFields = {
-  firstName?: string
-  lastName?: string
-  displayName: string
-  customProperties: Record<string, string | number | boolean>
-}
-
-function buildContactFields(
-  fields: FormField[],
-  rawData: Record<string, string | boolean>,
-  locale: string,
-  formSource: string,
-  sendAllFields: boolean,
-): ContactFields {
-  const customProperties: Record<string, string | number | boolean> = {}
-  let firstName: string | undefined
-  let lastName: string | undefined
-  let firstTextFallback = ''
-
-  for (const block of fields) {
-    const value = rawData[block.name]
-    if (value === undefined || value === '') continue
-
-    if (typeof value === 'string' && block.blockType === 'textField' && !firstTextFallback) {
-      firstTextFallback = value
-    }
-
-    const key = normalizeKey(block.name)
-    if (!firstName && typeof value === 'string' && FIRST_NAME_KEYS.has(key)) {
-      firstName = value
-      continue
-    }
-    if (!lastName && typeof value === 'string' && LAST_NAME_KEYS.has(key)) {
-      lastName = value
-      continue
-    }
-    if (sendAllFields) {
-      customProperties[block.name] = value
-    }
-  }
-
-  // Reserved keys set last so a form field can't clobber them.
-  customProperties.locale = locale
-  customProperties.form_source = formSource
-
-  const displayName = [firstName, lastName].filter(Boolean).join(' ').trim() || firstTextFallback
-
-  return { firstName, lastName, displayName, customProperties }
-}
 
 export async function submitForm(
   formId: string,
