@@ -153,7 +153,6 @@ export const LandingPage: GlobalConfig = {
                       name: 'ctaText',
                       type: 'text',
                       localized: true,
-                      defaultValue: 'Enroll for free',
                       admin: {
                         description: 'Primary CTA button label',
                       },
@@ -191,6 +190,15 @@ export const LandingPage: GlobalConfig = {
                   label: ' ',
                   fields: [
                     {
+                      name: 'eyebrow',
+                      type: 'text',
+                      localized: true,
+                      admin: {
+                        description:
+                          'Small label above the heading (accent color). Leave empty to use the built-in translation.',
+                      },
+                    },
+                    {
                       name: 'heading',
                       type: 'text',
                       localized: true,
@@ -227,6 +235,15 @@ export const LandingPage: GlobalConfig = {
                       ],
                     },
                     {
+                      name: 'outcomesEyebrow',
+                      type: 'text',
+                      localized: true,
+                      admin: {
+                        description:
+                          'Small label above the outcomes/benefits heading (accent color). Leave empty to use the built-in translation.',
+                      },
+                    },
+                    {
                       name: 'benefitsHeading',
                       type: 'text',
                       localized: true,
@@ -239,7 +256,6 @@ export const LandingPage: GlobalConfig = {
                       name: 'ctaText',
                       type: 'text',
                       localized: true,
-                      defaultValue: 'Enroll for Free',
                       admin: {
                         description: 'Primary CTA button label',
                       },
@@ -281,6 +297,15 @@ export const LandingPage: GlobalConfig = {
                   label: ' ',
                   fields: [
                     {
+                      name: 'eyebrow',
+                      type: 'text',
+                      localized: true,
+                      admin: {
+                        description:
+                          'Small label above the heading (accent color). Leave empty to use the built-in translation.',
+                      },
+                    },
+                    {
                       name: 'heading',
                       type: 'text',
                       localized: true,
@@ -291,7 +316,6 @@ export const LandingPage: GlobalConfig = {
                       name: 'ctaText',
                       type: 'text',
                       localized: true,
-                      defaultValue: 'Enroll for free',
                       admin: {
                         description: 'Primary CTA button label',
                       },
@@ -338,6 +362,15 @@ export const LandingPage: GlobalConfig = {
                   type: 'group',
                   label: ' ',
                   fields: [
+                    {
+                      name: 'eyebrow',
+                      type: 'text',
+                      localized: true,
+                      admin: {
+                        description:
+                          'Small label above the heading (accent color). Leave empty to use the built-in translation.',
+                      },
+                    },
                     {
                       name: 'heading',
                       type: 'text',
@@ -506,6 +539,15 @@ export const LandingPage: GlobalConfig = {
                   type: 'group',
                   label: ' ',
                   fields: [
+                    {
+                      name: 'eyebrow',
+                      type: 'text',
+                      localized: true,
+                      admin: {
+                        description:
+                          'Small label above the heading (accent color). Leave empty to use the built-in translation.',
+                      },
+                    },
                     {
                       name: 'heading',
                       type: 'text',

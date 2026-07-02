@@ -424,7 +424,7 @@ export default async function EventDetailPage({ params }: Props) {
 
           <Container size="xl" className="relative z-10">
             <ScrollReveal>
-              <Eyebrow label={t('speakers')} color="primary" />
+              <Eyebrow label={eventsPageData?.speakersEyebrow || t('speakers')} color="primary" />
             </ScrollReveal>
 
             <ScrollReveal className="mt-10" stagger={0.1}>
@@ -493,7 +493,7 @@ export default async function EventDetailPage({ params }: Props) {
         <Section variant="light">
           <Container size="xl">
             <ScrollReveal>
-              <Eyebrow label={t('eventGallery')} color="primary" />
+              <Eyebrow label={eventsPageData?.galleryEyebrow || t('eventGallery')} color="primary" />
             </ScrollReveal>
 
             <ScrollReveal className="mt-8">
@@ -527,7 +527,7 @@ export default async function EventDetailPage({ params }: Props) {
           <GridLines columns={16} rows={12} className="opacity-[0.02]" lineColor="rgba(255,255,255,0.12)" />
           <Container size="md" className="relative z-10">
             <ScrollReveal>
-              <Eyebrow label={t('registerHeading')} color="primary" />
+              <Eyebrow label={eventsPageData?.registerEyebrow || t('registerHeading')} color="primary" />
               <h2
                 className="mt-5 font-heading font-medium text-white uppercase tracking-[-0.02em]"
                 style={{ fontSize: 'clamp(1.5rem, 3vw, 2.5rem)' }}

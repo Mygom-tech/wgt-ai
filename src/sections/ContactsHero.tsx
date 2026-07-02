@@ -12,6 +12,7 @@ import type { Form } from '@/payload-types'
 
 type ContactsHeroProps = {
   heading: string
+  eyebrow?: string | null
   subtitle?: string | null
   backgroundWord?: string | null
   supportEmail?: string | null
@@ -26,6 +27,7 @@ type ContactsHeroProps = {
 
 export function ContactsHero({
   heading,
+  eyebrow,
   subtitle,
   backgroundWord,
   supportEmail,
@@ -127,7 +129,7 @@ export function ContactsHero({
       <Container size="xl" className="relative z-10">
         {/* Header */}
         <header className="flex flex-col gap-5 lg:gap-6 mb-16 lg:mb-20 max-w-3xl">
-          <Eyebrow label={t('eyebrow')} color="primary" />
+          <Eyebrow label={eyebrow || t('eyebrow')} color="primary" />
 
           {heading && (
             <h1 className="text-[clamp(2.5rem,6vw,5rem)] font-medium uppercase leading-[0.95] tracking-[-0.04em] font-heading text-foreground flex flex-wrap gap-x-[0.2em] perspective-2000">

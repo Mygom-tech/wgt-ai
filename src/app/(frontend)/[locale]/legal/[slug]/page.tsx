@@ -102,7 +102,7 @@ export default async function LegalPageRoute({ params }: Props) {
       <Section variant="light">
         <GridLines columns={16} rows={12} className="opacity-40" />
         <Container size="prose">
-          <Eyebrow label="Legal" color="primary" />
+          <Eyebrow label={page.eyebrow || 'Legal'} color="primary" />
           <h1 className="mt-4 text-title font-heading">{page.title}</h1>
           {updatedAt && (
             <time

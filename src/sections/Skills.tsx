@@ -105,7 +105,7 @@ export function Skills({ skills }: SkillsProps) {
           className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 lg:gap-16 mb-16 lg:mb-24"
         >
           <div className="flex flex-col gap-5 lg:gap-6 max-w-3xl">
-            <Eyebrow label={t('eyebrow')} />
+            <Eyebrow label={skills.eyebrow || t('eyebrow')} />
 
             <h2
               id="skills-heading"
@@ -166,7 +166,7 @@ export function Skills({ skills }: SkillsProps) {
           >
             {/* Header - full width, stacked */}
             <div className="flex flex-col gap-5 mb-12 lg:mb-16">
-              <Eyebrow label={t('outcomesEyebrow')} variant="dot" />
+              <Eyebrow label={skills.outcomesEyebrow || t('outcomesEyebrow')} variant="dot" />
               <h3 className="text-[clamp(2rem,4vw,4rem)] font-medium uppercase leading-[0.95] tracking-[-0.04em] font-heading text-white max-w-3xl">
                 {benefitsHeading}
               </h3>

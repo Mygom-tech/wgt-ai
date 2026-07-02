@@ -34,6 +34,14 @@ export const LegalPages: CollectionConfig = {
       localized: true,
     },
     {
+      name: 'eyebrow',
+      type: 'text',
+      localized: true,
+      admin: {
+        description: 'Small label above the page title (accent color). Defaults to "Legal".',
+      },
+    },
+    {
       name: 'slug',
       type: 'text',
       required: true,

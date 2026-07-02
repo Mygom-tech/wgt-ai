@@ -49,5 +49,32 @@ export const EventsPage: GlobalConfig = {
         description: 'Large decorative watermark word behind the hero section',
       },
     },
+    {
+      name: 'speakersEyebrow',
+      type: 'text',
+      localized: true,
+      admin: {
+        description:
+          'Event detail page: label above the Speakers section. Leave empty to use the built-in translation.',
+      },
+    },
+    {
+      name: 'galleryEyebrow',
+      type: 'text',
+      localized: true,
+      admin: {
+        description:
+          'Event detail page: label above the Gallery section. Leave empty to use the built-in translation.',
+      },
+    },
+    {
+      name: 'registerEyebrow',
+      type: 'text',
+      localized: true,
+      admin: {
+        description:
+          'Event detail page: label above the registration section. Leave empty to use the built-in translation.',
+      },
+    },
   ]),
 }
