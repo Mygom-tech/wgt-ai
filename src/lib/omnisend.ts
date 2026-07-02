@@ -21,6 +21,15 @@ type ExistingContact = {
   tags: string[]
 }
 
+/**
+ * Omnisend custom-property NAMES allow only letters, digits and underscores (a hyphen or other
+ * character → 400 that rejects the whole contact). Form field names are forwarded verbatim as
+ * property keys, so sanitise them here — e.g. `privacy-policy` → `privacy_policy`.
+ */
+function sanitizePropertyKey(key: string): string {
+  return key.replace(/[^A-Za-z0-9_]/g, '_')
+}
+
 function extractTags(raw: unknown): string[] {
   if (!Array.isArray(raw)) return []
 
@@ -145,7 +154,12 @@ export async function syncToOmnisend(params: {
     }
 
     if (params.customProperties && Object.keys(params.customProperties).length > 0) {
-      body.customProperties = params.customProperties
+      body.customProperties = Object.fromEntries(
+        Object.entries(params.customProperties).map(([key, value]) => [
+          sanitizePropertyKey(key),
+          value,
+        ]),
+      )
     }
 
     const response = await fetch(OMNISEND_API_URL, {
