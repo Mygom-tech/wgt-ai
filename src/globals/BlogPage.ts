@@ -49,5 +49,14 @@ export const BlogPage: GlobalConfig = {
         description: 'Large decorative watermark word behind the hero section',
       },
     },
+    {
+      name: 'relatedPostsEyebrow',
+      type: 'text',
+      localized: true,
+      admin: {
+        description:
+          'Blog post page: label above the Related Posts section. Leave empty to use the built-in translation.',
+      },
+    },
   ]),
 }

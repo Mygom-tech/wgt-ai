@@ -96,7 +96,7 @@ export function Audience({ audience }: AudienceProps) {
       <Container size="xl" className="relative z-10">
         {/* ─── Header ─── */}
         <header ref={headerRef} className="flex flex-col gap-6 lg:gap-8 mb-10 lg:mb-14">
-          <Eyebrow label={t('eyebrow')} />
+          <Eyebrow label={audience.eyebrow || t('eyebrow')} />
 
           <h2
             id="audience-heading"

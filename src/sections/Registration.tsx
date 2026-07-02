@@ -93,7 +93,7 @@ export function Registration({ registration, form, submitAction }: RegistrationP
       <Container size="xl" className="relative z-10">
         {/* ─── Header ─── */}
         <header ref={headerRef} className="flex flex-col gap-5 lg:gap-6 mb-16 lg:mb-20">
-          <Eyebrow label={t('eyebrow')} color="primary" />
+          <Eyebrow label={registration.eyebrow || t('eyebrow')} color="primary" />
 
           {heading && (
             <h2
