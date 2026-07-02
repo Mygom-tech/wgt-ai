@@ -21,7 +21,7 @@ export async function Problem({ problem }: ProblemProps) {
       backgroundWord={t('backgroundWord')}
       footer={
         <Button href={problem.ctaUrl || '#register'} variant="primary" size="default">
-          {t('cta')}
+          {problem.ctaText || t('cta')}
           <span aria-hidden="true" className="ml-2">
             &rarr;
           </span>

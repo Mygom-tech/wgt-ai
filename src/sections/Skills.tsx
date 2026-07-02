@@ -194,7 +194,7 @@ export function Skills({ skills }: SkillsProps) {
 
             <div className="mt-12 lg:mt-16">
               <Button href={skills.ctaUrl || '#register'} variant="light" size="lg">
-                {t('cta')}
+                {skills.ctaText || t('cta')}
                 <span aria-hidden="true" className="ml-2">
                   &rarr;
                 </span>
