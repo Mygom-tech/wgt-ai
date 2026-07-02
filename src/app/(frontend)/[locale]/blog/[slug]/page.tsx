@@ -242,7 +242,10 @@ export default async function BlogPostPage({ params }: Props) {
 
           {relatedPosts.length > 0 && (
             <aside className="mt-16" aria-label={t('relatedPosts')}>
-              <Eyebrow label={t('relatedPosts')} color="primary" />
+              <Eyebrow
+                label={blogPageData?.relatedPostsEyebrow || t('relatedPosts')}
+                color="primary"
+              />
               <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-3">
                 {relatedPosts.map((related) => {
                   const relatedImage =

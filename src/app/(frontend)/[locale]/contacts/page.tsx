@@ -137,6 +137,7 @@ export default async function ContactsPage({ params }: Props) {
 
       <ContactsHero
         heading={heading}
+        eyebrow={contactsData?.eyebrow}
         subtitle={subtitle}
         backgroundWord={backgroundWord}
         supportEmail={settings.supportEmail}

@@ -175,7 +175,7 @@ export function CTA({ newsletter }: CTAProps) {
         >
           {/* Inner content - centered */}
           <div className="flex flex-col items-center text-center">
-            <Eyebrow label={t('eyebrow')} color="primary" />
+            <Eyebrow label={newsletter.eyebrow || t('eyebrow')} color="primary" />
 
             {heading && (
               <h2

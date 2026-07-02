@@ -87,7 +87,7 @@ export function HowItWorks({ howItWorks }: HowItWorksProps) {
 
       <Container size="xl" className="relative z-10">
         <header ref={headerRef} className="flex flex-col gap-5 lg:gap-6 mb-16 lg:mb-24 max-w-3xl">
-          <Eyebrow label={t('eyebrow')} />
+          <Eyebrow label={howItWorks.eyebrow || t('eyebrow')} />
 
           <h2
             id="how-it-works-heading"
@@ -148,7 +148,7 @@ export function HowItWorks({ howItWorks }: HowItWorksProps) {
 
         <div className="mt-12 lg:mt-16 flex justify-center">
           <Button href={howItWorks.ctaUrl || '#register'} variant="cta" size="lg">
-            {t('cta')}
+            {howItWorks.ctaText || t('cta')}
             <span aria-hidden="true" className="ml-2">
               &rarr;
             </span>

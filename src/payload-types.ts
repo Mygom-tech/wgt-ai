@@ -281,6 +281,10 @@ export interface Video {
 export interface LegalPage {
   id: string;
   title: string;
+  /**
+   * Small label above the page title (accent color). Defaults to "Legal".
+   */
+  eyebrow?: string | null;
   slug: string;
   pageType: 'cookie-policy' | 'terms-and-conditions' | 'privacy-policy';
   content?: {
@@ -1382,6 +1386,7 @@ export interface VideosSelect<T extends boolean = true> {
  */
 export interface LegalPagesSelect<T extends boolean = true> {
   title?: T;
+  eyebrow?: T;
   slug?: T;
   pageType?: T;
   content?: T;
@@ -1855,6 +1860,10 @@ export interface LandingPage {
       [k: string]: unknown;
     };
     /**
+     * Primary CTA button label
+     */
+    ctaText?: string | null;
+    /**
      * Primary CTA button URL, e.g. "#register" or external link like "https://example.com/apply"
      */
     ctaUrl?: string | null;
@@ -1864,6 +1873,10 @@ export interface LandingPage {
     image?: (string | null) | Image;
   };
   skills: {
+    /**
+     * Small label above the heading (accent color). Leave empty to use the built-in translation.
+     */
+    eyebrow?: string | null;
     heading: string;
     subtitle?: string | null;
     items?:
@@ -1875,9 +1888,17 @@ export interface LandingPage {
         }[]
       | null;
     /**
+     * Small label above the outcomes/benefits heading (accent color). Leave empty to use the built-in translation.
+     */
+    outcomesEyebrow?: string | null;
+    /**
      * Heading for the benefits section at the bottom of Skills
      */
     benefitsHeading?: string | null;
+    /**
+     * Primary CTA button label
+     */
+    ctaText?: string | null;
     /**
      * Primary CTA button URL, e.g. "#register" or external link like "https://example.com/apply"
      */
@@ -1890,7 +1911,15 @@ export interface LandingPage {
       | null;
   };
   howItWorks: {
+    /**
+     * Small label above the heading (accent color). Leave empty to use the built-in translation.
+     */
+    eyebrow?: string | null;
     heading: string;
+    /**
+     * Primary CTA button label
+     */
+    ctaText?: string | null;
     /**
      * Primary CTA button URL, e.g. "#register" or external link like "https://example.com/apply"
      */
@@ -1904,6 +1933,10 @@ export interface LandingPage {
       | null;
   };
   audience: {
+    /**
+     * Small label above the heading (accent color). Leave empty to use the built-in translation.
+     */
+    eyebrow?: string | null;
     heading: string;
     introText?: string | null;
     groups?:
@@ -1956,6 +1989,10 @@ export interface LandingPage {
     visitWebsiteLabel?: string | null;
   };
   registration?: {
+    /**
+     * Small label above the heading (accent color). Leave empty to use the built-in translation.
+     */
+    eyebrow?: string | null;
     /**
      * Main heading for the registration section
      */
@@ -2011,6 +2048,10 @@ export interface LandingPage {
  */
 export interface Newsletter {
   id: string;
+  /**
+   * Small label above the heading (accent color). Leave empty to use the built-in translation.
+   */
+  eyebrow?: string | null;
   /**
    * Main heading for the newsletter section, e.g. "Stay in the loop"
    */
@@ -2070,6 +2111,10 @@ export interface Newsletter {
 export interface ContactsPage {
   id: string;
   /**
+   * Small label above the heading (accent color). Leave empty to use the built-in translation.
+   */
+  eyebrow?: string | null;
+  /**
    * Main H1 heading for the contacts page
    */
   heading: string;
@@ -2128,6 +2173,10 @@ export interface BlogPage {
    * Large decorative watermark word behind the hero section
    */
   backgroundWord?: string | null;
+  /**
+   * Blog post page: label above the Related Posts section. Leave empty to use the built-in translation.
+   */
+  relatedPostsEyebrow?: string | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -2153,6 +2202,18 @@ export interface EventsPage {
    * Large decorative watermark word behind the hero section
    */
   backgroundWord?: string | null;
+  /**
+   * Event detail page: label above the Speakers section. Leave empty to use the built-in translation.
+   */
+  speakersEyebrow?: string | null;
+  /**
+   * Event detail page: label above the Gallery section. Leave empty to use the built-in translation.
+   */
+  galleryEyebrow?: string | null;
+  /**
+   * Event detail page: label above the registration section. Leave empty to use the built-in translation.
+   */
+  registerEyebrow?: string | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -2238,12 +2299,14 @@ export interface LandingPageSelect<T extends boolean = true> {
         eyebrow?: T;
         heading?: T;
         body?: T;
+        ctaText?: T;
         ctaUrl?: T;
         image?: T;
       };
   skills?:
     | T
     | {
+        eyebrow?: T;
         heading?: T;
         subtitle?: T;
         items?:
@@ -2254,7 +2317,9 @@ export interface LandingPageSelect<T extends boolean = true> {
               image?: T;
               id?: T;
             };
+        outcomesEyebrow?: T;
         benefitsHeading?: T;
+        ctaText?: T;
         ctaUrl?: T;
         benefits?:
           | T
@@ -2266,7 +2331,9 @@ export interface LandingPageSelect<T extends boolean = true> {
   howItWorks?:
     | T
     | {
+        eyebrow?: T;
         heading?: T;
+        ctaText?: T;
         ctaUrl?: T;
         steps?:
           | T
@@ -2279,6 +2346,7 @@ export interface LandingPageSelect<T extends boolean = true> {
   audience?:
     | T
     | {
+        eyebrow?: T;
         heading?: T;
         introText?: T;
         groups?:
@@ -2310,6 +2378,7 @@ export interface LandingPageSelect<T extends boolean = true> {
   registration?:
     | T
     | {
+        eyebrow?: T;
         heading?: T;
         subtitle?: T;
         form?: T;
@@ -2345,6 +2414,7 @@ export interface LandingPageSelect<T extends boolean = true> {
  * via the `definition` "newsletter_select".
  */
 export interface NewsletterSelect<T extends boolean = true> {
+  eyebrow?: T;
   heading?: T;
   subtitle?: T;
   ctaText?: T;
@@ -2369,6 +2439,7 @@ export interface NewsletterSelect<T extends boolean = true> {
  * via the `definition` "contacts-page_select".
  */
 export interface ContactsPageSelect<T extends boolean = true> {
+  eyebrow?: T;
   heading?: T;
   subtitle?: T;
   backgroundWord?: T;
@@ -2394,6 +2465,7 @@ export interface BlogPageSelect<T extends boolean = true> {
   heading?: T;
   subtitle?: T;
   backgroundWord?: T;
+  relatedPostsEyebrow?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
@@ -2407,6 +2479,9 @@ export interface EventsPageSelect<T extends boolean = true> {
   heading?: T;
   subtitle?: T;
   backgroundWord?: T;
+  speakersEyebrow?: T;
+  galleryEyebrow?: T;
+  registerEyebrow?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

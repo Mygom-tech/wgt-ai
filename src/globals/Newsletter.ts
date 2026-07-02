@@ -23,6 +23,15 @@ export const Newsletter: GlobalConfig = {
   },
   fields: prepareGlobalFields([
     {
+      name: 'eyebrow',
+      type: 'text',
+      localized: true,
+      admin: {
+        description:
+          'Small label above the heading (accent color). Leave empty to use the built-in translation.',
+      },
+    },
+    {
       name: 'heading',
       type: 'text',
       localized: true,

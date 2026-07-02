@@ -150,6 +150,14 @@ export const LandingPage: GlobalConfig = {
                       required: true,
                     },
                     {
+                      name: 'ctaText',
+                      type: 'text',
+                      localized: true,
+                      admin: {
+                        description: 'Primary CTA button label',
+                      },
+                    },
+                    {
                       name: 'ctaUrl',
                       type: 'text',
                       localized: true,
@@ -181,6 +189,15 @@ export const LandingPage: GlobalConfig = {
                   type: 'group',
                   label: ' ',
                   fields: [
+                    {
+                      name: 'eyebrow',
+                      type: 'text',
+                      localized: true,
+                      admin: {
+                        description:
+                          'Small label above the heading (accent color). Leave empty to use the built-in translation.',
+                      },
+                    },
                     {
                       name: 'heading',
                       type: 'text',
@@ -218,12 +235,29 @@ export const LandingPage: GlobalConfig = {
                       ],
                     },
                     {
+                      name: 'outcomesEyebrow',
+                      type: 'text',
+                      localized: true,
+                      admin: {
+                        description:
+                          'Small label above the outcomes/benefits heading (accent color). Leave empty to use the built-in translation.',
+                      },
+                    },
+                    {
                       name: 'benefitsHeading',
                       type: 'text',
                       localized: true,
                       defaultValue: 'What You\u2019ll Achieve',
                       admin: {
                         description: 'Heading for the benefits section at the bottom of Skills',
+                      },
+                    },
+                    {
+                      name: 'ctaText',
+                      type: 'text',
+                      localized: true,
+                      admin: {
+                        description: 'Primary CTA button label',
                       },
                     },
                     {
@@ -263,11 +297,28 @@ export const LandingPage: GlobalConfig = {
                   label: ' ',
                   fields: [
                     {
+                      name: 'eyebrow',
+                      type: 'text',
+                      localized: true,
+                      admin: {
+                        description:
+                          'Small label above the heading (accent color). Leave empty to use the built-in translation.',
+                      },
+                    },
+                    {
                       name: 'heading',
                       type: 'text',
                       localized: true,
                       required: true,
                       defaultValue: 'How It Works',
+                    },
+                    {
+                      name: 'ctaText',
+                      type: 'text',
+                      localized: true,
+                      admin: {
+                        description: 'Primary CTA button label',
+                      },
                     },
                     {
                       name: 'ctaUrl',
@@ -311,6 +362,15 @@ export const LandingPage: GlobalConfig = {
                   type: 'group',
                   label: ' ',
                   fields: [
+                    {
+                      name: 'eyebrow',
+                      type: 'text',
+                      localized: true,
+                      admin: {
+                        description:
+                          'Small label above the heading (accent color). Leave empty to use the built-in translation.',
+                      },
+                    },
                     {
                       name: 'heading',
                       type: 'text',
@@ -479,6 +539,15 @@ export const LandingPage: GlobalConfig = {
                   type: 'group',
                   label: ' ',
                   fields: [
+                    {
+                      name: 'eyebrow',
+                      type: 'text',
+                      localized: true,
+                      admin: {
+                        description:
+                          'Small label above the heading (accent color). Leave empty to use the built-in translation.',
+                      },
+                    },
                     {
                       name: 'heading',
                       type: 'text',
