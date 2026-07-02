@@ -1,6 +1,7 @@
 import type { CollectionConfig } from 'payload'
-import { submissionsByLocale, superAdminOnly } from '@/lib/access'
+import { isSuperAdmin, submissionsByLocale, superAdminOnly } from '@/lib/access'
 import { locales } from '@/i18n/locales'
+import { countFailedSubmissions, resyncFailedSubmissions } from '@/lib/omnisend-backfill'
 
 export const FormSubmissions: CollectionConfig = {
   slug: 'form-submissions',
@@ -8,6 +9,9 @@ export const FormSubmissions: CollectionConfig = {
     useAsTitle: 'email',
     defaultColumns: ['email', 'name', 'locale', 'form', 'omnisendSynced', 'createdAt'],
     group: 'Submissions',
+    components: {
+      beforeListTable: ['@/components/admin/ResyncOmnisendButton#ResyncOmnisendButton'],
+    },
   },
   access: {
     create: () => true,
@@ -15,6 +19,44 @@ export const FormSubmissions: CollectionConfig = {
     update: () => false,
     delete: superAdminOnly,
   },
+  endpoints: [
+    {
+      // GET /api/form-submissions/omnisend-failed-count — how many syncs currently failed.
+      path: '/omnisend-failed-count',
+      method: 'get',
+      handler: async (req) => {
+        if (!isSuperAdmin(req.user)) {
+          return Response.json({ error: 'Forbidden' }, { status: 403 })
+        }
+
+        try {
+          const failed = await countFailedSubmissions(req.payload)
+          return Response.json({ failed })
+        } catch (error) {
+          req.payload.logger.error(`[omnisend-failed-count] Failed to count. ${error}`)
+          return Response.json({ error: 'Count failed' }, { status: 500 })
+        }
+      },
+    },
+    {
+      // POST /api/form-submissions/resync-omnisend — re-send one batch of failed syncs.
+      path: '/resync-omnisend',
+      method: 'post',
+      handler: async (req) => {
+        if (!isSuperAdmin(req.user)) {
+          return Response.json({ error: 'Forbidden' }, { status: 403 })
+        }
+
+        try {
+          const result = await resyncFailedSubmissions(req.payload)
+          return Response.json(result)
+        } catch (error) {
+          req.payload.logger.error(`[resync-omnisend] Failed to run Omnisend backfill. ${error}`)
+          return Response.json({ error: 'Backfill failed' }, { status: 500 })
+        }
+      },
+    },
+  ],
   fields: [
     {
       name: 'form',
