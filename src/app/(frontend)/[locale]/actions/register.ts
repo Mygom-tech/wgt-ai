@@ -32,6 +32,7 @@ export async function submitForm(
     form = await payload.findByID({
       collection: 'forms',
       id: formId,
+      locale,
       depth: 0,
       overrideAccess: true,
     })
