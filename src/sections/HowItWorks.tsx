@@ -148,7 +148,7 @@ export function HowItWorks({ howItWorks }: HowItWorksProps) {
 
         <div className="mt-12 lg:mt-16 flex justify-center">
           <Button href={howItWorks.ctaUrl || '#register'} variant="cta" size="lg">
-            {t('cta')}
+            {howItWorks.ctaText || t('cta')}
             <span aria-hidden="true" className="ml-2">
               &rarr;
             </span>

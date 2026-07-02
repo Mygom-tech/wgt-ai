@@ -150,6 +150,15 @@ export const LandingPage: GlobalConfig = {
                       required: true,
                     },
                     {
+                      name: 'ctaText',
+                      type: 'text',
+                      localized: true,
+                      defaultValue: 'Enroll for free',
+                      admin: {
+                        description: 'Primary CTA button label',
+                      },
+                    },
+                    {
                       name: 'ctaUrl',
                       type: 'text',
                       localized: true,
@@ -227,6 +236,15 @@ export const LandingPage: GlobalConfig = {
                       },
                     },
                     {
+                      name: 'ctaText',
+                      type: 'text',
+                      localized: true,
+                      defaultValue: 'Enroll for Free',
+                      admin: {
+                        description: 'Primary CTA button label',
+                      },
+                    },
+                    {
                       name: 'ctaUrl',
                       type: 'text',
                       localized: true,
@@ -268,6 +286,15 @@ export const LandingPage: GlobalConfig = {
                       localized: true,
                       required: true,
                       defaultValue: 'How It Works',
+                    },
+                    {
+                      name: 'ctaText',
+                      type: 'text',
+                      localized: true,
+                      defaultValue: 'Enroll for free',
+                      admin: {
+                        description: 'Primary CTA button label',
+                      },
                     },
                     {
                       name: 'ctaUrl',

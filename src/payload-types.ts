@@ -1855,6 +1855,10 @@ export interface LandingPage {
       [k: string]: unknown;
     };
     /**
+     * Primary CTA button label
+     */
+    ctaText?: string | null;
+    /**
      * Primary CTA button URL, e.g. "#register" or external link like "https://example.com/apply"
      */
     ctaUrl?: string | null;
@@ -1879,6 +1883,10 @@ export interface LandingPage {
      */
     benefitsHeading?: string | null;
     /**
+     * Primary CTA button label
+     */
+    ctaText?: string | null;
+    /**
      * Primary CTA button URL, e.g. "#register" or external link like "https://example.com/apply"
      */
     ctaUrl?: string | null;
@@ -1891,6 +1899,10 @@ export interface LandingPage {
   };
   howItWorks: {
     heading: string;
+    /**
+     * Primary CTA button label
+     */
+    ctaText?: string | null;
     /**
      * Primary CTA button URL, e.g. "#register" or external link like "https://example.com/apply"
      */
@@ -2238,6 +2250,7 @@ export interface LandingPageSelect<T extends boolean = true> {
         eyebrow?: T;
         heading?: T;
         body?: T;
+        ctaText?: T;
         ctaUrl?: T;
         image?: T;
       };
@@ -2255,6 +2268,7 @@ export interface LandingPageSelect<T extends boolean = true> {
               id?: T;
             };
         benefitsHeading?: T;
+        ctaText?: T;
         ctaUrl?: T;
         benefits?:
           | T
@@ -2267,6 +2281,7 @@ export interface LandingPageSelect<T extends boolean = true> {
     | T
     | {
         heading?: T;
+        ctaText?: T;
         ctaUrl?: T;
         steps?:
           | T
