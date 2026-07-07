@@ -163,6 +163,16 @@ export const Forms: CollectionConfig = {
       },
     },
     {
+      name: 'sendConfirmationEmail',
+      type: 'checkbox',
+      defaultValue: false,
+      admin: {
+        position: 'sidebar',
+        description:
+          'When ON, the applicant receives a branded "Application received" confirmation email (via Resend) on submit. Leave OFF if Omnisend already sends a welcome/confirmation automation for this form, to avoid sending two emails.',
+      },
+    },
+    {
       name: 'successMessage',
       type: 'textarea',
       localized: true,
