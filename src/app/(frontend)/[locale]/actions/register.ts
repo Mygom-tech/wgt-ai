@@ -143,6 +143,7 @@ export async function submitForm(
 
   // Async integrations - run after submission is saved
   const shouldNotifyAdmins = form.notifyAdmin === true
+  const shouldSendConfirmation = form.sendConfirmationEmail === true
 
   const tags = [OMNISEND_SOURCE_TAG.form, form.omnisendTag].filter((tag): tag is string =>
     Boolean(tag),
@@ -166,12 +167,14 @@ export async function submitForm(
           name: displayName,
         })
       : Promise.resolve<ServiceResult>({ success: true }),
-    sendConfirmationEmail({
-      email: extractedEmail,
-      name: displayName,
-      formTitle: form.title,
-      successMessage: form.successMessage || undefined,
-    }),
+    shouldSendConfirmation
+      ? sendConfirmationEmail({
+          email: extractedEmail,
+          name: displayName,
+          formTitle: form.title,
+          successMessage: form.successMessage || undefined,
+        })
+      : Promise.resolve<ServiceResult>({ success: true }),
   ])
 
   // Log integration errors for debugging
@@ -194,7 +197,7 @@ export async function submitForm(
     )
   }
 
-  if (!confirmSuccess) {
+  if (shouldSendConfirmation && !confirmSuccess) {
     const err =
       confirmResult.status === 'fulfilled' ? confirmResult.value.error : confirmResult.reason
     payload.logger.error(

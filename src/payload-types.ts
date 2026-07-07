@@ -967,6 +967,10 @@ export interface Form {
    */
   notifyAdmin?: boolean | null;
   /**
+   * When ON, the applicant receives a branded "Application received" confirmation email (via Resend) on submit. Leave OFF if Omnisend already sends a welcome/confirmation automation for this form, to avoid sending two emails.
+   */
+  sendConfirmationEmail?: boolean | null;
+  /**
    * Shown after successful form submission
    */
   successMessage?: string | null;
@@ -1506,6 +1510,7 @@ export interface FormsSelect<T extends boolean = true> {
   sendAllFieldsToOmnisend?: T;
   gtmEventName?: T;
   notifyAdmin?: T;
+  sendConfirmationEmail?: T;
   successMessage?: T;
   updatedAt?: T;
   createdAt?: T;
