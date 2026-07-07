@@ -18,6 +18,7 @@ const countryToLocale: Record<string, string> = {
   bg: 'bg', // Bulgaria
   md: 'md', // Moldova
   pl: 'pl', // Poland
+  ee: 'et', // Estonia (ISO 3166 country code EE → locale et)
 }
 
 /**

@@ -1,0 +1,182 @@
+{
+  "meta": {
+    "home": "Avaleht",
+    "contacts": "Võta ühendust",
+    "blog": "Blogi",
+    "faq": "KKK",
+    "faqDescription": "Leia vastused korduma kippuvatele küsimustele meie tehisintellekti oskuste koolitusprogrammi, registreerumise, tunnistuste ja muu kohta.",
+    "notFound": "Lehte ei leitud"
+  },
+  "notFound": {
+    "eyebrow": "Lehte ei leitud",
+    "heading": "Seda lehte ei ole olemas",
+    "subtitle": "Otsitav leht võib olla teisaldatud, kustutatud või pole seda kunagi olnud.",
+    "cta": "Tagasi avalehele"
+  },
+  "common": {
+    "readMore": "Loe rohkem",
+    "backToHome": "Tagasi avalehele"
+  },
+  "header": {
+    "language": "Keel",
+    "nav": {
+      "about": "Meist",
+      "course": "Kursus",
+      "howItWorks": "Kuidas see toimib",
+      "events": "Sündmused",
+      "faq": "KKK",
+      "blog": "Blogi",
+      "contact": "Kontakt"
+    },
+    "aria": {
+      "menu": "Peamenüü",
+      "openMenu": "Ava menüü",
+      "closeMenu": "Sulge menüü",
+      "languageSelector": "Vali keel",
+      "currentLanguage": "Praegune keel"
+    },
+    "cta": "Registreeru tasuta"
+  },
+  "hero": {
+    "partnersLabel": "Partnerid",
+    "imageAlt": "Õpilased õpivad klassiruumis tehisintellekti oskusi"
+  },
+  "problem": {
+    "backgroundWord": "EVOLUTSIOON",
+    "cta": "Registreeru tasuta"
+  },
+  "skills": {
+    "eyebrow": "Põhioskused",
+    "skillLabel": "Oskus",
+    "outcomesEyebrow": "Tulemused",
+    "backgroundWord": "MÕJU",
+    "cta": "Registreeru tasuta"
+  },
+  "howItWorks": {
+    "eyebrow": "Kuidas see toimib",
+    "phaseLabel": "Etapp",
+    "cta": "Registreeru tasuta"
+  },
+  "audience": {
+    "eyebrow": "Kes saab liituda",
+    "groupLabel": "Rühm",
+    "backgroundWord": "TERE TULEMAST"
+  },
+  "registration": {
+    "eyebrow": "Registreeru",
+    "submitButton": "Saada",
+    "submitting": "Saadan...",
+    "successTitle": "Aitäh!",
+    "errorTitle": "Midagi läks valesti",
+    "required": "See väli on kohustuslik",
+    "invalidEmail": "Palun sisesta kehtiv e-posti aadress",
+    "previous": "Eelmine",
+    "next": "Järgmine",
+    "stepIndicator": "Samm {current} / {total}"
+  },
+  "newsletter": {
+    "eyebrow": "Uudiskiri",
+    "submitButton": "Telli",
+    "submitting": "Tellin...",
+    "successTitle": "Oled liitunud!",
+    "errorTitle": "Midagi läks valesti",
+    "invalidEmail": "Palun sisesta kehtiv e-posti aadress",
+    "dismiss": "Sulge uudiskirja riba",
+    "emailLabel": "E-posti aadress",
+    "backgroundWord": "TELLI"
+  },
+  "cookieConsent": {
+    "title": "Kasutame küpsiseid",
+    "description": "Kasutame küpsiseid, et parandada teie kogemust meie veebisaidil. Mõned on hädavajalikud, teised aitavad meil mõista, kuidas te meie saiti kasutate.",
+    "acceptAll": "Nõustu kõigiga",
+    "rejectAll": "Keeldu kõigist",
+    "customize": "Kohanda",
+    "save": "Salvesta eelistused",
+    "necessary": "Vajalikud",
+    "necessaryDescription": "Vajalikud veebisaidi korrektseks toimimiseks",
+    "analytics": "Analüütika",
+    "analyticsDescription": "Aitavad meil mõista, kuidas külastajad meie veebisaiti kasutavad",
+    "marketing": "Turundus",
+    "marketingDescription": "Kasutatakse asjakohaste reklaamide kuvamiseks",
+    "cookiePolicy": "Küpsiste poliitika"
+  },
+  "contacts": {
+    "eyebrow": "Võta ühendust",
+    "supportLabel": "Tugi",
+    "partnershipLabel": "Partnerlus",
+    "formHeading": "Saada meile sõnum",
+    "formSubtitle": "Täida allolev vorm ja me võtame sinuga ühendust."
+  },
+  "blog": {
+    "loadMore": "Lae rohkem",
+    "loading": "Laadin...",
+    "backToNews": "← Tagasi uudiste juurde",
+    "noPostsYet": "Postitusi veel pole.",
+    "relatedPosts": "Seotud postitused"
+  },
+  "events": {
+    "upcoming": "Tulevased sündmused",
+    "past": "Möödunud sündmused",
+    "showPast": "Näita möödunud sündmusi",
+    "hidePast": "Peida möödunud sündmused",
+    "noEvents": "Sündmusi veel pole",
+    "noEventsDescription": "Planeerime põnevaid töötubasid ja kohtumisi. Tule varsti tagasi!",
+    "noMatchingEvents": "Ükski sündmus ei vasta sinu filtritele",
+    "noEventsOnDate": "Kuupäeval {date} sündmusi pole",
+    "showAllEvents": "Näita kõiki sündmusi",
+    "filterFormat": "Formaat",
+    "filterLocation": "Asukoht",
+    "filterAll": "Kõik",
+    "clearFilters": "Tühjenda filtrid",
+    "addToCalendar": "Lisa kalendrisse",
+    "googleCalendar": "Google'i kalender",
+    "downloadIcs": "Laadi alla .ics",
+    "learnMore": "Loe lähemalt",
+    "register": "Registreeru",
+    "inPerson": "Kohapeal",
+    "online": "Veebis",
+    "hybrid": "Hübriid",
+    "eventCount": "{count} sündmust",
+    "previousMonth": "Eelmine kuu",
+    "nextMonth": "Järgmine kuu",
+    "previousPhoto": "Eelmine foto",
+    "nextPhoto": "Järgmine foto",
+    "closeLightbox": "Sulge",
+    "galleryPhotos": "{title} fotod",
+    "photoSlide": "Foto {current} / {total}",
+    "filterEvents": "Filtreeri sündmusi",
+    "backToEvents": "← Tagasi sündmuste juurde",
+    "speakers": "Esinejad",
+    "eventGallery": "Galerii",
+    "loadMore": "Lae rohkem sündmusi",
+    "loading": "Laadin...",
+    "registerHeading": "Valmis liituma?",
+    "pastEvent": "Möödunud sündmus",
+    "eventEnded": "See sündmus on lõppenud"
+  },
+  "footer": {
+    "navigationHeading": "Navigeerimine",
+    "legalHeading": "Õiguslik teave",
+    "contactHeading": "Kontakt",
+    "socialHeading": "Jälgi meid",
+    "links": {
+      "home": "Avaleht",
+      "course": "Kursus",
+      "events": "Sündmused",
+      "blog": "Blogi",
+      "faq": "KKK",
+      "contact": "Kontakt"
+    },
+    "contact": {
+      "supportLabel": "Tugi",
+      "partnershipLabel": "Partnerlus"
+    },
+    "aria": {
+      "footerNav": "Jaluse navigeerimine",
+      "quickLinks": "Kiirlingid",
+      "legalLinks": "Õiguslikud lingid",
+      "socialLinks": "Sotsiaalmeedia lingid",
+      "socialPrefix": "Külasta meie"
+    }
+  }
+}

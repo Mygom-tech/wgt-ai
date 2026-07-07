@@ -108,8 +108,8 @@ export interface Config {
     | ('false' | 'none' | 'null')
     | false
     | null
-    | ('en' | 'bg' | 'cz' | 'lv' | 'lt' | 'md' | 'pl' | 'ro')
-    | ('en' | 'bg' | 'cz' | 'lv' | 'lt' | 'md' | 'pl' | 'ro')[];
+    | ('en' | 'bg' | 'cz' | 'lv' | 'lt' | 'md' | 'pl' | 'ro' | 'et')
+    | ('en' | 'bg' | 'cz' | 'lv' | 'lt' | 'md' | 'pl' | 'ro' | 'et')[];
   globals: {
     'site-settings': SiteSetting;
     'landing-page': LandingPage;
@@ -126,7 +126,7 @@ export interface Config {
     'blog-page': BlogPageSelect<false> | BlogPageSelect<true>;
     'events-page': EventsPageSelect<false> | EventsPageSelect<true>;
   };
-  locale: 'en' | 'bg' | 'cz' | 'lv' | 'lt' | 'md' | 'pl' | 'ro';
+  locale: 'en' | 'bg' | 'cz' | 'lv' | 'lt' | 'md' | 'pl' | 'ro' | 'et';
   user: User;
   jobs: {
     tasks: unknown;
@@ -164,7 +164,7 @@ export interface User {
   /**
    * Which countries/languages this admin can manage. Only applies to Country Admins.
    */
-  assignedLocales?: ('en' | 'bg' | 'cz' | 'lv' | 'lt' | 'md' | 'pl' | 'ro')[] | null;
+  assignedLocales?: ('en' | 'bg' | 'cz' | 'lv' | 'lt' | 'md' | 'pl' | 'ro' | 'et')[] | null;
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -327,7 +327,7 @@ export interface BlogPost {
   /**
    * Which countries this post belongs to.
    */
-  locales: ('en' | 'bg' | 'cz' | 'lv' | 'lt' | 'md' | 'pl' | 'ro')[];
+  locales: ('en' | 'bg' | 'cz' | 'lv' | 'lt' | 'md' | 'pl' | 'ro' | 'et')[];
   status?: ('draft' | 'published') | null;
   title: string;
   /**
@@ -822,7 +822,7 @@ export interface Event {
   /**
    * Which countries this event belongs to.
    */
-  locales: ('en' | 'bg' | 'cz' | 'lv' | 'lt' | 'md' | 'pl' | 'ro')[];
+  locales: ('en' | 'bg' | 'cz' | 'lv' | 'lt' | 'md' | 'pl' | 'ro' | 'et')[];
   status?: ('draft' | 'published') | null;
   title: string;
   /**
@@ -1071,7 +1071,7 @@ export interface CheckboxFieldBlock {
 export interface FormSubmission {
   id: string;
   form: string | Form;
-  locale: 'en' | 'bg' | 'cz' | 'lv' | 'lt' | 'md' | 'pl' | 'ro';
+  locale: 'en' | 'bg' | 'cz' | 'lv' | 'lt' | 'md' | 'pl' | 'ro' | 'et';
   submissionData:
     | {
         [k: string]: unknown;
@@ -1166,7 +1166,7 @@ export interface FaqItem {
   /**
    * Which countries this FAQ item belongs to.
    */
-  locales: ('en' | 'bg' | 'cz' | 'lv' | 'lt' | 'md' | 'pl' | 'ro')[];
+  locales: ('en' | 'bg' | 'cz' | 'lv' | 'lt' | 'md' | 'pl' | 'ro' | 'et')[];
   /**
    * Lower numbers display first
    */
@@ -1698,7 +1698,7 @@ export interface SiteSetting {
   /**
    * Choose which languages are available on your website. English is always included.
    */
-  enabledLocales?: ('en' | 'bg' | 'cz' | 'lv' | 'lt' | 'md' | 'pl' | 'ro')[] | null;
+  enabledLocales?: ('en' | 'bg' | 'cz' | 'lv' | 'lt' | 'md' | 'pl' | 'ro' | 'et')[] | null;
   /**
    * Site logo displayed in the header. Recommended: SVG or PNG with transparent background, max height 40px.
    */
