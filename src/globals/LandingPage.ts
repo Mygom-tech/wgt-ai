@@ -213,7 +213,6 @@ export const LandingPage: GlobalConfig = {
                     {
                       name: 'items',
                       type: 'array',
-                      maxRows: 7,
                       fields: [
                         {
                           name: 'title',
