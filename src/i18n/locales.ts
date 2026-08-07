@@ -9,6 +9,7 @@ export const locales = [
   { code: 'md', htmlLang: 'ro-MD', label: 'Moldova' },
   { code: 'pl', htmlLang: 'pl', label: 'Poland' },
   { code: 'ro', htmlLang: 'ro', label: 'Romania' },
+  { code: 'et', htmlLang: 'et', label: 'Estonia' },
 ] as const
 
 export type LocaleCode = (typeof locales)[number]['code']
