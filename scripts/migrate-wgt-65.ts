@@ -32,6 +32,7 @@
  * first, then delete this file. VERIFY `DATABASE_URL` IN .env BEFORE RUNNING.
  */
 import 'dotenv/config'
+import { writeFileSync } from 'node:fs'
 import { getPayload } from 'payload'
 import config from '../src/payload.config'
 import { defaultLocale, localeCodes } from '../src/i18n/locales'
@@ -44,6 +45,7 @@ import {
 
 const GLOBAL_SLUG = 'landing-page'
 const SCRIPT = 'migrate-wgt-65'
+const REPORT_PATH = `${SCRIPT}-report.json`
 
 // Refuse to run on an unrecognised argument. A typo like `---dry` must NOT be
 // read as "no --dry flag, go ahead and write" — this script is destructive and
@@ -79,9 +81,12 @@ type Updates = Record<string, unknown>
 type MigrationReport = {
   /** Values copied from the default locale — they will not track future edits. */
   englishFills: string[]
-  /** Kept rows left with an empty `required` field, which blocks the next save. */
-  blanks: string[]
+  /** Rows dropped because a `required` field had no value in any usable locale. */
+  incomplete: string[]
 }
+
+/** A row built for one locale, or the reason it was dropped from that locale. */
+type RowResult = { row: Doc } | { row: null; reason: 'empty' | 'incomplete' }
 
 /** Read a dotted path out of the raw mongo document. */
 function getAtPath(doc: Doc, path: string): unknown {
@@ -256,14 +261,18 @@ function unconfiguredLocaleKeys(rows: unknown[], spec: ArraySpec): string[] {
 }
 
 /**
- * Build one row for one locale, or `null` when the row has no content for that
- * locale at all.
+ * Build one row for one locale, or drop it.
  *
- * A row is dropped when every localized field resolves empty — i.e. the locale
- * has no translation AND the default locale has nothing to copy from. That is a
- * row someone created in another locale and never wrote the original for; it
- * renders as a blank card today, and writing it back with empty `required`
- * fields would block the next admin save of the global.
+ * Every written document must validate: `title`/`description`/`text` are
+ * `required`, so a row carrying an empty one makes Payload reject the WHOLE
+ * locale on save — including the mandatory post-migration Save that busts the
+ * Next.js cache. A row is therefore dropped when any localized field resolves
+ * to nothing, whether that is all of them (`empty`) or only some
+ * (`incomplete`).
+ *
+ * We deliberately do NOT borrow a value from some other locale to fill the gap:
+ * putting Czech text on the English page is a silent content bug, and the row
+ * can be re-added in the admin from the report.
  */
 function localizeRow(
   row: Doc,
@@ -271,7 +280,7 @@ function localizeRow(
   locale: string,
   index: number,
   report: MigrationReport,
-): Doc | null {
+): RowResult {
   const next: Doc = {}
   const blankFields: string[] = []
   let hasContent = false
@@ -318,14 +327,19 @@ function localizeRow(
     blankFields.push(key)
   }
 
-  // A row where NOTHING resolved is dropped entirely by the caller, so only a
-  // PARTIALLY blank row reaches this report — it is kept, and its empty fields
-  // will fail `required` validation the next time an editor saves that locale.
-  if (hasContent && blankFields.length > 0) {
-    report.blanks.push(`${locale}: ${spec.path}[${index}].{${blankFields.join(', ')}}`)
+  if (blankFields.length === 0) return { row: next }
+
+  // Partial content is worth naming individually: the row existed and had
+  // something in it, so someone probably wants it back once the missing field
+  // is written. A wholly empty row is just structural debris.
+  if (hasContent) {
+    report.incomplete.push(
+      `${locale}: ${spec.path}[${index}] dropped — no value for {${blankFields.join(', ')}}`,
+    )
+    return { row: null, reason: 'incomplete' }
   }
 
-  return hasContent ? next : null
+  return { row: null, reason: 'empty' }
 }
 
 /**
@@ -356,10 +370,15 @@ function localizeRows(
   for (const locale of locales) {
     out[locale] = rows.flatMap((rawRow, index) => {
       const row = isPlainObject(rawRow) ? rawRow : {}
-      const next = localizeRow(row, spec, locale, index, report)
+      const result = localizeRow(row, spec, locale, index, report)
+      const next = result.row
 
       if (!next) {
-        droppedBy[index] = [...(droppedBy[index] ?? []), locale]
+        // Only the wholly-empty case is aggregated here; `incomplete` rows are
+        // already listed per field in the report.
+        if (result.reason === 'empty') {
+          droppedBy[index] = [...(droppedBy[index] ?? []), locale]
+        }
         return []
       }
 
@@ -456,7 +475,7 @@ async function main() {
   }
 
   const updates: Updates = {}
-  const report: MigrationReport = { englishFills: [], blanks: [] }
+  const report: MigrationReport = { englishFills: [], incomplete: [] }
 
   const headingLocales = migrateHeroHeading(doc as Doc, updates)
   const arrayPaths = migrateProgramArrays(doc as Doc, updates, report)
@@ -470,13 +489,26 @@ async function main() {
     for (const entry of report.englishFills) console.warn(`  - ${entry}`)
   }
 
-  if (report.blanks.length > 0) {
+  if (report.incomplete.length > 0) {
     log.warn(
       fn,
-      `${report.blanks.length} kept row(s) have an empty required field — an editor CANNOT save ` +
-        `those locales until the values are filled in via the admin:`,
+      `${report.incomplete.length} row(s) had partial content and were dropped rather than written ` +
+        `with an empty required field. Re-add them in the admin once the missing copy exists:`,
     )
-    for (const entry of report.blanks) console.warn(`  - ${entry}`)
+    for (const entry of report.incomplete) console.warn(`  - ${entry}`)
+  }
+
+  // Persist the findings: they have to reach the translators and whoever
+  // re-adds the dropped rows, and terminal scrollback is not a hand-off
+  // mechanism.
+  if (report.englishFills.length > 0 || report.incomplete.length > 0) {
+    try {
+      writeFileSync(REPORT_PATH, JSON.stringify(report, null, 2))
+      log.info(fn, `Report written to ${REPORT_PATH}`)
+    } catch (error: unknown) {
+      // Non-fatal: the same content was just printed above.
+      log.failed(fn, `write the report to ${REPORT_PATH}`, error)
+    }
   }
 
   if (Object.keys(updates).length === 0) {
@@ -495,7 +527,23 @@ async function main() {
   }
 
   try {
-    const result = await collection.updateOne({ _id: doc._id }, { $set: updates })
+    const result = await collection.updateOne(
+      // Optimistic concurrency. `updates` was derived from the earlier read and
+      // the $set replaces whole array paths, so a save that landed in between
+      // would be silently overwritten — and this global has no `versions`
+      // config, so there would be no undo. Matching on the read's `updatedAt`
+      // makes that collision fail loudly instead.
+      { _id: doc._id, updatedAt: doc.updatedAt },
+      { $set: updates },
+    )
+
+    if (result.matchedCount === 0) {
+      throw new Error(
+        `The "${GLOBAL_SLUG}" global changed since it was read (updatedAt=${String(doc.updatedAt)}). ` +
+          `Someone saved it in the admin mid-run. NOTHING was written — re-run the --dry pass and start over.`,
+      )
+    }
+
     log.success(
       fn,
       `write ${headingLocales} heading locale(s) and ${arrayPaths} array path(s) ` +
