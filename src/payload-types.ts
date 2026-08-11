@@ -1806,13 +1806,23 @@ export interface LandingPage {
   id: string;
   hero: {
     /**
-     * Main H1 heading. Use line breaks to control how text wraps, e.g. "Technology\nshould work\nfor everyone."
+     * Main H1. Each paragraph (Enter) renders as one line; Shift+Enter also starts a new line. BOLD is the exception: it paints the text in the accent color (teal) rather than making it heavier. Italic, underline and strikethrough render as you would expect. Lines never wrap, they are scaled down to fit, so keep each line short.
      */
-    heading: string;
-    /**
-     * Word in the heading to highlight with accent color (teal). E.g. "everyone"
-     */
-    highlightWord?: string | null;
+    heading: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    };
     /**
      * Short label shown between heading and subtitle, e.g. "Strategic Engineering Partner"
      */
@@ -1884,6 +1894,9 @@ export interface LandingPage {
     eyebrow?: string | null;
     heading: string;
     subtitle?: string | null;
+    /**
+     * Rows are per-country. Adding, removing or reordering here only affects the language currently selected in the admin locale picker — other countries keep their own rows.
+     */
     items?:
       | {
           title: string;
@@ -1908,6 +1921,9 @@ export interface LandingPage {
      * Primary CTA button URL, e.g. "#register" or external link like "https://example.com/apply"
      */
     ctaUrl?: string | null;
+    /**
+     * Rows are per-country. Adding, removing or reordering here only affects the language currently selected in the admin locale picker — other countries keep their own rows.
+     */
     benefits?:
       | {
           text: string;
@@ -1929,6 +1945,9 @@ export interface LandingPage {
      * Primary CTA button URL, e.g. "#register" or external link like "https://example.com/apply"
      */
     ctaUrl?: string | null;
+    /**
+     * Rows are per-country. Adding, removing or reordering here only affects the language currently selected in the admin locale picker — other countries keep their own rows.
+     */
     steps?:
       | {
           title: string;
@@ -1944,6 +1963,9 @@ export interface LandingPage {
     eyebrow?: string | null;
     heading: string;
     introText?: string | null;
+    /**
+     * Rows are per-country. Adding, removing or reordering here only affects the language currently selected in the admin locale picker — other countries keep their own rows.
+     */
     groups?:
       | {
           title: string;
@@ -2285,7 +2307,6 @@ export interface LandingPageSelect<T extends boolean = true> {
     | T
     | {
         heading?: T;
-        highlightWord?: T;
         eyebrow?: T;
         subtitle?: T;
         ctaText?: T;

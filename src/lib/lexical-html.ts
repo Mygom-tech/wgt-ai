@@ -1,3 +1,5 @@
+import { IS_BOLD, IS_ITALIC, IS_STRIKETHROUGH, IS_UNDERLINE } from '@/lib/lexical-format'
+
 /** Escape HTML special characters */
 export function escapeHtml(str: string): string {
   return str
@@ -17,10 +19,10 @@ export function extractHtml(data: unknown): string {
     if (typeof n.text !== 'string') return ''
     let html = escapeHtml(n.text)
     const fmt = (n.format as number) || 0
-    if (fmt & 1) html = `<strong>${html}</strong>`
-    if (fmt & 2) html = `<em>${html}</em>`
-    if (fmt & 8) html = `<u>${html}</u>`
-    if (fmt & 4) html = `<s>${html}</s>`
+    if (fmt & IS_BOLD) html = `<strong>${html}</strong>`
+    if (fmt & IS_ITALIC) html = `<em>${html}</em>`
+    if (fmt & IS_UNDERLINE) html = `<u>${html}</u>`
+    if (fmt & IS_STRIKETHROUGH) html = `<s>${html}</s>`
     return html
   }
 

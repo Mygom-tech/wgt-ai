@@ -187,7 +187,10 @@ function processField(field: Field): Field {
   // Data containers
   if (field.type === 'group' || field.type === 'array') {
     // If the container itself is localized, every value inside is per-locale —
-    // country-admins can edit it (subject to the doc-level locale check).
+    // country-admins can edit it (subject to the doc-level locale check). That
+    // includes descendants without their own `localized` flag: they are
+    // per-locale by construction, so a country-admin's edit cannot reach
+    // another locale and is intentionally left editable.
     if ('localized' in field && field.localized) return field
 
     // Special case for arrays with zero localized descendants: lock the whole

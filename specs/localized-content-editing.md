@@ -36,6 +36,7 @@ Removes the "why is everything read-only" confusion behind both complaints.
 - **Migration** — `scripts/migrate-sociallinks-localized.ts` (mirrors `migrate-trustlogos-localized.ts`): wraps the existing non-localized `socialLinks` array into `{ [defaultLocale]: [...] }` so current data survives the field becoming localized. Idempotent, `--dry` support. **Run once per environment (local → staging → prod) BEFORE editors save site-settings on the new schema.** Not run automatically here (DB migrations are operator-run).
 - **Rendering** — `Footer.tsx` and `layout.tsx` consume `settings.socialLinks` from `getSiteSettings(locale)`, which already resolves per-locale; the array shape is unchanged, so no rendering changes are needed.
 - Verified: a `cz` country-admin added a social link (`0 → 1`) while `lt` stayed `0 → 0`.
+- The localized-array pattern established here was later extended to the four Program arrays on the landing page — see `specs/hero-richtext-and-localized-program-arrays.md` (WGT-65).
 
 ## Verification
 
