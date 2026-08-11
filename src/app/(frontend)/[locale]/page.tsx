@@ -113,14 +113,10 @@ export default async function HomePage({ params }: Props) {
       getSiteSettings(locale as LocaleCode),
     ])
 
-  const hero = landingData?.hero ?? {
-    heading: 'Technology\nshould work\nfor everyone.',
-    highlightWord: 'everyone',
-    eyebrow: 'Strategic Engineering Partner',
-    subtitle:
-      'Earn a free Google AI Professional Certificate - a practical course on Coursera to help you use AI at work.',
-    ctaText: 'Apply Now',
-  }
+  // No literal fallback object: `heading` is rich text now, so it cannot be
+  // written inline. `Hero` accepts `undefined` and renders its own demo copy,
+  // which keeps the H1/CTA on screen when the global read fails.
+  const hero = landingData?.hero
 
   const problem = landingData?.problem as LandingPage['problem']
 
@@ -164,7 +160,7 @@ export default async function HomePage({ params }: Props) {
           '@context': 'https://schema.org',
           '@type': 'EducationalOrganization',
           name: 'MYGOM',
-          description: hero.subtitle || 'Free AI education program',
+          description: hero?.subtitle || 'Free AI education program',
           url: siteUrl,
           ...(testimonialDocs.length > 0
             ? {
@@ -193,7 +189,7 @@ export default async function HomePage({ params }: Props) {
           '@type': 'Course',
           name: 'Google AI Professional Certificate',
           description:
-            hero.subtitle || 'A practical course on Coursera to help you use AI at work.',
+            hero?.subtitle || 'A practical course on Coursera to help you use AI at work.',
           provider: {
             '@type': 'Organization',
             name: 'Google',
