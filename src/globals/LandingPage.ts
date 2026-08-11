@@ -1,6 +1,25 @@
 import type { GlobalConfig } from 'payload'
+import {
+  BoldFeature,
+  FixedToolbarFeature,
+  InlineToolbarFeature,
+  ItalicFeature,
+  ParagraphFeature,
+  StrikethroughFeature,
+  UnderlineFeature,
+  lexicalEditor,
+} from '@payloadcms/richtext-lexical'
 import { createGlobalRevalidationHook } from '@/lib/revalidation'
 import { globalLocaleRestrictedUpdate, prepareGlobalFields } from '@/lib/access'
+
+/**
+ * Rows are stored per-locale, so adding, removing or reordering them only
+ * affects the locale selected in the admin locale picker. Reused by every
+ * localized array in the Program tab.
+ */
+const PER_LOCALE_ROWS_DESCRIPTION =
+  'Rows are per-country. Adding, removing or reordering here only affects the language ' +
+  'currently selected in the admin locale picker — other countries keep their own rows.'
 
 export const LandingPage: GlobalConfig = {
   slug: 'landing-page',
@@ -25,21 +44,30 @@ export const LandingPage: GlobalConfig = {
               fields: [
                 {
                   name: 'heading',
-                  type: 'textarea',
+                  type: 'richText',
                   localized: true,
                   required: true,
+                  // Deliberately minimal — this is an animated H1, not a content
+                  // block. Fully replaces the project-wide editor from
+                  // payload.config.ts (no headings, lists, links, uploads or tables).
+                  editor: lexicalEditor({
+                    features: [
+                      ParagraphFeature(),
+                      BoldFeature(),
+                      ItalicFeature(),
+                      UnderlineFeature(),
+                      StrikethroughFeature(),
+                      FixedToolbarFeature(),
+                      InlineToolbarFeature(),
+                    ],
+                  }),
                   admin: {
                     description:
-                      'Main H1 heading. Use line breaks to control how text wraps, e.g. "Technology\\nshould work\\nfor everyone."',
-                  },
-                },
-                {
-                  name: 'highlightWord',
-                  type: 'text',
-                  localized: true,
-                  admin: {
-                    description:
-                      'Word in the heading to highlight with accent color (teal). E.g. "everyone"',
+                      'Main H1. Each paragraph (Enter) renders as one line; Shift+Enter also starts ' +
+                      'a new line. BOLD is the exception: it paints the text in the accent color ' +
+                      '(teal) rather than making it heavier. Italic, underline and strikethrough ' +
+                      'render as you would expect. Lines never wrap, they are scaled down to fit, ' +
+                      'so keep each line short.',
                   },
                 },
                 {
@@ -213,17 +241,17 @@ export const LandingPage: GlobalConfig = {
                     {
                       name: 'items',
                       type: 'array',
+                      localized: true,
+                      admin: { description: PER_LOCALE_ROWS_DESCRIPTION },
                       fields: [
                         {
                           name: 'title',
                           type: 'text',
-                          localized: true,
                           required: true,
                         },
                         {
                           name: 'description',
                           type: 'textarea',
-                          localized: true,
                           required: true,
                         },
                         {
@@ -271,12 +299,13 @@ export const LandingPage: GlobalConfig = {
                     {
                       name: 'benefits',
                       type: 'array',
+                      localized: true,
                       maxRows: 3,
+                      admin: { description: PER_LOCALE_ROWS_DESCRIPTION },
                       fields: [
                         {
                           name: 'text',
                           type: 'textarea',
-                          localized: true,
                           required: true,
                         },
                       ],
@@ -331,18 +360,18 @@ export const LandingPage: GlobalConfig = {
                     {
                       name: 'steps',
                       type: 'array',
+                      localized: true,
                       maxRows: 3,
+                      admin: { description: PER_LOCALE_ROWS_DESCRIPTION },
                       fields: [
                         {
                           name: 'title',
                           type: 'text',
-                          localized: true,
                           required: true,
                         },
                         {
                           name: 'description',
                           type: 'textarea',
-                          localized: true,
                           required: true,
                         },
                       ],
@@ -386,18 +415,18 @@ export const LandingPage: GlobalConfig = {
                     {
                       name: 'groups',
                       type: 'array',
+                      localized: true,
                       maxRows: 4,
+                      admin: { description: PER_LOCALE_ROWS_DESCRIPTION },
                       fields: [
                         {
                           name: 'title',
                           type: 'text',
-                          localized: true,
                           required: true,
                         },
                         {
                           name: 'description',
                           type: 'textarea',
-                          localized: true,
                           required: true,
                         },
                         {

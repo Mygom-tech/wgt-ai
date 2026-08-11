@@ -1,15 +1,15 @@
 import { Fragment, type ReactNode } from 'react'
 import NextImage from 'next/image'
 import type { Image as PayloadImage } from '@/payload-types'
-
-// Lexical format flags (bitmask)
-const IS_BOLD = 1
-const IS_ITALIC = 2
-const IS_STRIKETHROUGH = 4
-const IS_UNDERLINE = 8
-const IS_CODE = 16
-const IS_SUBSCRIPT = 32
-const IS_SUPERSCRIPT = 64
+import {
+  IS_BOLD,
+  IS_CODE,
+  IS_ITALIC,
+  IS_STRIKETHROUGH,
+  IS_SUBSCRIPT,
+  IS_SUPERSCRIPT,
+  IS_UNDERLINE,
+} from '@/lib/lexical-format'
 
 export interface LexicalTextNode {
   type: 'text'
@@ -270,7 +270,11 @@ function renderNode(node: LexicalNode, index: number): ReactNode {
 
     case 'list': {
       const Tag = node.listType === 'number' ? 'ol' : 'ul'
-      return <Tag key={index} role="list">{renderChildren(node.children)}</Tag>
+      return (
+        <Tag key={index} role="list">
+          {renderChildren(node.children)}
+        </Tag>
+      )
     }
 
     case 'listitem':
@@ -307,9 +311,5 @@ function renderChildren(children: LexicalNode[]): ReactNode {
 export function RichTextRenderer({ data, className }: RichTextRendererProps) {
   if (!data?.root?.children?.length) return null
 
-  return (
-    <div className={className}>
-      {renderChildren(data.root.children as LexicalNode[])}
-    </div>
-  )
+  return <div className={className}>{renderChildren(data.root.children as LexicalNode[])}</div>
 }

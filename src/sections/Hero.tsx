@@ -11,10 +11,39 @@ import { GridLines } from '@/components/ui/GridLines'
 import { gsap, useGSAP } from '@/lib/gsap'
 import { cn } from '@/lib/utils'
 import { useFitText } from '@/lib/useFitText'
+import {
+  DEFAULT_HERO_HEADING_LINES,
+  heroHeadingToLines,
+  type HeroFormat,
+  type HeroLine,
+} from '@/lib/hero-heading'
 import type { LandingPage } from '@/payload-types'
 
+const UNDERLINE_OFFSET = 'underline-offset-[0.08em]'
+
+/**
+ * `underline` and `line-through` are the SAME CSS property
+ * (`text-decoration-line`), so emitting both utilities makes one silently win
+ * regardless of class order. Combining them requires a single declaration that
+ * lists both values.
+ */
+function decorationClasses({ underline, strikethrough }: HeroFormat): string | false {
+  if (underline && strikethrough) {
+    return `[text-decoration-line:underline_line-through] ${UNDERLINE_OFFSET}`
+  }
+  if (underline) return `underline ${UNDERLINE_OFFSET}`
+  if (strikethrough) return 'line-through'
+
+  return false
+}
+
 type HeroProps = {
-  hero: LandingPage['hero']
+  /**
+   * Optional: the landing-page global read can fail (`getPayloadSafe` returns
+   * null) or be unsaved on a fresh environment. The hero must still render —
+   * every value below has a demo-copy default.
+   */
+  hero?: LandingPage['hero']
 }
 
 export function Hero({ hero }: HeroProps) {
@@ -32,13 +61,13 @@ export function Hero({ hero }: HeroProps) {
 
   // Data from Payload
   const subtitle =
-    hero.subtitle ||
+    hero?.subtitle ||
     'Earn a free Google AI Professional Certificate - a practical course on Coursera to help you use AI at work.'
-  const ctaText = hero.ctaText || 'Apply Now'
-  const eyebrow = hero.eyebrow
-  const headingText = hero.heading || 'Technology\nshould work\nfor everyone.'
-  const highlightWord = hero.highlightWord || 'everyone'
-  const lines = headingText.split(/\\n|\n/)
+  const ctaText = hero?.ctaText || 'Apply Now'
+  const eyebrow = hero?.eyebrow
+  // Tolerates legacy plain-string headings from an unmigrated environment.
+  const parsedLines = heroHeadingToLines(hero?.heading)
+  const lines = parsedLines.length > 0 ? parsedLines : DEFAULT_HERO_HEADING_LINES
 
   useEffect(() => {
     if (document.fonts) {
@@ -237,28 +266,26 @@ export function Hero({ hero }: HeroProps) {
     { scope: containerRef, dependencies: [fontsLoaded] },
   )
 
-  const renderChars = (line: string) => {
-    const lowerLine = line.toLowerCase()
-    const lowerHighlight = highlightWord.toLowerCase()
-    const highlightIndex = lowerLine.indexOf(lowerHighlight)
+  // One span per character \u2014 the GSAP cascade selects [data-hero-char] and every
+  // char starts at opacity-0, so a char without the attribute stays invisible.
+  const renderChars = (line: HeroLine) =>
+    line.flatMap((segment, si) => {
+      const className = cn(
+        'inline-block origin-top opacity-0',
+        segment.accent && 'text-primary', // bold = accent colour, not weight
+        segment.italic && 'italic',
+        decorationClasses(segment),
+      )
 
-    return line.split('').map((char, j) => {
-      const isHighlight =
-        highlightIndex !== -1 && j >= highlightIndex && j < highlightIndex + highlightWord.length
-      return (
-        <span
-          key={j}
-          data-hero-char
-          className={cn('inline-block origin-top opacity-0', isHighlight && 'text-primary')}
-        >
+      return segment.text.split('').map((char, ci) => (
+        <span key={`${si}-${ci}`} data-hero-char className={className}>
           {char === ' ' ? '\u00A0' : char}
         </span>
-      )
+      ))
     })
-  }
 
   const heroImage =
-    hero.backgroundImage && typeof hero.backgroundImage === 'object' && hero.backgroundImage.url
+    hero?.backgroundImage && typeof hero.backgroundImage === 'object' && hero.backgroundImage.url
       ? hero.backgroundImage
       : null
 
@@ -383,7 +410,7 @@ export function Hero({ hero }: HeroProps) {
               </MagneticButton>
 
               {/* Partner Logos */}
-              {!!hero.trustLogos?.length && (
+              {!!hero?.trustLogos?.length && (
                 <div
                   data-trust-sidebar
                   className="flex flex-col gap-4 pt-4 border-t border-foreground/8 opacity-0"
