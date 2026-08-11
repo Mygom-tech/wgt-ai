@@ -276,27 +276,35 @@ function localizeRow(
   const blankFields: string[] = []
   let hasContent = false
 
+  // Non-localized members (`image`, `id`) are copied verbatim into every locale.
   for (const [key, value] of Object.entries(row)) {
-    if (!spec.localizedFields.includes(key)) {
+    if (!spec.localizedFields.includes(key)) next[key] = value
+  }
+
+  // Driven by the spec, not by the row's own keys: a localized field that is
+  // missing from the row entirely still has to be reported, or it lands as an
+  // absent `required` value that blocks the next admin save.
+  for (const key of spec.localizedFields) {
+    const value = row[key]
+
+    // Defensive: this field was never actually localized in this row.
+    if (value != null && !isPlainObject(value)) {
       next[key] = value
+      if (value === '') blankFields.push(key)
+      else hasContent = true
       continue
     }
 
-    if (!isPlainObject(value)) {
-      // Defensive: this field was never actually localized in this row.
-      next[key] = value ?? ''
-      if (value) hasContent = true
-      continue
-    }
+    const byLocale = isPlainObject(value) ? value : {}
 
-    const own = value[locale]
+    const own = byLocale[locale]
     if (own !== undefined && own !== null && own !== '') {
       next[key] = own
       hasContent = true
       continue
     }
 
-    const fallback = value[defaultLocale]
+    const fallback = byLocale[defaultLocale]
     if (fallback !== undefined && fallback !== null && fallback !== '') {
       if (locale !== defaultLocale) {
         report.englishFills.push(`${locale}: ${spec.path}[${index}].${key}`)

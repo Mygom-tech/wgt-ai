@@ -39,7 +39,7 @@ Run a single e2e test: `pnpm test:e2e -- tests/e2e/frontend.e2e.spec.ts`
 
 **Database** - MongoDB via `@payloadcms/db-mongodb` (mongooseAdapter). Connection string from `DATABASE_URL` env var.
 
-**Rich Text** - Lexical editor (`@payloadcms/richtext-lexical`). The project-wide feature set lives in `src/payload.config.ts` and **replaces** the defaults (headings are limited to h2-h4). A field can override it with its own `editor: lexicalEditor({ features: [...] })` — see `landing-page.hero.heading`, which allows only paragraphs and bold. The frontend does **not** use `@payloadcms/richtext-lexical/react`; it serializes Lexical JSON with the hand-written `src/components/RichTextRenderer.tsx` (plus `src/lib/lexical-html.ts` for JSON-LD).
+**Rich Text** - Lexical editor (`@payloadcms/richtext-lexical`). The project-wide feature set lives in `src/payload.config.ts` and **replaces** the defaults (headings are limited to h2-h4). A field can override it with its own `editor: lexicalEditor({ features: [...] })` — see `landing-page.hero.heading`, which is restricted to inline formatting (paragraphs, bold, italic, underline, strikethrough, plus the fixed and inline toolbars) because it renders an animated H1. Note that on that field **bold paints the accent colour instead of adding weight**; the other formats render literally. The frontend does **not** use `@payloadcms/richtext-lexical/react`; it serializes Lexical JSON with the hand-written `src/components/RichTextRenderer.tsx` (plus `src/lib/lexical-html.ts` for JSON-LD).
 
 ## Data Migrations
 
