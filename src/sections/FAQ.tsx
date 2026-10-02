@@ -18,7 +18,14 @@ type FAQProps = {
   headingAs?: 'h1' | 'h2'
 }
 
-export function FAQ({ eyebrow, heading, subtitle, backgroundWord, items, headingAs = 'h2' }: FAQProps) {
+export function FAQ({
+  eyebrow,
+  heading,
+  subtitle,
+  backgroundWord,
+  items,
+  headingAs = 'h2',
+}: FAQProps) {
   const sectionRef = useRef<HTMLElement>(null)
   const headerRef = useRef<HTMLDivElement>(null)
   const panelRefs = useRef<(HTMLDivElement | null)[]>([])
@@ -165,7 +172,10 @@ export function FAQ({ eyebrow, heading, subtitle, backgroundWord, items, heading
       <Container size="xl" className="relative z-10">
         <div className="lg:grid lg:grid-cols-[1fr_1.5fr] lg:gap-16">
           {/* --- Left column: Header (sticky on desktop) --- */}
-          <header ref={headerRef} className="flex flex-col gap-5 lg:gap-6 mb-12 lg:mb-0 lg:sticky lg:top-32 lg:self-start">
+          <header
+            ref={headerRef}
+            className="flex flex-col gap-5 lg:gap-6 mb-12 lg:mb-0 lg:sticky lg:top-32 lg:self-start"
+          >
             {eyebrow && <Eyebrow label={eyebrow} color="primary" />}
 
             {(() => {
@@ -217,7 +227,7 @@ export function FAQ({ eyebrow, heading, subtitle, backgroundWord, items, heading
                       <span className="shrink-0 font-heading text-sm font-medium text-primary tabular-nums">
                         {String(index + 1).padStart(2, '0')}
                       </span>
-                      <span className="flex-1 font-medium text-lg md:text-xl text-foreground group-hover:text-foreground/80 transition-colors">
+                      <span className="flex-1 font-medium text-lg md:text-xl text-foreground group-hover:text-foreground/80 transition-colors font-sans">
                         {item.question}
                       </span>
                       <span
